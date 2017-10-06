@@ -1,7 +1,7 @@
 def get_trimmed(wildcards):
     if samples.loc[wildcards.sample, "fq2"]:
         # paired-end sample
-        return expand("trimmed/{sample}.{group}.fastq.gz", 
+        return expand("trimmed/{sample}.{group}.fastq.gz",
                       sample=wildcards.sample, group=[1, 2])
     # single end sample
     return "trimmed/{sample}.fastq.gz"
@@ -21,6 +21,6 @@ rule align:
         index=config["star"]["index"],
         # optional parameters
         extra="--quantMode GeneCounts"
-    threads: 8
+    threads: 24
     wrapper:
         "0.17.4/bio/star/align"
