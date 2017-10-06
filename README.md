@@ -21,7 +21,7 @@ In any case, if you use this workflow in a paper, don't forget to give credits t
 
 ### Step 2: Configure workflow
 
-Configure the workflow according to your needs via editing the file `config.yaml`.
+Configure the workflow according to your needs via editing the file `config.yaml` and the sample sheet `samples.tsv`.
 
 ### Step 3: Execute workflow
 
