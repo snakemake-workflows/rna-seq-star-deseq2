@@ -1,0 +1,18 @@
+# the sequencing adapter
+adapter: ACGGATCGATCGATCGATCGAT
+
+star:
+  # the STAR index
+  index: "path/to/star/index"
+
+pca:
+  labels:
+    # columns of sample sheet to use for PCA
+    - condition
+
+diffexp:
+  # contrasts for the deseq2 results method
+  contrasts:
+    treated-vs-untreated:
+      - treated
+      - untreated
