@@ -17,3 +17,5 @@ scripts/.snakemake*
 !rules
 !rules/*
 !.gitignore
+!.editorconfig
+!.gitattributes
