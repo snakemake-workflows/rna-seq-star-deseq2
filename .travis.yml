@@ -22,6 +22,8 @@ install:
   # create STAR index (too big to live in git)
   - mkdir .test/ref/index
   - STAR --runMode genomeGenerate --genomeDir .test/ref/index --genomeFastaFiles .test/ref/genome.fasta
+
+script:
   - source activate snakemake
   # run the workflow
   - snakemake --use-conda --directory .test
