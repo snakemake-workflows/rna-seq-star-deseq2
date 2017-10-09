@@ -7,7 +7,7 @@ samples = pd.read_table("samples.tsv", index_col=0)
 
 rule all:
     input:
-        expand("results/deseq/{contrast}.tsv",
+        expand("results/diffexp/{contrast}.diffexp.tsv",
                contrast=config["diffexp"]["contrasts"]),
         "results/pca.pdf"
 

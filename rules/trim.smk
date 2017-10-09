@@ -10,7 +10,7 @@ rule cutadapt_pe:
         fastq2="trimmed/{sample}.2.fastq.gz",
         qc="trimmed/{sample}.qc.txt"
     params:
-        config["cutadapt"]["params"]
+        "-a {} {}".format(config["adapter"], config["params"]["cutadapt-pe"])
     log:
         "logs/cutadapt/{sample}.log"
     wrapper:
@@ -24,7 +24,7 @@ rule cutadapt:
         fastq="trimmed/{sample}.fastq.gz",
         qc="trimmed/{sample}.qc.txt"
     params:
-        config["cutadapt"]["params"]
+        "-a {} {}".format(config["adapter"], config["params"]["cutadapt-se"])
     log:
         "logs/cutadapt/{sample}.log"
     wrapper:

@@ -3,9 +3,9 @@ adapter: ACGGATCGATCGATCGATCGAT
 
 ref:
   # the STAR index
-  index: "path/to/star/index"
+  index: "ref/index"
   # gtf file with transcripts
-  annotation: "path/to/annotation.gtf"
+  annotation: "ref/annotation.gtf"
 
 pca:
   labels:
