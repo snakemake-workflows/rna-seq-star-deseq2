@@ -19,7 +19,9 @@ install:
   - conda create -q -n snakemake snakemake python=$TRAVIS_PYTHON_VERSION
   - conda create -q -n star star
   - source activate star
+  # create STAR index (too big to live in git)
   - mkdir .test/ref/index
   - STAR --runMode genomeGenerate --genomeDir .test/ref/index --genomeFastaFiles .test/ref/genome.fasta
   - source activate snakemake
+  # run the workflow
   - snakemake --use-conda --directory .test
