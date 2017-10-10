@@ -1,1 +1,3 @@
-1	processed_transcript	transcript	10	50	.	+	.	gene_id "test"; gene_name "foo";
+1	example	transcript	10	50	.	+	.	gene_id "test"; gene_name "foo";
+1	example	exon	10	20	.	+	.	gene_id "test"; gene_name "foo";
+1	example	exon	30	50	.	+	.	gene_id "test"; gene_name "foo";
