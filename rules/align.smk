@@ -14,8 +14,8 @@ rule align:
         # see STAR manual for additional output files
         "star/{sample}/Aligned.out.bam",
         "star/{sample}/ReadsPerGene.out.tab"
-    log:
-        "logs/star/{sample}.log"
+    #log:
+    #    "logs/star/{sample}.log"
     params:
         # path to STAR reference genome index
         index=config["ref"]["index"],
