@@ -5,7 +5,7 @@ ref:
   # the STAR index
   index: "ref/index"
   # gtf file with transcripts
-  annotation: "ref/annotation.gtf"
+  annotation: "ref/Homo_sapiens.GRCh38.90.chr21.gtf"
 
 pca:
   labels:

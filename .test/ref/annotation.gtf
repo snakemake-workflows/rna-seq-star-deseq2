@@ -1,2 +1,0 @@
-1	example	transcript	100	150	.	+	.	gene_id "test"; gene_name "foo";
-1	example	exon	110	140	.	+	.	gene_id "test"; gene_name "foo";
