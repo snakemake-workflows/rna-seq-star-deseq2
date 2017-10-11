@@ -14,4 +14,4 @@ dds <- dds[ rowSums(counts(dds)) > 1, ]
 # TODO optionally allow to collapse technical replicates
 dds <- DESeq(dds)
 
-save(dds, file=snakemake.output[[1]])
+save(dds, file=snakemake@output[[1]])
