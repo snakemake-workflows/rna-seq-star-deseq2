@@ -6,7 +6,7 @@ library("DESeq2")
 dds <- readRDS(snakemake@input[[1]])
 
 # obtain normalized counts
-counts <- counts(dds, normalized=TRUE)
+counts <- rlog(dds, blind=FALSE)
 svg(snakemake@output[[1]])
 plotPCA(counts, intgroup=snakemake@params[["pca_labels"]])
 dev.off()
