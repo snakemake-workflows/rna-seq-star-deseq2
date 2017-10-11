@@ -21,7 +21,7 @@ install:
   - source activate star
   # create STAR index (too big to live in git)
   - mkdir .test/data/ref/index
-  - STAR --runMode genomeGenerate --genomeDir .test/data/ref/index --genomeFastaFiles .test/data/ref/genome.chrMT.fa
+  - STAR --runMode genomeGenerate --genomeDir .test/data/ref/index --genomeFastaFiles .test/data/ref/genome.chr21.fa
 
 script:
   - source activate snakemake

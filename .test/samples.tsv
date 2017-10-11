@@ -1,3 +1,3 @@
 sample	condition	fq1	fq2
-A	treated	data/reads/a.chrMT.1.fq	data/reads/a.chrMT.2.fq
-B	untreated	data/reads/b.chrMT.1.fq	data/reads/b.chrMT.2.fq
+A	treated	data/reads/a.chr21.1.fq	data/reads/a.chr21.2.fq
+B	untreated	data/reads/b.chr21.1.fq	data/reads/b.chr21.2.fq
