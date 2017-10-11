@@ -1,9 +1,10 @@
-sink(file=snakemake@log[[1]])
+#sink(file=snakemake@log[[1]])
 
 library("DESeq2")
 
 # load deseq2 data
 dds <- load(snakemake@input[[1]])
+print(dds)
 
 # obtain normalized counts
 counts <- counts(dds, normalized=TRUE)
