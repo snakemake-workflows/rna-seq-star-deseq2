@@ -21,7 +21,7 @@ install:
   - source activate star
   # create STAR index (too big to live in git)
   - mkdir .test/ref/index
-  - gzip -d .test/ref/Homo_sapiens.GRCh38.dna.chromosome.21.fa
+  - gzip -d .test/ref/Homo_sapiens.GRCh38.dna.chromosome.21.fa.gz
   - STAR --runMode genomeGenerate --genomeDir .test/ref/index --genomeFastaFiles .test/ref/Homo_sapiens.GRCh38.dna.chromosome.21.fa
 
 script:

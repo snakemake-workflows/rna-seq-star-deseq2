@@ -2,8 +2,11 @@ library("DESeq2")
 
 # colData and countData must have the same sample order, but this is ensured
 # by the way we create the count matrix
-dds <- DESeqDataSetFromMatrix(countData=snakemake@input[["counts"]],
-                              colData=snakemake@input[["samples"]],
+cts <- read.table(snakemake@input[["counts"]], header=TRUE, row.names="gene")
+coldata <- read.table(snakemake@input[["samples"]], header=TRUE, row.names="sample")
+
+dds <- DESeqDataSetFromMatrix(countData=cts,
+                              colData=coldata,
                               design=~ condition)
 
 # remove uninformative columns
