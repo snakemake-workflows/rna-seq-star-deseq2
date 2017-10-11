@@ -1,4 +1,4 @@
-sink(file=snakemake@log[[1]])
+#sink(file=snakemake@log[[1]])
 
 library("DESeq2")
 library("BiocParallel")
