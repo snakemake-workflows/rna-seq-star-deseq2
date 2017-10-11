@@ -8,7 +8,7 @@ It is currently under development. No stable release is available yet.
 
 ## Authors
 
-* Johannes Köster (@johanneskoester)
+* Johannes Köster (@johanneskoester), https://koesterlab.github.io
 
 ## Usage
 
