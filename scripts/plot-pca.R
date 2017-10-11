@@ -1,3 +1,5 @@
+sink(file=snakemake@log[[1]])
+
 library("DESeq2")
 
 # load deseq2 data

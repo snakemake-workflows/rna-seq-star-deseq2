@@ -17,6 +17,8 @@ rule deseq2_init:
         "deseq2/all.RData"
     conda:
         "../envs/deseq2.yaml"
+    log:
+        "logs/deseq2/init.log"
     script:
         "../scripts/deseq2-init.R"
 
@@ -30,8 +32,10 @@ rule pca:
         pca_labels=config["pca"]["labels"]
     conda:
         "../envs/deseq2.yaml"
+    log:
+        "logs/pca.log"
     script:
-        "../scripts/pca.R"
+        "../scripts/plot-pca.R"
 
 
 def get_contrast(wildcards):
@@ -48,5 +52,7 @@ rule deseq2:
         contrast=get_contrast
     conda:
         "../envs/deseq2.yaml"
+    log:
+        "logs/deseq2/{contrast}.diffexp.log"
     script:
         "../scripts/deseq2.R"
