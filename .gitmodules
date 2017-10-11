@@ -1,0 +1,3 @@
+[submodule ".test/data"]
+	path = .test/data
+	url = https://github.com/snakemake-workflows/ngs-test-data.git

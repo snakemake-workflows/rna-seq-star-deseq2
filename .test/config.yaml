@@ -3,9 +3,9 @@ adapter: ACGGATCGATCGATCGATCGAT
 
 ref:
   # the STAR index
-  index: "ref/index"
+  index: "data/ref/index"
   # gtf file with transcripts
-  annotation: "ref/Homo_sapiens.GRCh38.90.chr21.gtf"
+  annotation: "data/ref/Homo_sapiens.GRCh38.90.chr21.gtf"
 
 pca:
   labels:
