@@ -21,7 +21,8 @@ install:
   - source activate star
   # create STAR index (too big to live in git)
   - mkdir .test/ref/index
-  - STAR --runMode genomeGenerate --genomeDir .test/ref/index --genomeFastaFiles .test/ref/Homo_sapiens.GRCh38.dna.chromosome.21.fa.gz
+  - gzip -d .test/ref/Homo_sapiens.GRCh38.dna.chromosome.21.fa
+  - STAR --runMode genomeGenerate --genomeDir .test/ref/index --genomeFastaFiles .test/ref/Homo_sapiens.GRCh38.dna.chromosome.21.fa
 
 script:
   - source activate snakemake
