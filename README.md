@@ -1,7 +1,7 @@
 # Snakemake workflow: rna-seq-star-deseq2
 
 [![Snakemake](https://img.shields.io/badge/snakemake-≥4.1.0-brightgreen.svg)](https://snakemake.bitbucket.io)
-[![Build Status](https://travis-ci.org/snakemake-workflows/rna-seq-spew.svg?branch=master)](https://travis-ci.org/snakemake-workflows/rna-seq-spew)
+[![Build Status](https://travis-ci.org/snakemake-workflows/rna-seq-star-deseq2.svg?branch=master)](https://travis-ci.org/snakemake-workflows/rna-seq-star-deseq2)
 
 This workflow performs a differential expression analysis with STAR and Deseq2.
 It is currently under development. No stable release is available yet.
