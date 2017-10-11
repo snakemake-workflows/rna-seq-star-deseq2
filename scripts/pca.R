@@ -4,7 +4,7 @@ library("DESeq2")
 dds <- load(snakemake@input[[1]])
 
 # obtain normalized counts
-ntd <- normTransform(dds)
+counts <- counts(dds, normalized=TRUE)
 svg(snakemake@output[[1]])
-plotPCA(ntd, intgroup=snakemake@params[["pca_labels"]])
+plotPCA(counts, intgroup=snakemake@params[["pca_labels"]])
 dev.off()
