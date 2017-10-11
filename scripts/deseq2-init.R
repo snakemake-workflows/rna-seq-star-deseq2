@@ -20,4 +20,4 @@ dds <- dds[ rowSums(counts(dds)) > 1, ]
 # TODO optionally allow to collapse technical replicates
 dds <- DESeq(dds, parallel=TRUE)
 
-save(dds, file=snakemake@output[[1]])
+saveRDS(dds, file=snakemake@output[[1]])

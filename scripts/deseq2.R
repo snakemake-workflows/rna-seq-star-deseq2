@@ -6,7 +6,7 @@ library("BiocParallel")
 # setup parallelization
 register(MulticoreParam(snakemake@threads))
 
-dds <- load(snakemake@input[[1]])
+dds <- readRDS(snakemake@input[[1]])
 
 contrast <- c("condition", snakemake@params[["contrast"]])
 res <- results(dds, contrast=contrast, parallel=TRUE)

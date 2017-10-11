@@ -14,7 +14,7 @@ rule deseq2_init:
         counts="counts/all.tsv",
         samples="samples.tsv"
     output:
-        "deseq2/all.RData"
+        "deseq2/all.rds"
     conda:
         "../envs/deseq2.yaml"
     log:
@@ -25,7 +25,7 @@ rule deseq2_init:
 
 rule pca:
     input:
-        "deseq2/all.RData"
+        "deseq2/all.rds"
     output:
         "results/pca.svg"
     params:
@@ -44,7 +44,7 @@ def get_contrast(wildcards):
 
 rule deseq2:
     input:
-        "deseq2/all.RData"
+        "deseq2/all.rds"
     output:
         table="results/diffexp/{contrast}.diffexp.tsv",
         ma_plot="results/diffexp/{contrast}.ma-plot.pdf",
