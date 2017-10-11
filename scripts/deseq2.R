@@ -1,9 +1,13 @@
 library("DESeq2")
+library("BiocParallel")
+
+# setup parallelization
+register(MulticoreParam(snakemake@threads))
 
 dds <- load(snakemake@input[[1]])
 
 contrast <- c("condition", snakemake@params[["contrast"]])
-res <- results(dds, contrast=contrast)
+res <- results(dds, contrast=contrast, parallel=TRUE)
 # shrink fold changes for lowly expressed genes
 res <- lfcShrink(dds, contrast=contrast, res=res)
 # sort by p-value

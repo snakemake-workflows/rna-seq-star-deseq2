@@ -4,3 +4,4 @@ channels:
   - defaults
 dependencies:
   - bioconductor-deseq2 =1.16.1
+  - bioconductor-biocparallel =1.6.6

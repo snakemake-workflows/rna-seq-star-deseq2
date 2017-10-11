@@ -25,7 +25,7 @@ rule pca:
     input:
         "deseq2/all.RData"
     output:
-        "results/pca.pdf"
+        "results/pca.svg"
     params:
         pca_labels=config["pca"]["labels"]
     conda:

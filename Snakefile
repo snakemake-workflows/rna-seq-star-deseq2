@@ -9,7 +9,7 @@ rule all:
     input:
         expand("results/diffexp/{contrast}.diffexp.tsv",
                contrast=config["diffexp"]["contrasts"]),
-        "results/pca.pdf"
+        "results/pca.svg"
 
 
 include: "rules/trim.smk"
