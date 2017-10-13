@@ -9,6 +9,12 @@ rule count_matrix:
         "../scripts/count-matrix.py"
 
 
+def get_deseq2_threads(wildcards=None):
+    # https://twitter.com/mikelove/status/918770188568363008
+    few_coeffs = False if wildcards is None else len(get_contrast(wildcards)) < 10
+    return 1 if len(samples) < 100 or few_coeffs else 6
+
+
 rule deseq2_init:
     input:
         counts="counts/all.tsv",
@@ -19,7 +25,7 @@ rule deseq2_init:
         "../envs/deseq2.yaml"
     log:
         "logs/deseq2/init.log"
-    threads: config["params"]["deseq2"]["threads"]
+    threads: get_deseq2_threads(None)
     script:
         "../scripts/deseq2-init.R"
 
@@ -55,6 +61,6 @@ rule deseq2:
         "../envs/deseq2.yaml"
     log:
         "logs/deseq2/{contrast}.diffexp.log"
-    threads: config["params"]["deseq2"]["threads"]
+    threads: get_deseq2_threads
     script:
         "../scripts/deseq2.R"
