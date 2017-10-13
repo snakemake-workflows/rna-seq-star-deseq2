@@ -23,3 +23,6 @@ params:
   star: ""
   cutadapt-se: ""
   cutadapt-pe: ""
+  deseq2:
+    # if you have many samples or conditions, you can use more than 1 thread here.
+    threads: 1

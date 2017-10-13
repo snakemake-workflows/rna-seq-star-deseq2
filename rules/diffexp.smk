@@ -19,6 +19,7 @@ rule deseq2_init:
         "../envs/deseq2.yaml"
     log:
         "logs/deseq2/init.log"
+    threads: config["params"]["deseq2"]["threads"]
     script:
         "../scripts/deseq2-init.R"
 
@@ -54,5 +55,6 @@ rule deseq2:
         "../envs/deseq2.yaml"
     log:
         "logs/deseq2/{contrast}.diffexp.log"
+    threads: config["params"]["deseq2"]["threads"]
     script:
         "../scripts/deseq2.R"
