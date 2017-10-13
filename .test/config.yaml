@@ -23,3 +23,5 @@ params:
   star: ""
   cutadapt-se: ""
   cutadapt-pe: ""
+  deseq2:
+    threads: 1
