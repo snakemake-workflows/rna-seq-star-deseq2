@@ -1,4 +1,5 @@
 import pandas as pd
+shell.executable("bash")
 
 
 configfile: "config.yaml"
