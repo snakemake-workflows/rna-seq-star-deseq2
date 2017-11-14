@@ -5,3 +5,4 @@ channels:
 dependencies:
   - bioconductor-deseq2 =1.16.1
   - bioconductor-biocparallel =1.6.6
+  - bioconductor-summarizedexperiment =1.4.0
