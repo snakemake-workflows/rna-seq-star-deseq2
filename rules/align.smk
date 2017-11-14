@@ -1,10 +1,10 @@
 def get_trimmed(wildcards):
-    if samples.loc[wildcards.sample, "fq2"]:
+    if units.loc[(wildcards.sample, wildcards.unit), "fq2"]:
         # paired-end sample
-        return expand("trimmed/{sample}.{group}.fastq.gz",
-                      sample=wildcards.sample, group=[1, 2])
+        return expand("trimmed/{sample}-{unit}.{group}.fastq.gz",
+                      group=[1, 2], **wildcards)
     # single end sample
-    return "trimmed/{sample}.fastq.gz"
+    return "trimmed/{sample}.{unit}.fastq.gz".format(**wildcards)
 
 
 rule align:
@@ -12,10 +12,10 @@ rule align:
         sample=get_trimmed
     output:
         # see STAR manual for additional output files
-        "star/{sample}/Aligned.out.bam",
-        "star/{sample}/ReadsPerGene.out.tab"
+        "star/{sample}-{unit}/Aligned.out.bam",
+        "star/{sample}-{unit}/ReadsPerGene.out.tab"
     log:
-        "logs/star/{sample}.log"
+        "logs/star/{sample}-{unit}.log"
     params:
         # path to STAR reference genome index
         index=config["ref"]["index"],

@@ -1,10 +1,10 @@
 rule count_matrix:
     input:
-        expand("star/{sample}/ReadsPerGene.out.tab", sample=samples.index)
+        expand("star/{unit.sample}-{unit.unit}/ReadsPerGene.out.tab", unit=units.reset_index().itertuples())
     output:
         "counts/all.tsv"
     params:
-        samples=samples.index
+        units=units
     script:
         "../scripts/count-matrix.py"
 
@@ -17,10 +17,11 @@ def get_deseq2_threads(wildcards=None):
 
 rule deseq2_init:
     input:
-        counts="counts/all.tsv",
-        samples="samples.tsv"
+        counts="counts/all.tsv"
     output:
         "deseq2/all.rds"
+    params:
+        samples=config["samples"]
     conda:
         "../envs/deseq2.yaml"
     log:

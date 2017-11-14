@@ -1,0 +1,4 @@
+sample	unit	fq1	fq2
+A	lane1	A.1.fq.gz	A.2.fq.gz
+A	lane2	A2.1.fq.gz	A2.2.fq.gz
+B	rep1	B.1.fq.gz	B.2.fq.gz

@@ -1,3 +1,6 @@
+samples: samples.tsv
+units: units.tsv
+
 # the sequencing adapter
 adapter: ACGGATCGATCGATCGATCGAT
 
