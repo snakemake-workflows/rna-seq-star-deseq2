@@ -10,4 +10,5 @@ matrix = pd.concat(counts, axis=1)
 matrix.index.name = "gene"
 # collapse technical replicates
 matrix = matrix.groupby(matrix.columns, axis=1).sum()
+print(matrix)
 matrix.to_csv(snakemake.output[0], sep="\t")
