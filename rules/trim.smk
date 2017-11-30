@@ -1,5 +1,6 @@
 def get_fastq(wildcards):
-    return units.loc[(wildcards.sample, wildcards.unit), ["fq1", "fq2"]].dropna()
+    columns = "fq1" if is_single_end(**wildcards) else ["fq1", "fq2"]
+    return units.loc[(wildcards.sample, wildcards.unit), columns]
 
 
 rule cutadapt_pe:
