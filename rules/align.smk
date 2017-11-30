@@ -1,5 +1,5 @@
 def get_trimmed(wildcards):
-    if units.loc[(wildcards.sample, wildcards.unit), "fq2"]:
+    if not pd.isnull(units.loc[(wildcards.sample, wildcards.unit), "fq2"]):
         # paired-end sample
         return expand("trimmed/{sample}-{unit}.{group}.fastq.gz",
                       group=[1, 2], **wildcards)
