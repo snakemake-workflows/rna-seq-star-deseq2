@@ -4,7 +4,7 @@ def get_trimmed(wildcards):
         return expand("trimmed/{sample}-{unit}.{group}.fastq.gz",
                       group=[1, 2], **wildcards)
     # single end sample
-    return "trimmed/{sample}.{unit}.fastq.gz".format(**wildcards)
+    return "trimmed/{sample}-{unit}.fastq.gz".format(**wildcards)
 
 
 rule align:
