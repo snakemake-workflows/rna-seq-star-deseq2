@@ -14,7 +14,7 @@ dependencies:
   - bioconductor-genefilter =1.60.0
   - bioconductor-geneplotter =1.56.0
   - bioconductor-genomeinfodb =1.14.0
-  - bioconductor-genomeinfodbdata =0.99.1
+  - bioconductor-genomeinfodbdata =1.0.0
   - bioconductor-genomicranges =1.30.0
   - bioconductor-iranges =2.12.0
   - bioconductor-s4vectors =0.16.0
