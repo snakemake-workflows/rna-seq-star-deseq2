@@ -25,17 +25,19 @@ Configure the workflow according to your needs via editing the file `config.yaml
 
 ### Step 3: Execute workflow
 
+All you need to execute this workflow is to install Snakemake via the [Conda package manager](http://snakemake.readthedocs.io/en/stable/getting_started/installation.html#installation-via-conda). Software needed by this workflow is automatically deployed into isolated environments by Snakemake.
+
 Test your configuration by performing a dry-run via
 
-    snakemake -n
+    snakemake --use-conda -n
 
 Execute the workflow locally via
 
-    snakemake --cores $N
+    snakemake --use-conda --cores $N
 
 using `$N` cores or run it in a cluster environment via
 
-    snakemake --cluster qsub --jobs 100
+    snakemake --use-conda --cluster qsub --jobs 100
 
 or
 
