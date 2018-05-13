@@ -21,7 +21,7 @@ In any case, if you use this workflow in a paper, don't forget to give credits t
 
 ### Step 2: Configure workflow
 
-Configure the workflow according to your needs via editing the file `config.yaml` and the sample sheet `samples.tsv`.
+Configure the workflow according to your needs via editing the file `config.yaml` and the sheets `samples.tsv` and `units.tsv`.
 
 ### Step 3: Execute workflow
 
@@ -35,12 +35,4 @@ Execute the workflow locally via
 
     snakemake --use-conda --cores $N
 
-using `$N` cores or run it in a cluster environment via
-
-    snakemake --use-conda --cluster qsub --jobs 100
-
-or
-
-    snakemake --drmaa --jobs 100
-
-See the [Snakemake documentation](https://snakemake.readthedocs.io) for further details.
+using `$N` cores. Alternatively, it can be run in cluster of cloud environments (see [the docs](http://snakemake.readthedocs.io/en/stable/executable.html) for details.
