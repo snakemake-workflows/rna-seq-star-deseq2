@@ -26,7 +26,7 @@ rule deseq2_init:
         "../envs/deseq2.yaml"
     log:
         "logs/deseq2/init.log"
-    threads: get_deseq2_threads(None)
+    threads: get_deseq2_threads()
     script:
         "../scripts/deseq2-init.R"
 
