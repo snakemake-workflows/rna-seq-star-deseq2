@@ -1,3 +1,3 @@
-sample	condition
-A	untreated
-B	treated
+sample	condition	other
+A	untreated	1
+B	treated	2
