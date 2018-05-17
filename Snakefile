@@ -24,6 +24,8 @@ rule all:
 singularity: "docker://continuumio/miniconda3"
 
 
+report: "report/workflow.rst"
+
 include: "rules/trim.smk"
 include: "rules/align.smk"
 include: "rules/diffexp.smk"
