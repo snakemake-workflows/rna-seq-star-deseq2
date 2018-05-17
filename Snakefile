@@ -14,7 +14,8 @@ def is_single_end(sample, unit):
 
 rule all:
     input:
-        expand("results/diffexp/{contrast}.diffexp.tsv",
+        expand(["results/diffexp/{contrast}.diffexp.tsv",
+                "results/diffexp/{contrast}.ma-plot.svg"],
                contrast=config["diffexp"]["contrasts"]),
         "results/pca.svg"
 
