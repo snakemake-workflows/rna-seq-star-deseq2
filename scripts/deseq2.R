@@ -24,7 +24,7 @@ res <- res[order(res$padj),]
 
 
 # store results
-pdf(snakemake@output[["ma_plot"]])
+svg(snakemake@output[["ma_plot"]])
 plotMA(res, ylim=c(-2,2))
 dev.off()
 

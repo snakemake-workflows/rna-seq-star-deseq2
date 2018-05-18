@@ -1,6 +1,6 @@
 rule count_matrix:
     input:
-        expand("star/{unit.sample}-{unit.unit}/ReadsPerGene.out.tab", unit=units.reset_index().itertuples())
+        expand("star/{unit.sample}-{unit.unit}/ReadsPerGene.out.tab", unit=units.itertuples())
     output:
         "counts/all.tsv"
     params:
@@ -35,7 +35,7 @@ rule pca:
     input:
         "deseq2/all.rds"
     output:
-        "results/pca.svg"
+        report("results/pca.svg", "../report/pca.rst")
     params:
         pca_labels=config["pca"]["labels"]
     conda:
@@ -54,8 +54,8 @@ rule deseq2:
     input:
         "deseq2/all.rds"
     output:
-        table="results/diffexp/{contrast}.diffexp.tsv",
-        ma_plot="results/diffexp/{contrast}.ma-plot.pdf",
+        table=report("results/diffexp/{contrast}.diffexp.tsv", "../report/diffexp.rst"),
+        ma_plot=report("results/diffexp/{contrast}.ma-plot.svg", "../report/ma.rst"),
     params:
         contrast=get_contrast
     conda:
@@ -65,3 +65,4 @@ rule deseq2:
     threads: get_deseq2_threads
     script:
         "../scripts/deseq2.R"
+
