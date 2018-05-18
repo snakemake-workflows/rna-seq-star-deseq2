@@ -1,0 +1,20 @@
+$schema: "http://json-schema.org/draft-06/schema#"
+description: row of the units.tsv, representing a sequencing unit, i.e. single-end or paired-end data
+type: object
+properties:
+  sample:
+    type: string
+    description: sample name/id the unit has been sequenced from
+  unit:
+    type: string
+    description: unit id
+  fq1:
+    type: string
+    description: path to FASTQ file
+  fq2:
+    type: string
+    description: path to second FASTQ file (leave empty in case of single-end)
+required:
+  - sample
+  - unit
+  - fq1
