@@ -36,3 +36,9 @@ Execute the workflow locally via
     snakemake --use-conda --cores $N
 
 using `$N` cores. Alternatively, it can be run in cluster or cloud environments (see [the docs](http://snakemake.readthedocs.io/en/stable/executable.html) for details).
+
+If you not only want to fix the software stack but also the underlying OS, use
+
+    snakemake --use-conda --use-singularity
+
+in combination with any of the modes above.

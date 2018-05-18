@@ -1,7 +1,10 @@
 import pandas as pd
-from snakemake.utils import validate
-shell.executable("bash")
+from snakemake.utils import validate, min_version
+##### set minimum snakemake version #####
+min_version("5.1.2")
 
+
+##### load config and sample sheets #####
 
 configfile: "config.yaml"
 validate(config, schema="schemas/config.schema.yaml")
@@ -14,9 +17,7 @@ units.index = units.index.set_levels([i.astype(str) for i in units.index.levels]
 validate(units, schema="schemas/units.schema.yaml")
 
 
-def is_single_end(sample, unit):
-    return pd.isnull(units.loc[(sample, unit), "fq2"])
-
+##### target rules #####
 
 rule all:
     input:
@@ -26,13 +27,21 @@ rule all:
         "results/pca.svg"
 
 
+##### setup singularity #####
+
 # this container defines the underlying OS for each job when using the workflow
 # with --use-conda --use-singularity
 singularity: "docker://continuumio/miniconda3"
 
 
+##### setup report #####
+
 report: "report/workflow.rst"
 
+
+##### load rules #####
+
+include: "rules/common.smk"
 include: "rules/trim.smk"
 include: "rules/align.smk"
 include: "rules/diffexp.smk"
