@@ -4,7 +4,6 @@
 [![Build Status](https://travis-ci.org/snakemake-workflows/rna-seq-star-deseq2.svg?branch=master)](https://travis-ci.org/snakemake-workflows/rna-seq-star-deseq2)
 
 This workflow performs a differential expression analysis with STAR and Deseq2.
-It is currently under development. No stable release is available yet.
 
 ## Authors
 
@@ -42,3 +41,9 @@ If you not only want to fix the software stack but also the underlying OS, use
     snakemake --use-conda --use-singularity
 
 in combination with any of the modes above.
+
+### Step 4: Investigate results
+
+After successful execution, you can create a self-contained report with all results via:
+
+    snakemake --report report.html
