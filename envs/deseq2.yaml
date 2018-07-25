@@ -3,7 +3,7 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - r-base =3.4.1
+  - r-base =3.4.1_4
   - bioconductor-deseq2 =1.18.1
   - bioconductor-annotate =1.56.0
   - bioconductor-annotationdbi =1.40.0
