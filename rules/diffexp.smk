@@ -5,6 +5,8 @@ rule count_matrix:
         "counts/all.tsv"
     params:
         units=units
+    conda:
+        "../envs/pandas.yaml"
     script:
         "../scripts/count-matrix.py"
 
