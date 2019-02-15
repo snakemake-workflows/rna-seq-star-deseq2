@@ -13,7 +13,7 @@ This workflow performs a differential expression analysis with STAR and Deseq2.
 
 ### Step 1: Install workflow
 
-If you simply want to use this workflow, download and extract the [latest release](https://github.com/snakemake-workflows/rna-seq-spew/releases).
+If you simply want to use this workflow, download and extract the [latest release](https://github.com/snakemake-workflows/rna-seq-star-deseq2/releases).
 If you intend to modify and further develop this workflow, fork this reposity. Please consider providing any generally applicable modifications via a pull request.
 
 In any case, if you use this workflow in a paper, don't forget to give credits to the authors by citing the URL of this repository and, once available, its DOI.
