@@ -4,7 +4,7 @@ rule count_matrix:
     output:
         "counts/all.tsv"
     params:
-        units=list(units.itertuples())
+        units=units["sample"].tolist()
     conda:
         "../envs/pandas.yaml"
     script:
