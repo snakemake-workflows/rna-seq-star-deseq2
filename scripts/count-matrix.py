@@ -3,8 +3,8 @@ import pandas as pd
 counts = [pd.read_table(f, index_col=0, usecols=[0, 1], header=None, skiprows=4)
           for f in snakemake.input]
 
-for t, (sample, unit) in zip(counts, snakemake.params.units.index):
-    t.columns = [sample]
+for t, unit in zip(counts, units):
+    t.columns = [unit.sample]
 
 matrix = pd.concat(counts, axis=1)
 matrix.index.name = "gene"
