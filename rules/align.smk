@@ -13,7 +13,8 @@ rule align:
     output:
         # see STAR manual for additional output files
         "star/{sample}-{unit}/Aligned.out.bam",
-        "star/{sample}-{unit}/ReadsPerGene.out.tab"
+        "star/{sample}-{unit}/ReadsPerGene.out.tab",
+	"star/{sample}-{unit}/Log.final.out"
     log:
         "logs/star/{sample}-{unit}.log"
     params:
