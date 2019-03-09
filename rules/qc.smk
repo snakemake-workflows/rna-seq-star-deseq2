@@ -1,59 +1,51 @@
 ## RSEQC
-rule rseqc_gtf2bed12:
+rule rseqc_gtf2bed:
     input:
         config["ref"]["annotation"]
     output:
         "star/rseqc/annotation.bed"
     log:
-        "logs/gtf2bed12.stderr"
-    params:
-        script = "../scripts/gtf2bed.pl"
+        "logs/gtf2bed.log"
+    conda:
+        "../envs/bedops.yaml"
     shell:
-        """
-        perl {params.script} {input} > {output} 2> {log}
-        """
+        "gtf2bed < {input} > {output} 2> {log}"
 
 
 rule rseqc_junction_annotation:
     input:
-        "star/{sample}-{unit}/Aligned.out.bam",
-        "star/rseqc/annotation.bed"
+        bam="star/{sample}-{unit}/Aligned.out.bam",
+        bed="star/rseqc/annotation.bed"
     output:
-        touch('star/rseqc/{sample}-{unit}.junction_annotation.done')
+        'star/rseqc/{sample}-{unit}.junctionanno.junction.bed'
     priority: 1
     log:
-        "logs/rseqc/rseqc_junction_annotation/{sample}-{unit}.stdout",
-        "logs/rseqc/rseqc_junction_annotation/{sample}-{unit}.stderr"
+        "logs/rseqc/rseqc_junction_annotation/{sample}-{unit}.log"
     params:
         extra = r'-q 255',  # STAR uses 255 as a scrore for uniq mappers
         prefix= 'star/rseqc/{sample}-{unit}.junctionanno'
     conda:
         "../envs/rseqc.yaml"
     shell:
-        """
-        junction_annotation.py {params.extra} -i {input[0]} -r {input[1]} -o {params.prefix} > {log[0]} 2> {log[1]};
-        """
+        "junction_annotation.py {params.extra} -i {input.bam} -r {input.bed} -o {params.prefix} > {log[0]} 2>&1"
 
         
 rule rseqc_junction_saturation:
     input:
-        "star/{sample}-{unit}/Aligned.out.bam",
-        "star/rseqc/annotation.bed"
+        bam="star/{sample}-{unit}/Aligned.out.bam",
+        bed="star/rseqc/annotation.bed"
     output:
-        touch('star/rseqc/{sample}-{unit}.junction_saturation.done')
+        'star/rseqc/{sample}-{unit}.junctionsat.junctionSaturation_plot.pdf'
     priority: 1
     log:
-        "logs/rseqc/rseqc_junction_saturation/{sample}-{unit}.stdout",
-        "logs/rseqc/rseqc_junction_saturation/{sample}-{unit}.stderr"
+        "logs/rseqc/rseqc_junction_saturation/{sample}-{unit}.log"
     params:
         extra = r'-q 255', 
         prefix = 'star/rseqc/{sample}-{unit}.junctionsat'
     conda:
         "../envs/rseqc.yaml"
     shell:
-        """
-        junction_saturation.py {params.extra} -i {input[0]} -r {input[1]} -o {params.prefix} > {log[0]} 2> {log[1]};
-        """
+        "junction_saturation.py {params.extra} -i {input.bam} -r {input.bed} -o {params.prefix} > {log} 2>&1"
 
 
 rule rseqc_stat:
@@ -63,163 +55,108 @@ rule rseqc_stat:
         "star/rseqc/{sample}-{unit}.stats.txt"
     priority: 1
     log:
-        "logs/rseqc/rseqc_stat/{sample}-{unit}.stderr"
-    params:
-        extra = r''
+        "logs/rseqc/rseqc_stat/{sample}-{unit}.log"
     conda:
         "../envs/rseqc.yaml"
     shell:
-        """
-        bam_stat.py {params.extra} -i {input} > {output} 2> {log}
-        """
+        "bam_stat.py -i {input} > {output} 2> {log}"
 
         
 rule rseqc_infer:
     input:
-        "star/{sample}-{unit}/Aligned.out.bam",
-        "star/rseqc/annotation.bed"
+        bam="star/{sample}-{unit}/Aligned.out.bam",
+        bed="star/rseqc/annotation.bed"
     output:
         "star/rseqc/{sample}-{unit}.infer_experiment.txt"
     priority: 1
     log:
-        "logs/rseqc/rseqc_infer/{sample}-{unit}.stderr"
-    params:
-        extra = r''
+        "logs/rseqc/rseqc_infer/{sample}-{unit}.log"
     conda:
         "../envs/rseqc.yaml"
     shell:
-        """
-        infer_experiment.py {params.extra} -r {input[1]} -i {input[0]} > {output} 2> {log}
-        """
+        "infer_experiment.py -r {input.bed} -i {input.bam} > {output} 2> {log}"
 
         
-rule rseqc_genebody:
-    input:
-        "star/{sample}-{unit}/Aligned.out.bam",
-        "star/rseqc/annotation.bed"
-    output:
-        touch("star/rseqc/{sample}-{unit}.genebody.done")
-    priority: 1
-    log:
-        "logs/rseqc/rseqc_genebody/{sample}-{unit}.stdout",
-        "logs/rseqc/rseqc_genebody/{sample}-{unit}.stderr"
-    params:
-        extra = r'',
-        prefix = "star/rseqc/{sample}-{unit}.geneBodyCoverage"
-    conda:
-        "../envs/rseqc.yaml"
-    shell:
-        """
-        geneBody_coverage.py {params.extra} -r {input[1]} -i {input[0]} -o {params.prefix} > {log[0]} 2> {log[1]}
-        """
-
-
 rule rseqc_innerdis:
     input:
-        "star/{sample}-{unit}/Aligned.out.bam",
-        "star/rseqc/annotation.bed"
+        bam="star/{sample}-{unit}/Aligned.out.bam",
+        bed="star/rseqc/annotation.bed"
     output:
-        touch('star/rseqc/{sample}-{unit}.innerdistance.done')
+        "star/rseqc/{sample}-{unit}.inner_distance_freq.inner_distance.txt"
     priority: 1
     log:
-        "logs/rseqc/rseqc_innerdis/{sample}-{unit}.stdout",
-        "logs/rseqc/rseqc_innerdis/{sample}-{unit}.stderr"
+        "logs/rseqc/rseqc_innerdis/{sample}-{unit}.log"
     params:
-        extra = r'',
         prefix = "star/rseqc/{sample}-{unit}.inner_distance_freq"
     conda:
         "../envs/rseqc.yaml"
     shell:
-        """
-        inner_distance.py {params.extra} -r {input[1]} -i {input[0]} -o {params.prefix} > {log[0]} 2> {log[1]}
-        """
+        "inner_distance.py -r {input.bed} -i {input.bam} -o {params.prefix} > {log} 2>&1"
 
 
 rule rseqc_readdis:
     input:
-        "star/{sample}-{unit}/Aligned.out.bam",
-        "star/rseqc/annotation.bed"
+        bam="star/{sample}-{unit}/Aligned.out.bam",
+        bed="star/rseqc/annotation.bed"
     output:
         "star/rseqc/{sample}-{unit}.readdistribution.txt"
     priority: 1
     log:
-        "logs/rseqc/rseqc_readdis/{sample}-{unit}.stderr"
-    params:
-        extra = r''
+        "logs/rseqc/rseqc_readdis/{sample}-{unit}.log"
     conda:
         "../envs/rseqc.yaml"
     shell:
-        """
-        read_distribution.py {params.extra} -r {input[1]} -i {input[0]} > {output} 2> {log}
-        """
+        "read_distribution.py -r {input.bed} -i {input.bam} > {output} 2> {log}"
 
 
 rule rseqc_readdup:
     input:
-        "star/{sample}-{unit}/Aligned.out.bam",
+        "star/{sample}-{unit}/Aligned.out.bam"
     output:
-        touch('star/rseqc/{sample}-{unit}.readdup.done')
+        'star/rseqc/{sample}-{unit}.readdup.DupRate_plot.pdf'
     priority: 1
     log:
-        "logs/rseqc/rseqc_readdup/{sample}-{unit}.stdout",
-        "logs/rseqc/rseqc_readdup/{sample}-{unit}.stderr"
+        "logs/rseqc/rseqc_readdup/{sample}-{unit}.log"
     params:
-        extra = r'',
         prefix = "star/rseqc/{sample}-{unit}.readdup"
     conda:
         "../envs/rseqc.yaml"
     shell:
-        """
-        read_duplication.py {params.extra} -i {input[0]} -o {output} > {log[0]} 2> {log[1]}
-        """
+        "read_duplication.py -i {input} -o {params.prefix} > {log} 2>&1"
 
         
 rule rseqc_readgc:
     input:
-        "star/{sample}-{unit}/Aligned.out.bam",
+        "star/{sample}-{unit}/Aligned.out.bam"
     output:
-        touch('star/rseqc/{sample}-{unit}.readgc.done')
+        'star/rseqc/{sample}-{unit}.readgc.GC_plot.pdf'
     priority: 1
     log:
-        "logs/rseqc/rseqc_readgc/{sample}-{unit}.stdout",
-        "logs/rseqc/rseqc_readgc/{sample}-{unit}.stderr"
+        "logs/rseqc/rseqc_readgc/{sample}-{unit}.log"
     params:
-        extra = r'',
         prefix = "star/rseqc/{sample}-{unit}.readgc"
     conda:
         "../envs/rseqc.yaml"
     shell:
-        """
-        read_GC.py {params.extra} -i {input[0]} -o {params.prefix} > {log[0]} 2> {log[1]}
-        """
+        "read_GC.py -i {input} -o {params.prefix} > {log} 2>&1"
         
 
 rule multiqc:
     input:
-        expand("star/{unit.sample}-{unit.unit}/Log.final.out", unit=units.itertuples()),
-        expand("star/rseqc/{unit.sample}-{unit.unit}.junction_annotation.done", unit=units.itertuples()),
-        expand("star/rseqc/{unit.sample}-{unit.unit}.junction_saturation.done", unit=units.itertuples()),
+        expand("star/{unit.sample}-{unit.unit}/Aligned.out.bam", unit=units.itertuples()),
+        expand("star/rseqc/{unit.sample}-{unit.unit}.junctionanno.junction.bed", unit=units.itertuples()),
+        expand("star/rseqc/{unit.sample}-{unit.unit}.junctionsat.junctionSaturation_plot.pdf", unit=units.itertuples()),
         expand("star/rseqc/{unit.sample}-{unit.unit}.infer_experiment.txt", unit=units.itertuples()),
         expand("star/rseqc/{unit.sample}-{unit.unit}.stats.txt", unit=units.itertuples()),
-        expand("star/rseqc/{unit.sample}-{unit.unit}.innerdistance.done", unit=units.itertuples()),
+        expand("star/rseqc/{sample}-{unit}.inner_distance_freq.inner_distance.txt", unit=units.itertuples()),
         expand("star/rseqc/{unit.sample}-{unit.unit}.readdistribution.txt", unit=units.itertuples()),
-        expand("star/rseqc/{unit.sample}-{unit.unit}.readdup.done", unit=units.itertuples()),
-        expand("star/rseqc/{unit.sample}-{unit.unit}.readgc.done", unit=units.itertuples())
+        expand("star/rseqc/{unit.sample}-{unit.unit}.readdup.DupRate_plot.pdf", unit=units.itertuples()),
+        expand("star/rseqc/{unit.sample}-{unit.unit}.readgc.GC_plot.pdf", unit=units.itertuples()),
+        "logs/rseqc/rseqc_junction_annotation",
+        "logs/rseqc/rseqc_innerdis"
     output:
         "qc/multiqc_report.html"
     log:
-        "logs/multiqc.stdout",
-        "logs/multiqc.stderr"
-    conda:
-        "../envs/multiqc.yaml"
-    params:
-        extra = '',
-        out = "qc",
-        align = "star",
-        rseqc = "star/rseqc",
-        rseqc_anno = "logs/rseqc/rseqc_junction_annotation",
-        rseqc_dis = "logs/rseqc/rseqc_innerdis"
-    shell:
-        """
-        multiqc {params.extra} -f -o {params.out} {params.align} {params.rseqc_anno} {params.rseqc_dis} {params.rseqc} > {log[0]} 2> {log[1]}
-        """
+        "logs/multiqc.log"
+    shell
+        "0.31.1/bio/multiqc"
