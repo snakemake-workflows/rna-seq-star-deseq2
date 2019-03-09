@@ -6,10 +6,10 @@ rule rseqc_gtf2bed:
         "star/rseqc/annotation.bed"
     log:
         "logs/gtf2bed.log"
-    conda:
-        "../envs/bedops.yaml"
+    params:
+        script = "../scripts/gtf2bed.pl"
     shell:
-        "gtf2bed < {input} > {output} 2> {log}"
+        "perl {params.script} {input} > {output} 2> {log}"
 
 
 rule rseqc_junction_annotation:
@@ -22,12 +22,13 @@ rule rseqc_junction_annotation:
     log:
         "logs/rseqc/rseqc_junction_annotation/{sample}-{unit}.log"
     params:
-        extra = r'-q 255',  # STAR uses 255 as a scrore for uniq mappers
+        extra = r'-q 255',  # STAR uses 255 as a score for unique mappers
         prefix= 'star/rseqc/{sample}-{unit}.junctionanno'
     conda:
         "../envs/rseqc.yaml"
     shell:
-        "junction_annotation.py {params.extra} -i {input.bam} -r {input.bed} -o {params.prefix} > {log[0]} 2>&1"
+        "junction_annotation.py {params.extra} -i {input.bam} -r {input.bed} -o {params.prefix} "
+        "> {log[0]} 2>&1"
 
         
 rule rseqc_junction_saturation:
@@ -45,7 +46,8 @@ rule rseqc_junction_saturation:
     conda:
         "../envs/rseqc.yaml"
     shell:
-        "junction_saturation.py {params.extra} -i {input.bam} -r {input.bed} -o {params.prefix} > {log} 2>&1"
+        "junction_saturation.py {params.extra} -i {input.bam} -r {input.bed} -o {params.prefix} "
+        "> {log} 2>&1"
 
 
 rule rseqc_stat:
@@ -148,15 +150,15 @@ rule multiqc:
         expand("star/rseqc/{unit.sample}-{unit.unit}.junctionsat.junctionSaturation_plot.pdf", unit=units.itertuples()),
         expand("star/rseqc/{unit.sample}-{unit.unit}.infer_experiment.txt", unit=units.itertuples()),
         expand("star/rseqc/{unit.sample}-{unit.unit}.stats.txt", unit=units.itertuples()),
-        expand("star/rseqc/{sample}-{unit}.inner_distance_freq.inner_distance.txt", unit=units.itertuples()),
+        expand("star/rseqc/{unit.sample}-{unit.unit}.inner_distance_freq.inner_distance.txt", unit=units.itertuples()),
         expand("star/rseqc/{unit.sample}-{unit.unit}.readdistribution.txt", unit=units.itertuples()),
         expand("star/rseqc/{unit.sample}-{unit.unit}.readdup.DupRate_plot.pdf", unit=units.itertuples()),
         expand("star/rseqc/{unit.sample}-{unit.unit}.readgc.GC_plot.pdf", unit=units.itertuples()),
-        "logs/rseqc/rseqc_junction_annotation",
-        "logs/rseqc/rseqc_innerdis"
+        #"logs/rseqc/rseqc_junction_annotation",
+        #"logs/rseqc/rseqc_innerdis"
     output:
         "qc/multiqc_report.html"
     log:
         "logs/multiqc.log"
-    shell
+    wrapper:
         "0.31.1/bio/multiqc"

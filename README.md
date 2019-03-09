@@ -8,6 +8,7 @@ This workflow performs a differential expression analysis with STAR and Deseq2.
 ## Authors
 
 * Johannes Köster (@johanneskoester), https://koesterlab.github.io
+* Sebastian Schmeier (@sschmeier), https://sschmeier.com
 
 ## Usage
 
