@@ -10,10 +10,8 @@ rule rseqc_gtf2bed:
         "logs/rseqc_gtf2bed.log"
     conda:
         "../envs/gffutils.yaml"
-    params:
-        script="../scripts/gtf2bed.py"
-    shell:
-        "python {params.script} --db {output[1]} -o {output[0]} {input} 2> {log}"
+    script:
+        "../scripts/gtf2bed.py"
        
   
 rule rseqc_junction_annotation:

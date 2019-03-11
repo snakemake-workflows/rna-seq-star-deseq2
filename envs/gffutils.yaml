@@ -4,4 +4,3 @@ channels:
   - defaults
 dependencies:
   - gffutils=0.9
-  - colorama=0.4.1
