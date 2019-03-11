@@ -3,4 +3,5 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - multiqc=1.7
+  - gffutils=0.9
+  - colorama=0.4.1
