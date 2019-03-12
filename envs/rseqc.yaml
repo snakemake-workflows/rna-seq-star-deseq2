@@ -1,6 +1,6 @@
 channels:
-  - bioconda
   - conda-forge
+  - bioconda
   - defaults
 dependencies:
-  - rseqc=2.6.4
+  - bioconda::rseqc=2.6.4
