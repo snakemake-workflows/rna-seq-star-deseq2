@@ -2,4 +2,4 @@ channels:
   - conda-forge
   - bioconda
 dependencies:
-  - bioconda::rseqc=2.6.4
+  - bioconda::rseqc=3.0
