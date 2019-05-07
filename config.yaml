@@ -9,10 +9,14 @@ units: units.tsv
 adapter: ACGGATCGATCGATCGATCGAT
 
 ref:
+  # the used genome
+  genome: "path/to/genome.fa"
   # the STAR index
   index: "path/to/star/index"
   # gtf file with transcripts
   annotation: "path/to/annotation.gtf"
+  # tsv file with metainfo to the genes (gentype, different IDs, gene symbol)
+  metainfo: "path/to/metainfo.tsv"
 
 pca:
   labels:
@@ -20,6 +24,9 @@ pca:
     - condition
 
 diffexp:
+  # model to use for deseq2 init
+  model:
+    - condition
   # contrasts for the deseq2 results method
   contrasts:
     treated-vs-untreated:

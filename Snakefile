@@ -25,7 +25,9 @@ rule all:
                 "results/diffexp/{contrast}.ma-plot.svg"],
                contrast=config["diffexp"]["contrasts"]),
         "results/pca.svg",
-        "qc/multiqc_report.html"
+        "qc/multiqc_report.html".
+        "counts/all.info.tsv",
+        "deseq2/normcounts.info.tsv"
 
 
 ##### setup singularity #####

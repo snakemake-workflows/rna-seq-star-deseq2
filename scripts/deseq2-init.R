@@ -19,11 +19,13 @@ coldata <- read.table(snakemake@params[["samples"]], header=TRUE, row.names="sam
 
 dds <- DESeqDataSetFromMatrix(countData=cts,
                               colData=coldata,
-                              design=~ condition)
+                              design=~ snakemake@params[["model"]])
 
 # remove uninformative columns
 dds <- dds[ rowSums(counts(dds)) > 1, ]
 # normalization and preprocessing
 dds <- DESeq(dds, parallel=parallel)
 
+normcounts <- counts(dds, normalized=TRUE)
+write.table(data.frame("gene"=rownames(normcounts),normcounts), snakemake@output[[2]], sep='\t')
 saveRDS(dds, file=snakemake@output[[1]])

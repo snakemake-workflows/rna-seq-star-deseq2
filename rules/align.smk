@@ -9,7 +9,8 @@ def get_trimmed(wildcards):
 
 rule align:
     input:
-        sample=get_trimmed
+        fq1="trimmed/{sample}-{unit}.1.fastq.gz"
+        fq2="trimmed/{sample}-{unit}.2.fastq.gz"
     output:
         # see STAR manual for additional output files
         "star/{sample}-{unit}/Aligned.out.bam",
@@ -24,4 +25,4 @@ rule align:
               config["ref"]["annotation"], config["params"]["star"])
     threads: 24
     wrapper:
-        "0.19.4/bio/star/align"
+        "0.34.0/bio/star/align"
