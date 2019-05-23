@@ -9,7 +9,7 @@ def strandedness(units):
     if exist_strandedness(units):
         for unit in units.itertuples():
             strand_val = units.loc[(unit.sample, unit.unit), "strandedness"]
-            if pd.isnull(strand_val) or int(strand_val) == 0:
+            if pd.isnull(strand_val) or strand_val == "0":
                 strandedness_list.append(1) #non stranded protocol
             elif strand_val == "yes":
                 strandedness_list.append(2) #3rd column
