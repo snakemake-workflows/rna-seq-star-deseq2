@@ -1,7 +1,7 @@
 import pandas as pd
 
-counts = [pd.read_table(f, index_col=0, usecols=[0, 1], header=None, skiprows=4)
-          for f in snakemake.input]
+counts = [pd.read_table(f, index_col=0, usecols=[0, coln], header=None, skiprows=4) \
+for f, coln in zip(snakemake.input, snakemake.params.coln)]
 
 for t, sample in zip(counts, snakemake.params.samples):
     t.columns = [sample]
