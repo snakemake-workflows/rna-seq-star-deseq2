@@ -14,6 +14,9 @@ properties:
   fq2:
     type: string
     description: path to second FASTQ file (leave empty in case of single-end)
+  strandedness:
+    type: string
+    description: one of the values '0', 'yes' or 'reverse' according to protocol strandedness
 required:
   - sample
   - unit
