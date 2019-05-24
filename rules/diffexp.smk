@@ -5,7 +5,7 @@ rule count_matrix:
         "counts/all.tsv"
     params:
         samples=units["sample"].tolist(),
-        coln=strandedness(units)
+        units=units
     conda:
         "../envs/pandas.yaml"
     script:
