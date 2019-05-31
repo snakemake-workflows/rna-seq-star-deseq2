@@ -1,4 +1,4 @@
-def exist_strandness(units):
+def get_strandness(units):
     if "strandedness" in units.columns:
         return units["strandedness"].tolist()
     else:
@@ -12,7 +12,7 @@ rule count_matrix:
         "counts/all.tsv"
     params:
         samples=units["sample"].tolist(),
-        strand=exist_strandness(units)
+        strand=get_strandness(units)
     conda:
         "../envs/pandas.yaml"
     script:
