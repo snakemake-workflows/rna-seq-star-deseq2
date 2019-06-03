@@ -27,8 +27,7 @@ rule all:
                contrast=config["diffexp"]["contrasts"]),
       expand(["results/diffexp/interactions/{interaction}.diffexp.tsv",
                 "results/diffexp/interactions/{interaction}.ma-plot.svg"],
-               interaction=config["diffexp"]["interactions"]),
-                "qc/multiqc_report.html"
+               interaction=config["diffexp"]["interactions"])
 
 
 ##### setup singularity #####
