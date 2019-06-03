@@ -1,6 +1,8 @@
-def get_fastq(wildcards):
-    return units.loc[(wildcards.sample, wildcards.unit), ["fq1", "fq2"]].dropna()
+import os
 
+def get_fastq(wildcards):
+    file = config["input_folder"]+"/"+units.loc[(wildcards.sample, wildcards.unit), ["fq1", "fq2"]].dropna()
+    return file
 
 rule cutadapt_pe:
     input:

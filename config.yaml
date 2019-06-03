@@ -5,27 +5,52 @@ samples: samples.tsv
 # sample).
 units: units.tsv
 
-# the sequencing adapter
+#path to the read files
+input_folder: data/reads
+
+#the sequencing adapter
 adapter: ACGGATCGATCGATCGATCGAT
 
 ref:
-  # the STAR index
-  index: "path/to/star/index"
+  # the STAR index file
+  index: "data/input/starindex"
   # gtf file with transcripts
-  annotation: "path/to/annotation.gtf"
-
+  annotation: "data/input/genesAnnotations.gtf"
 pca:
   labels:
     # columns of sample sheet to use for PCA
-    - condition
-
+    - nutrition
+    - lifestyle
+    - disease
+    
 diffexp:
-  # contrasts for the deseq2 results method
+  # TODO -> infer from data
+  variables:
+    - nutrition
+    - lifestyle
+    - disease
   contrasts:
-    treated-vs-untreated:
-      - treated
-      - untreated
-
+    FreeRangeVSZoo:
+      - lifestyle
+      - freerange
+      - zoo
+  # analyze more complex interactions
+  interactions:
+    NutritionWhenSickAndZoo:
+      environment:
+        lifestyle: zoo
+        disease: deathelixir
+      contrast:
+        - nutrition
+        - normal
+        - carrotsonly
+    EffectOfZooOnSickUnicorns:
+      environment:
+        disease: deathelixir
+      contrast:
+        - lifestyle
+        - zoo
+        - freerange
 params:
   star: ""
   cutadapt-se: ""

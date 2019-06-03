@@ -1,10 +1,16 @@
 def get_trimmed(wildcards):
-    if not is_single_end(**wildcards):
-        # paired-end sample
-        return expand("trimmed/{sample}-{unit}.{group}.fastq.gz",
-                      group=[1, 2], **wildcards)
-    # single end sample
-    return "trimmed/{sample}-{unit}.fastq.gz".format(**wildcards)
+
+	if not is_single_end(**wildcards):
+		#print("Paired End Mode")
+		# paired-end sample
+		return expand("trimmed/{sample}-{unit}.{group}.fastq.gz",
+			          group=[1, 2], **wildcards)
+	else:
+		# single end sample
+		ret = "trimmed/{sample}-{unit}.fastq.gz".format(**wildcards)
+		#print("get_trimmed:",ret)
+		return ret
+
 
 
 rule align:

@@ -1,3 +1,9 @@
-sample	condition
-A	untreated
-B	treated
+sample	nutrition	lifestyle	disease
+n.l.d	normal	freerange	healthy
+n.l.D	normal	freerange	deathelixir
+n.L.d	normal	zoo	deathelixir
+N.l.d	carrotsonly	freerange	healthy
+n.L.D	normal	zoo	deathelixir
+N.L.d	carrotsonly	zoo	healthy
+N.l.D	carrotsonly	freerange	deathelixir
+N.L.D	carrotsonly	zoo	deathelixir

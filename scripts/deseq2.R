@@ -14,10 +14,23 @@ if (snakemake@threads > 1) {
 
 dds <- readRDS(snakemake@input[[1]])
 
-contrast <- c("condition", snakemake@params[["contrast"]])
+condition <- snakemake@params[["contrast"]][1]
+levelA <- snakemake@params[["contrast"]][2]
+levelB <- snakemake@params[["contrast"]][3]
+
+cat("Condition:",condition,"\n")
+cat("Level A:",levelA,"\n")
+cat("Level B:",levelB,"\n")
+
+cat("ResultNames:",resultsNames(dds),"\n")
+
+contrast <- c(condition,levelA,levelB)
+
 res <- results(dds, contrast=contrast, parallel=parallel)
-# shrink fold changes for lowly expressed genes
+
+# shrink fold changes for lowly expressed genes #TODO Enable Shrinkage for Interactions?
 res <- lfcShrink(dds, contrast=contrast, res=res)
+
 # sort by p-value
 res <- res[order(res$padj),]
 # TODO explore IHW usage

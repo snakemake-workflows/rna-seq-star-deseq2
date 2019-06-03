@@ -10,20 +10,24 @@ rule count_matrix:
     script:
         "../scripts/count-matrix.py"
 
-
+# https://twitter.com/mikelove/status/918770188568363008
 def get_deseq2_threads(wildcards=None):
-    # https://twitter.com/mikelove/status/918770188568363008
     few_coeffs = False if wildcards is None else len(get_contrast(wildcards)) < 10
     return 1 if len(samples) < 100 or few_coeffs else 6
 
+def get_deseq2_IA_threads(wildcards=None):
+    few_coeffs = False if wildcards is None else len(get_interaction(wildcards)) < 10
+    return 1 if len(samples) < 100 or few_coeffs else 6
 
 rule deseq2_init:
     input:
         counts="counts/all.tsv"
     output:
-        "deseq2/all.rds"
+        data = "deseq2/all.rds",
+        countfile = "counts/normalized.tsv"
     params:
-        samples=config["samples"]
+        samples=config["samples"],
+        variables=config["diffexp"]["variables"]
     conda:
         "../envs/deseq2.yaml"
     log:
@@ -31,6 +35,20 @@ rule deseq2_init:
     threads: get_deseq2_threads()
     script:
         "../scripts/deseq2-init.R"
+
+rule getNormalizedCountsPerCondition:
+    input:
+        "counts/normalized.tsv"
+    output:
+        "counts/normalizedPerCondition.tsv"
+    params:
+        samples=config["samples"]
+    conda:
+        "../envs/pandas.yaml"
+    log:
+        "logs/normalize.log"
+    script:
+        "../scripts/calcNormPerCond.py"
 
 
 rule pca:
@@ -51,13 +69,15 @@ rule pca:
 def get_contrast(wildcards):
     return config["diffexp"]["contrasts"][wildcards.contrast]
 
+def get_interaction(wildcards):
+    return config["diffexp"]["interactions"][wildcards.interaction]
 
 rule deseq2:
     input:
         "deseq2/all.rds"
     output:
-        table=report("results/diffexp/{contrast}.diffexp.tsv", "../report/diffexp.rst"),
-        ma_plot=report("results/diffexp/{contrast}.ma-plot.svg", "../report/ma.rst"),
+        table=report("results/diffexp/contrasts/{contrast}.diffexp.tsv", "../report/diffexp.rst"),
+        ma_plot=report("results/diffexp/contrasts/{contrast}.ma-plot.svg", "../report/ma.rst")
     params:
         contrast=get_contrast
     conda:
@@ -68,3 +88,19 @@ rule deseq2:
     script:
         "../scripts/deseq2.R"
 
+rule deseq2_IA:
+    input:
+        "deseq2/all.rds"
+    output:
+        table=report("results/diffexp/interactions/{interaction}.diffexp.tsv", "../report/diffexp.rst"),
+        ma_plot=report("results/diffexp/interactions/{interaction}.ma-plot.svg", "../report/ma.rst")
+    params:
+        interaction=get_interaction,
+        variables=config['diffexp']['variables'] #TODO: Infer from interaction content?
+    conda:
+        "../envs/deseq2.yaml"
+    log:
+        "logs/deseq2/{interaction}.diffexp.log"
+    threads: get_deseq2_IA_threads
+    script:
+        "../scripts/deseq2IA.R"
