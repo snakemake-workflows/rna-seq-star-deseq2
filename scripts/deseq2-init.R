@@ -36,7 +36,3 @@ dds <- dds[ rowSums(counts(dds)) > 1, ]
 dds <- DESeq(dds, parallel=parallel)
 
 saveRDS(dds, file=snakemake@output[['data']])
-
-#save count means per condition
-normalizedCounts <- counts(dds, normalized=TRUE)
-write.csv(normalizedCounts,file=snakemake@output[['countfile']])

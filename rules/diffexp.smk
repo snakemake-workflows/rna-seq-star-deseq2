@@ -23,8 +23,7 @@ rule deseq2_init:
     input:
         counts="counts/all.tsv"
     output:
-        data = "deseq2/all.rds",
-        countfile = "counts/normalized.tsv"
+        data = "deseq2/all.rds"
     params:
         samples=config["samples"],
         variables=config["diffexp"]["variables"]
@@ -35,21 +34,6 @@ rule deseq2_init:
     threads: get_deseq2_threads()
     script:
         "../scripts/deseq2-init.R"
-
-rule getNormalizedCountsPerCondition:
-    input:
-        "counts/normalized.tsv"
-    output:
-        "counts/normalizedPerCondition.tsv"
-    params:
-        samples=config["samples"]
-    conda:
-        "../envs/pandas.yaml"
-    log:
-        "logs/normalize.log"
-    script:
-        "../scripts/calcNormPerCond.py"
-
 
 rule pca:
     input:
@@ -95,8 +79,7 @@ rule deseq2_IA:
         table=report("results/diffexp/interactions/{interaction}.diffexp.tsv", "../report/diffexp.rst"),
         ma_plot=report("results/diffexp/interactions/{interaction}.ma-plot.svg", "../report/ma.rst")
     params:
-        interaction=get_interaction,
-        variables=config['diffexp']['variables'] #TODO: Infer from interaction content?
+        interaction=get_interaction
     conda:
         "../envs/deseq2.yaml"
     log:

@@ -13,9 +13,9 @@ adapter: ACGGATCGATCGATCGATCGAT
 
 ref:
   # the STAR index file
-  index: "data/input/starindex"
+  index: "data/starindex"
   # gtf file with transcripts
-  annotation: "data/input/genesAnnotations.gtf"
+  annotation: "data/annotations.gtf"
 pca:
   labels:
     # columns of sample sheet to use for PCA
