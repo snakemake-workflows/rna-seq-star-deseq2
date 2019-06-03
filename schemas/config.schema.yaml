@@ -1,14 +1,20 @@
-$schema: "http://json-schema.org/draft-06/schema#"
+$schema: "https://json-schema.org/draft-07/schema#"
 
 description: snakemake configuration file
 
 type: object
 
 properties:
+
   samples:
     type: string
+    
   units:
     type: string
+    
+  input_folder:
+    type: string
+    
   adapter:
     type: string
     pattern: "^[ACGT]+$"
@@ -37,10 +43,30 @@ properties:
   diffexp:
     type: object
     properties:
+      variables:
+        type: array
+        items:
+          type: string
       contrasts:
         type: object
-    required:
-      - contrasts
+      interactions:
+        type: object
+        properties:
+          environment:
+            type : object
+          contrast:
+            type: array
+            items:
+              type: string
+            minItems : 3
+            maxItems : 3
+          required:
+            - contrast
+            - environment
+      required:
+        anyOf:
+          - contrasts
+          - interactions
 
   params:
     type: object
