@@ -1,10 +1,18 @@
+def get_strandness(units):
+    if "strandedness" in units.columns:
+        return units["strandedness"].tolist()
+    else:
+        strand_list=["none"]
+        return strand_list*units.shape[0]
+
 rule count_matrix:
     input:
         expand("star/{unit.sample}-{unit.unit}/ReadsPerGene.out.tab", unit=units.itertuples())
     output:
         "counts/all.tsv"
     params:
-        samples=units["sample"].tolist()
+        samples=units["sample"].tolist(),
+        strand=get_strandness(units)
     conda:
         "../envs/pandas.yaml"
     script:
