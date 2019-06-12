@@ -9,6 +9,8 @@ properties:
     type: string
   units:
     type: string
+  trim:
+    type: boolean
   adapter:
     type: string
     pattern: "^[ACGT]+$"

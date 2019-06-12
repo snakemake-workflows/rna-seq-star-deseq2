@@ -9,6 +9,8 @@ samples: samples.tsv
 
 units: units.tsv
 
+# trimming optional: yes or no
+trim: yes
 # the sequencing adapter
 adapter: ACGGATCGATCGATCGATCGAT
 
