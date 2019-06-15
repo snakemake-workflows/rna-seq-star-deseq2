@@ -1,5 +1,8 @@
 def get_fq(wildcards):
-    if config["trim"]:
+    if config["trimming"]["skip"]:
+        # no trimming, use raw reads
+        return units.loc[(wildcards.sample, wildcards.unit), ["fq1", "fq2"]].dropna()
+    else:
         # yes trimming, use trimmed data
         if not is_single_end(**wildcards):
             # paired-end sample
@@ -7,9 +10,6 @@ def get_fq(wildcards):
                           group=[1, 2], **wildcards)
         # single end sample
         return "trimmed/{sample}-{unit}.fastq.gz".format(**wildcards)
-    else:
-        # no trimming, use raw reads
-        return units.loc[(wildcards.sample, wildcards.unit), ["fq1", "fq2"]].dropna()
             
 
 rule align:

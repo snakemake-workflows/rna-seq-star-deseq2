@@ -9,11 +9,14 @@ properties:
     type: string
   units:
     type: string
-  trim:
-    type: boolean
-  adapter:
-    type: string
-    pattern: "^[ACGT]+$"
+  trimming:
+    type: object
+    properties:
+      skip:
+        type: boolean
+      adapter:
+        type: string
+        pattern: "^[ACGT]+$"
 
   ref:
     type: object
@@ -61,7 +64,7 @@ properties:
 required:
   - samples
   - units
-  - adapter
+  - trimming
   - ref
   - pca
   - diffexp

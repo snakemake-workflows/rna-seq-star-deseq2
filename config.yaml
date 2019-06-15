@@ -9,10 +9,11 @@ samples: samples.tsv
 
 units: units.tsv
 
-# trimming optional: yes or no
-trim: yes
-# the sequencing adapter
-adapter: ACGGATCGATCGATCGATCGAT
+trimming:
+  # skip trimming: false or true
+  skip: false
+  # the sequencing adapter
+  adapter: ACGGATCGATCGATCGATCGAT
 
 ref:
   # the STAR index
