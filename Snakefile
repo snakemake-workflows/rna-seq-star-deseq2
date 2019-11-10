@@ -2,7 +2,7 @@ import pandas as pd
 from snakemake.utils import validate, min_version
 ##### set minimum snakemake version #####
 min_version("5.1.2")
-
+shell.executable("/bin/bash")
 
 ##### load config and sample sheets #####
 

@@ -10,14 +10,14 @@ def get_fq(wildcards):
                           group=[1, 2], **wildcards)
         # single end sample
         return "trimmed/{sample}-{unit}.fastq.gz".format(**wildcards)
-            
+
 
 rule align:
     input:
-        sample=get_fq
+        fq1=get_fq
     output:
         # see STAR manual for additional output files
-        "star/{sample}-{unit}/Aligned.out.bam",
+        "star/{sample}-{unit}/Aligned.out.sam",
         "star/{sample}-{unit}/ReadsPerGene.out.tab"
     log:
         "logs/star/{sample}-{unit}.log"
@@ -27,6 +27,6 @@ rule align:
         # optional parameters
         extra="--quantMode GeneCounts --sjdbGTFfile {} {}".format(
               config["ref"]["annotation"], config["params"]["star"])
-    threads: 24
+    threads: 8
     wrapper:
-        "0.19.4/bio/star/align"
+        "0.36.0/bio/star/align"

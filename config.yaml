@@ -1,10 +1,10 @@
 # path or URL to sample sheet (TSV format, columns: sample, condition, ...)
 samples: samples.tsv
-# path or URL to sequencing unit sheet (TSV format, columns: sample, unit, fq1, fq2, 
-# strandedness). Units are technical replicates (e.g. lanes, or resequencing of the 
-# same biological sample).If the column "strandedness" is present (which is optional), 
-# can be empty or has one of these values: none, yes or reverse. none is for unstranded 
-# protocols, yes an reverse follow the nomenclature used in `htseq-count --reverse` 
+# path or URL to sequencing unit sheet (TSV format, columns: sample, unit, fq1, fq2,
+# strandedness). Units are technical replicates (e.g. lanes, or resequencing of the
+# same biological sample).If the column "strandedness" is present (which is optional),
+# can be empty or has one of these values: none, yes or reverse. none is for unstranded
+# protocols, yes an reverse follow the nomenclature used in `htseq-count --reverse`
 # which is referenced in STAR manual section 7, "Counting number of reads per gene".
 
 units: units.tsv
