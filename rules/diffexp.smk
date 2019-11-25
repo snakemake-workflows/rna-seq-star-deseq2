@@ -41,19 +41,19 @@ rule deseq2_init:
         "../scripts/deseq2-init.R"
 
 
-rule pca:
-    input:
-        "deseq2/all.rds"
-    output:
-        report("results/pca.svg", "../report/pca.rst")
-    params:
-        pca_labels=config["pca"]["labels"]
-    conda:
-        "../envs/deseq2.yaml"
-    log:
-        "logs/pca.log"
-    script:
-        "../scripts/plot-pca.R"
+# rule pca:
+#     input:
+#         "deseq2/all.rds"
+#     output:
+#         report("results/pca.svg", "../report/pca.rst")
+#     params:
+#         pca_labels=config["pca"]["labels"]
+#     conda:
+#         "../envs/deseq2.yaml"
+#     log:
+#         "logs/pca.log"
+#     script:
+#         "../scripts/plot-pca.R"
 
 
 def get_contrast(wildcards):
@@ -75,4 +75,3 @@ rule deseq2:
     threads: get_deseq2_threads
     script:
         "../scripts/deseq2.R"
-

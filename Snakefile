@@ -19,12 +19,19 @@ validate(units, schema="schemas/units.schema.yaml")
 
 ##### target rules #####
 
+# rule all:
+#     input:
+#         expand(["results/diffexp/{contrast}.diffexp.tsv",
+#                 "results/diffexp/{contrast}.ma-plot.svg"],
+#                contrast=config["diffexp"]["contrasts"]),
+#         "results/pca.svg",
+#         "qc/multiqc_report.html"
+
 rule all:
     input:
         expand(["results/diffexp/{contrast}.diffexp.tsv",
                 "results/diffexp/{contrast}.ma-plot.svg"],
                contrast=config["diffexp"]["contrasts"]),
-        "results/pca.svg",
         "qc/multiqc_report.html"
 
 

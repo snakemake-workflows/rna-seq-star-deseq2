@@ -14,10 +14,16 @@ if (snakemake@threads > 1) {
 
 dds <- readRDS(snakemake@input[[1]])
 
-contrast <- c("condition", snakemake@params[["contrast"]])
-res <- results(dds, contrast=contrast, parallel=parallel)
+#old
+#contrast <- c("condition", snakemake@params[["contrast"]])
+#new, still needs to be fixxed
+contrast <- c("condition", "treated", "untreated")
+
+res <- results(dds, parallel=parallel)
+#res <- results(dds, contrast=contrast, parallel=parallel)
 # shrink fold changes for lowly expressed genes
 res <- lfcShrink(dds, contrast=contrast, res=res)
+
 # sort by p-value
 res <- res[order(res$padj),]
 # TODO explore IHW usage

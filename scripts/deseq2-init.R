@@ -17,13 +17,43 @@ if (snakemake@threads > 1) {
 cts <- read.table(snakemake@input[["counts"]], header=TRUE, row.names="gene", check.names=FALSE)
 coldata <- read.table(snakemake@params[["samples"]], header=TRUE, row.names="sample", check.names=FALSE)
 
+#formula <- snakemake@params[["contrast"]]
+
 dds <- DESeqDataSetFromMatrix(countData=cts,
                               colData=coldata,
-                              design=~ condition)
+                              design=~ type + condition)
 
 # remove uninformative columns
 dds <- dds[ rowSums(counts(dds)) > 1, ]
-# normalization and preprocessing
-dds <- DESeq(dds, parallel=parallel)
 
-saveRDS(dds, file=snakemake@output[[1]])
+
+# normalization and preprocessing
+#old
+#dds <- DESeq(dds, parallel=parallel)
+
+#new
+#try standard: parametric fitType
+suppressWarnings(tryDESeq <- try(DESeq(dds, parallel=parallel, quiet=TRUE), silent=TRUE))
+
+if(inherits(tryDESeq,"try-error")){
+	# try local fitType
+	suppressWarnings(tryDESeq <- try(DESeq(dds, fitType="local", parallel=parallel, quiet=TRUE), silent=TRUE))
+
+
+	if(inherits(tryDESeq,"try-error")){
+		# try mean fitType
+		suppressWarnings(tryDESeq <- try(DESeq(dds, fitType="mean", parallel=parallel, quiet=TRUE), silent=TRUE))
+	}
+
+	if(inherits(tryDESeq,"try-error")){
+	#all gene-wise dispersion estimates are within 2 orders of magnitude from the minimum value
+	#so we will use gene-wise estimates as final estimates
+		dds <- estimateSizeFactors(dds)
+		dds <- estimateDispersionsGeneEst(dds)
+		dispersions(dds) <- mcols(dds)$dispGeneEst
+		tryDESeq <- nbinomWaldTest(dds)
+		#try previous: try(nbinomWaldTest(dds),silent=TRUE)
+	}
+}
+
+saveRDS(tryDESeq, file=snakemake@output[[1]])
