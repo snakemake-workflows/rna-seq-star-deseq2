@@ -10,11 +10,13 @@ rule cutadapt_pe:
         fastq2="trimmed/{sample}-{unit}.2.fastq.gz",
         qc="trimmed/{sample}-{unit}.qc.txt"
     params:
-        "-a {} {}".format(config["trimming"]["adapter"], config["params"]["cutadapt-pe"])
+        adapters_r1 = "-a {} {}".format(config["trimming"]["adapter"], config["params"]["cutadapt-pe"]),
+        adapters_r2 = "-A {} {}".format(config["trimming"]["adapter"], config["params"]["cutadapt-pe"]),
+        others = "--minimum-length 1"
     log:
         "logs/cutadapt/{sample}-{unit}.log"
     wrapper:
-        "0.17.4/bio/cutadapt/pe"
+        "0.36.0/bio/cutadapt/pe"
 
 
 rule cutadapt:
@@ -28,4 +30,4 @@ rule cutadapt:
     log:
         "logs/cutadapt/{sample}-{unit}.log"
     wrapper:
-        "0.17.4/bio/cutadapt/se"
+        "0.36.0/bio/cutadapt/se"
