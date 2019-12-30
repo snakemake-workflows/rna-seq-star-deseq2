@@ -27,6 +27,17 @@ pca:
     - condition
 
 diffexp:
+  # are you testing for a Time Course Experiment: false or true
+  time: false
+    # specify a reduced model for LRT, e.g. "design: ~ treatment + time + treatment:time" then you might want to use "reduced: ~ treatment + time"
+    reduced: ~ 1
+
+  # formula design for the DESeqDataSet
+  formula:
+    design: ~ condition
+    # enables group design by joining the factors: false or true
+    group: false
+
   # contrasts for the deseq2 results method
   contrasts:
     treated-vs-untreated:

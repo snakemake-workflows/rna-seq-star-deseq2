@@ -31,7 +31,11 @@ rule deseq2_init:
     output:
         "deseq2/all.rds"
     params:
-        samples=config["samples"]
+        samples=config["samples"],
+        formula=config["diffexp"]["formula"]["design"],
+        time=config["diffexp"]["time"],
+        reduced=config["diffexp"]["time"]["reduced"],
+        group=config["diffexp"]["formula"]["group"]
     conda:
         "../envs/deseq2.yaml"
     log:
