@@ -29,7 +29,8 @@ rule deseq2_init:
     input:
         counts="counts/all.tsv"
     output:
-        "deseq2/all.rds"
+        "deseq2/all.rds",
+        "deseq2/coefs.txt"
     params:
         samples=config["samples"],
         formula=config["diffexp"]["formula"]["design"],
@@ -45,24 +46,30 @@ rule deseq2_init:
         "../scripts/deseq2-init.R"
 
 
-# rule pca:
-#     input:
-#         "deseq2/all.rds"
-#     output:
-#         report("results/pca.svg", "../report/pca.rst")
-#     params:
-#         pca_labels=config["pca"]["labels"]
-#     conda:
-#         "../envs/deseq2.yaml"
-#     log:
-#         "logs/pca.log"
-#     script:
-#         "../scripts/plot-pca.R"
+rule pca:
+    input:
+        "deseq2/all.rds"
+    output:
+        report("results/pca.svg", "../report/pca.rst")
+    params:
+        pca_labels=config["pca"]["labels"],
+        transformation=config["pca"]["transformation"]
+    conda:
+        "../envs/deseq2.yaml"
+    log:
+        "logs/pca.log"
+    script:
+        "../scripts/plot-pca.R"
 
-
+# useless if changes work?
 def get_contrast(wildcards):
     return config["diffexp"]["contrasts"][wildcards.contrast]
 
+def get_coefs():
+    coefs = []
+    with open("deseq2/coefs.txt","r") as f:
+        coefs = f.readlines()
+    return coefs
 
 rule deseq2:
     input:
@@ -71,7 +78,8 @@ rule deseq2:
         table=report("results/diffexp/{contrast}.diffexp.tsv", "../report/diffexp.rst"),
         ma_plot=report("results/diffexp/{contrast}.ma-plot.svg", "../report/ma.rst"),
     params:
-        contrast=get_contrast
+        #contrast=get_contrast
+        contrast=get_coefs
     conda:
         "../envs/deseq2.yaml"
     log:

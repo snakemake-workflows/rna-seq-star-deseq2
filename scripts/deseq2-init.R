@@ -95,3 +95,18 @@ if (time) {
 # }
 
 saveRDS(tryDESeq, file=snakemake@output[[1]])
+
+
+
+# should save the created coefs into deseq2/coefs.txt
+coefs <- resultsNames(tryDESeq)
+coefsList <- as.list(coefs)
+
+coefsF <- file(snakemake@output[[2]], open="wt")
+sink(coefsF)
+ 
+for (i in 2:length(list)) { 
+	print(coefsList[[i]])
+	print("\n")
+}
+sink()
