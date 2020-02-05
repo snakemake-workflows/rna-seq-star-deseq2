@@ -2,9 +2,12 @@ log <- file(snakemake@log[[1]], open="wt")
 sink(log)
 sink(log, type="message")
 
+
 library("DESeq2")
-library("tidyverse")
+#library("tidyverse")
 library("apeglm")
+library("pracma")
+library("gtools")
 
 parallel <- FALSE
 if (snakemake@threads > 1) {
@@ -16,27 +19,38 @@ if (snakemake@threads > 1) {
 
 dds <- readRDS(snakemake@input[[1]])
 
-
-# # creates a plot for each coef
-# createPlots <- function(list) {    
-#   for (i in 2:length(list)) { 
-#     res <- lfcShrink(tryDESeq, coef=i, type="apeglm")
-#     plotMA(res, main="apeglm")
-#   }
-# }
-
-
-
-
 # creates a plot for given coef
-coef <- snakemake@params[["contrast"]]
-res <- lfcShrink(tryDESeq, coef=coef, type="apeglm")
-plotMA(res, main="apeglm")
-res <- results(dds, name=coef, parallel=parallel)
-res <- res[order(res$padj),]
-svg(snakemake@output[["ma_plot"]])
-dev.off()
-write.table(as.data.frame(res), file=snakemake@output[["table"]])
+ contrast <- snakemake@params[["contrast"]]
+ print(contrast)
+# res <- results(dds, name="condition_untreated_vs_treated", parallel=parallel)
+# res <- lfcShrink(dds, coef="condition_untreated_vs_treated", type="apeglm", res=res)
+# res <- res[order(res$padj),]
+# svg(snakemake@output[["ma_plot"]])
+# plotMA(res, main="apeglm")
+# dev.off()
+# write.table(as.data.frame(res), file=snakemake@output[["table"]])
+
+
+
+coefs <- resultsNames(dds)
+coefsList <- as.list(coefs)
+
+ 
+for (i in 1:length(coefsList)) {
+	if(strcmp(coefsList[[i]],"Intercept")){
+
+	}else{
+		res <- results(dds, name=coefsList[[i]], parallel=parallel)
+		res <- lfcShrink(dds, coef=coefsList[[i]], type="apeglm", res=res)
+		res <- res[order(res$padj),]
+		svg(snakemake@output[["ma_plot"]])
+		plotMA(res, main="apeglm")
+		dev.off()
+		write.table(as.data.frame(res), file=snakemake@output[["table"]])
+	}
+}
+
+
 
 
 #old

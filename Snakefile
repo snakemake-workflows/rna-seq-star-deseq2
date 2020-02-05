@@ -16,6 +16,17 @@ units = pd.read_table(config["units"], dtype=str).set_index(["sample", "unit"], 
 units.index = units.index.set_levels([i.astype(str) for i in units.index.levels])  # enforce str in index
 validate(units, schema="schemas/units.schema.yaml")
 
+def aggregate_input(wildcards):
+    checkpoint_output = checkpoints.deseq2_ALL.get(**wildcards).output[0]
+    return expand(["results/diffexpAll/{i}.diffexp.tsv",
+            "results/diffexpAll/{i}.ma-plot.svg"],
+           i=glob_wildcards(os.path.join(checkpoint_output, '{i}.ma-plot.svg')).i)
+
+def aggregate_input2(wildcards):
+    checkpoint_output = checkpoints.deseq2_ALL.get(**wildcards).output[0]
+    return expand(["results/diffexpAll2/{i}.diffexp.tsv",
+            "results/diffexpAll2/{i}.ma-plot.svg"],
+           i=glob_wildcards(os.path.join(checkpoint_output, '{i}.ma-plot.svg')).i)
 
 ##### target rules #####
 
@@ -23,16 +34,11 @@ rule all:
     input:
         expand(["results/diffexp/{contrast}.diffexp.tsv",
                 "results/diffexp/{contrast}.ma-plot.svg"],
-               contrast=config["diffexp"]["contrasts"]),
+               contrast=config["diffexp"]["advanced"]["contrasts"]),
+        aggregate_input,
+        aggregate_input2,
         "results/pca.svg",
         "qc/multiqc_report.html"
-
-# rule all:
-#     input:
-#         expand(["results/diffexp/{contrast}.diffexp.tsv",
-#                 "results/diffexp/{contrast}.ma-plot.svg"],
-#                contrast=config["diffexp"]["contrasts"]),
-#         "qc/multiqc_report.html"
 
 
 ##### setup singularity #####

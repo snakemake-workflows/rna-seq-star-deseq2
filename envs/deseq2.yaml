@@ -1,10 +1,11 @@
 channels:
-  - bioconda
   - conda-forge
+  - bioconda
   - defaults
 dependencies:
   - r-base =3.4.1
   - bioconductor-deseq2 =1.18.1
+  - bioconductor-apeglm =1.0.3
   - bioconductor-annotate =1.56.0
   - bioconductor-annotationdbi =1.40.0
   - bioconductor-biobase =2.38.0
@@ -44,7 +45,7 @@ dependencies:
   - r-futile.options =1.0.0
   - r-gdata =2.17.0
   - r-getopt =1.20.0
-  - r-ggplot2 =2.2.0
+  - r-ggplot2 =2.2.1
   - r-gplots =3.0.1
   - r-gridextra =2.2.1
   - r-gtable =0.2.0
@@ -95,3 +96,6 @@ dependencies:
   - r-xml =3.98_1.6
   - r-xtable =1.8_2
   - r-yaml =2.1.14
+  - r-tidyverse =1.2.1
+  - r-pracma =2.1.5
+  - r-dplyr =0.7.4

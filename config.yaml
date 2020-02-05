@@ -17,36 +17,49 @@ trimming:
 
 ref:
   # the STAR index
-  index: "path/to/star/index"
+  index: "data/ref/index"
   # gtf file with transcripts
-  annotation: "path/to/annotation.gtf"
+  annotation: "data/ref/annotation.chr21.gtf"
 
 pca:
   # you can choose between a variance stabilizing transformation using either VST or rlog: VST or rlog
   # rlog tends to work better for smaller data sets whereas VST is usually better for medium-to-large data sets
-  # default is VST
-  transformation: VST
+  # default is rlog (VST needs at least 1000 genes)
+  transformation: rlog
   labels:
     # columns of sample sheet to use for PCA
+    - time
     - condition
 
 diffexp:
-  # are you testing for a Time Course Experiment: false or true
-  time: false
-    # specify a reduced model for LRT, e.g. "design: ~ treatment + time + treatment:time" then you might want to use "reduced: ~ treatment + time"
+  # The following will be mostly useful if you're unexperienced with designs
+  standard:
+    # creates useful contrasts for unexperienced users to work with
+    # If you want to use advanced and don't want duplicates of contrasts I'd recommend setting it to false
+    # createContrasts: false or true
+    createContrasts: true
+  # The following will be mostly useful if you already have some experience with designs (please keep it like this if you use standard)
+  advanced:
+    # are you testing for a Time Course Experiment: false or true
+    # LRT with the ability to set a reduced model
+    time: false
+      # specify a reduced model for LRT, e.g. "design: ~ treatment + time + treatment:time" then you might want to use "reduced: ~ treatment + time"
     reduced: ~ 1
 
-  # formula design for the DESeqDataSet
-  formula:
-    design: ~ condition
-    # enables group design by joining the factors: false or true
-    group: false
+    # formula design for the DESeqDataSet
+    formula:
+      design: ~ time*condition
+      # enables group design by joining the factors: false or true
+      group: false
 
-  # contrasts for the deseq2 results method
-  contrasts:
-    treated-vs-untreated:
-      - treated
-      - untreated
+    # contrasts for the deseq2 results method
+    contrasts:
+      treated-vs-untreated:
+        - treated
+        - untreated
+      4h-vs-8h:
+        - 4h
+        - 8h
 
 params:
   star: ""

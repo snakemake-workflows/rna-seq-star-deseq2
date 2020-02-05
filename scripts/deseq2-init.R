@@ -2,8 +2,9 @@ log <- file(snakemake@log[[1]], open="wt")
 sink(log)
 sink(log, type="message")
 
+library("pracma")
 library("DESeq2")
-library("tidyverse")
+#library("tidyverse")
 
 parallel <- FALSE
 if (snakemake@threads > 1) {
@@ -26,40 +27,36 @@ dds <- DESeqDataSetFromMatrix(countData=cts,
                               colData=coldata,
                               design=formula)
 
-# group?
+# remove uninformative rows with no counts 
+dds <- dds[ rowSums(counts(dds)) > 1, ]
+
+# group
 group <- snakemake@params[["group"]]
-group <- apply(group,toupper)
+group <- sapply(group,toupper)
 
 if (group) {
-	variables <- labels(terms(formula)) %>%
-  					 strsplit('[:*]') %>%
-  					 unlist()
-  	#^ might be useful cause it returns a string with the columns, but problematic is to automate something like dds$...
-  	# 2nd option shows how to do it with contrasts, would need to think about a possible implementation
+	dds$group <- factor(do.call(paste0,coldata)) # [1] 4htreated   4huntreated 8htreated   8huntreated 8huntreated
+											 	 # Levels: 4htreated 4huntreated 8htreated 8huntreated
+	design(dds) <- ~ group
+	dds <- DESeq(dds)
 
- 	#dds$group <- factor(paste0(dds$condition,dds$time))
-	# design(dds) <- ~ group
+	# create all possible contrasts
+	# vars %>% sapply(levels) # matrix mit leveln
 
-	# dds$group <- factor(paste0(c("treated","untreated","treated","untreated"),c("4h","4h","8h","8h")))
-	# design(dds) <- ~ group
 
-	#dds <- DESeq(dds)
 }
 
 
 
 
-# remove uninformative rows with no counts 
-dds <- dds[ rowSums(counts(dds)) > 1, ]
-
 # is this a Time Course Experiment?
 time <- snakemake@params[["time"]]
-time <- apply(time,toupper)
+time <- sapply(time,toupper)
 
 if (time) {
     # Time Course Experiment
 	reduced <- as.formula(snakemake@params[["reduced"]])
-    ddsTCE_LRT <- DESeq(dds, test="LRT", reduced = reduced, parallel=parallel)
+    dds <- DESeq(dds, test="LRT", reduced = reduced, parallel=parallel)
 
     # create in deseq2.R
     #resTCE_LRT <- results(ddsTCE_LRT)
@@ -94,19 +91,4 @@ if (time) {
 # 	}
 # }
 
-saveRDS(tryDESeq, file=snakemake@output[[1]])
-
-
-
-# should save the created coefs into deseq2/coefs.txt
-coefs <- resultsNames(tryDESeq)
-coefsList <- as.list(coefs)
-
-coefsF <- file(snakemake@output[[2]], open="wt")
-sink(coefsF)
- 
-for (i in 2:length(list)) { 
-	print(coefsList[[i]])
-	print("\n")
-}
-sink()
+saveRDS(dds, file=snakemake@output[[1]])
