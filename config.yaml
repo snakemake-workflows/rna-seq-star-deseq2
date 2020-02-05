@@ -48,7 +48,7 @@ diffexp:
 
     # formula design for the DESeqDataSet
     formula:
-      design: ~ time*condition
+      design: ~ 1
       # enables group design by joining the factors: false or true
       group: false
 

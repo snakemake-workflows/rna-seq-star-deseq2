@@ -21,7 +21,6 @@ dds <- readRDS(snakemake@input[[1]])
 
 # creates a plot for given coef
  contrast <- snakemake@params[["contrast"]]
- print(contrast)
 # res <- results(dds, name="condition_untreated_vs_treated", parallel=parallel)
 # res <- lfcShrink(dds, coef="condition_untreated_vs_treated", type="apeglm", res=res)
 # res <- res[order(res$padj),]

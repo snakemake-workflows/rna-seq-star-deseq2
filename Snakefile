@@ -1,5 +1,6 @@
 import pandas as pd
 from snakemake.utils import validate, min_version
+import itertools
 ##### set minimum snakemake version #####
 min_version("5.1.2")
 shell.executable("/bin/bash")
@@ -16,18 +17,56 @@ units = pd.read_table(config["units"], dtype=str).set_index(["sample", "unit"], 
 units.index = units.index.set_levels([i.astype(str) for i in units.index.levels])  # enforce str in index
 validate(units, schema="schemas/units.schema.yaml")
 
-def aggregate_input(wildcards):
-    checkpoint_output = checkpoints.deseq2_ALL.get(**wildcards).output[0]
-    return expand(["results/diffexpAll/{i}.diffexp.tsv",
-            "results/diffexpAll/{i}.ma-plot.svg"],
-           i=glob_wildcards(os.path.join(checkpoint_output, '{i}.ma-plot.svg')).i)
+simpleContrasts={}
+complexContrasts={}
 
-def aggregate_input2(wildcards):
-    checkpoint_output = checkpoints.deseq2_ALL.get(**wildcards).output[0]
-    return expand(["results/diffexpAll2/{i}.diffexp.tsv",
-            "results/diffexpAll2/{i}.ma-plot.svg"],
-           i=glob_wildcards(os.path.join(checkpoint_output, '{i}.ma-plot.svg')).i)
+def getSimpleContrasts(columns,rows):
+    simpleContrasts={}
+    i=0
+    # simple Contrasts e.g. treated vs untreated
+    for key in columns: # n*(n-1)/2 combinations
+        for values in itertools.combinations(rows[i],2):
+            name=values[0]+"-vs-"+values[1]
+            simpleContrasts[name]=[values[0],values[1]]
+        i+=1
+    return simpleContrasts
 
+def getComplexContrasts(columns):
+    complexRows=[]
+    complexContrasts={}
+    for index,row in samples.iterrows():
+        string=""
+        for col in range(0,len(columns)): # concatenate rows
+            string+=row[1::][col]
+        complexRows.append(string)
+    # complex Contrasts e.g. 4hourstreated vs 8hourstreated
+    for values in itertools.combinations(complexRows,2): # n*(n-1)/2 combinations
+        name=values[0]+"-vs-"+values[1]
+        complexContrasts[name]=[values[0],values[1]]
+    return complexContrasts
+
+def estimateContrasts():
+    columns=list(samples.keys())[1::] # get column names without overhead
+    rows=[]
+    for key in columns:
+        rows.append(list(samples.get(key).unique())) # get distinct rows values
+
+    formula=config["diffexp"]["advanced"]["formula"]["design"]
+    if formula=="~ 1":
+        global simpleContrasts
+        global complexContrasts
+        simpleContrasts=getSimpleContrasts(columns,rows)
+        complexContrasts=getComplexContrasts(columns)
+        print(":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::")
+        print("::: No custom formula design was choosen, trying to create all useful contrasts :::")
+        print(":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::")
+        config["diffexp"]["advanced"]["contrasts"]={**simpleContrasts,**complexContrasts}
+    else:
+        print("::::::::::::::::::::::::::::::::::::::::::::::")
+        print("::: Your custom formula design was choosen :::")
+        print("::::::::::::::::::::::::::::::::::::::::::::::")
+
+estimateContrasts()
 ##### target rules #####
 
 rule all:
@@ -35,8 +74,6 @@ rule all:
         expand(["results/diffexp/{contrast}.diffexp.tsv",
                 "results/diffexp/{contrast}.ma-plot.svg"],
                contrast=config["diffexp"]["advanced"]["contrasts"]),
-        aggregate_input,
-        aggregate_input2,
         "results/pca.svg",
         "qc/multiqc_report.html"
 
