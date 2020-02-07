@@ -72,6 +72,32 @@ rule meanSdPlot:
     script:
         "../scripts/meanSdPlot.R"
 
+rule heatmap:
+    input:
+        "deseq2/all.rds"
+    output:
+        report("results/heatmap.svg", "../report/heatmap.rst")
+    params:
+        samples=config["samples"]
+    conda:
+        "../envs/deseq2.yaml"
+    log:
+        "logs/heatmap.log"
+    script:
+        "../scripts/heatmap.R"
+
+rule dispersionPlot:
+    input:
+        "deseq2/all.rds"
+    output:
+        report("results/dispersionPlot.svg", "../report/dispersionPlot.rst")
+    conda:
+        "../envs/deseq2.yaml"
+    log:
+        "logs/dispersionPlot.log"
+    script:
+        "../scripts/dispersionPlot.R"
+
 def get_contrast(wildcards):
     return config["diffexp"]["advanced"]["contrasts"][wildcards.contrast]
 

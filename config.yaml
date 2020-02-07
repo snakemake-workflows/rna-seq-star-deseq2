@@ -22,23 +22,38 @@ ref:
   annotation: "data/ref/annotation.chr21.gtf"
 
 pca:
+  # activate pca: false or true
+  activate: true
   # you can choose between a variance stabilizing transformation using either VST or rlog: VST or rlog
   # rlog tends to work better for smaller data sets whereas VST is usually better for medium-to-large data sets
   # default is rlog (VST needs at least 1000 genes)
   transformation: rlog
   labels:
     # columns of sample sheet to use for PCA
+    - condition
     - time
 
 meanSdPlot:
   # activate meanSdPlot: false or true
   activate: true
     # you can choose between a variance stabilizing transformation using either norm or VST or rlog: norm or VST or rlog
-    # rlog tends to work better for smaller data sets whereas VST is usually better for medium-to-large data sets
+    # norm uses log2 with a pseudocount of 1 on normalized counts, rlog tends to work better for smaller data sets whereas VST is usually better for medium-to-large data sets
     # default is norm (VST needs at least 1000 genes)
   transformation: norm
 
+heatmap:
+  # heatmap of the count matrix
+  # activate heatmap: false or true
+  activate: true
 
+dispersionPlot:
+  # Plots the dispersion estimates
+  # activate dispersionPlot: false or true
+  activate: true
+
+###################################################################################
+# pval histogram missing, needs additional work, because pvals need to be checked #
+###################################################################################
 
 diffexp:
   # The following will be mostly useful if you're unexperienced with designs

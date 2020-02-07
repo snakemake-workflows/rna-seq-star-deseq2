@@ -66,15 +66,19 @@ def estimateContrasts():
         print("::: Your custom formula design was choosen :::")
         print("::::::::::::::::::::::::::::::::::::::::::::::")
 
-estimateContrasts()
-
 def additionalInput():
     input=[]
-
     if config["meanSdPlot"]["activate"]:
         input.extend(expand("results/meanSdPlot.svg"))
-
+    if config["heatmap"]["activate"]:
+        input.extend(expand("results/heatmap.svg"))
+    if config["pca"]["activate"]:
+        input.extend(expand("results/pca.svg"))
+    if config["dispersionPlot"]["activate"]:
+        input.extend(expand("results/dispersionPlot.svg"))
     return input
+
+estimateContrasts()
 ##### target rules #####
 
 rule all:
@@ -82,7 +86,6 @@ rule all:
         expand(["results/diffexp/{contrast}.diffexp.tsv",
                 "results/diffexp/{contrast}.ma-plot.svg"],
                contrast=config["diffexp"]["advanced"]["contrasts"]),
-        "results/pca.svg",
         additionalInput(),
         "qc/multiqc_report.html"
 

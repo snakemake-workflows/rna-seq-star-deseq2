@@ -13,16 +13,14 @@ transformation <- snakemake@params[["transformation"]]
 
 #obtain normalized counts
 if(strcmp(transformation,"rlog")){
-	print(transformation)
-	rld <- rlog(dds)
+	rld <- rlog(dds, blind=FALSE)
 	svg(snakemake@output[[1]])
 	plotPCA(rld, intgroup=snakemake@params[["pca_labels"]])
-	dev.off()
 }else{
-	vsd <- vst(dds)
+	vsd <- vst(dds, blind=FALSE)
    	svg(snakemake@output[[1]])
 	plotPCA(vsd, intgroup=snakemake@params[["pca_labels"]])
-	dev.off()
 }
 
 
+while (!is.null(dev.list()))  dev.off()
