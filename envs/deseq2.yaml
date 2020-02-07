@@ -5,7 +5,6 @@ channels:
 dependencies:
   - r-base =3.4.1
   - bioconductor-deseq2 =1.18.1
-  - bioconductor-apeglm =1.0.3
   - bioconductor-annotate =1.56.0
   - bioconductor-annotationdbi =1.40.0
   - bioconductor-biobase =2.38.0
@@ -49,7 +48,7 @@ dependencies:
   - r-gplots =3.0.1
   - r-gridextra =2.2.1
   - r-gtable =0.2.0
-  - r-gtools =3.5.0
+  - r-ashr =2.0.5
   - r-highr =0.6
   - r-hmisc =4.0_3
   - r-htmltable =1.9

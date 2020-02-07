@@ -50,6 +50,7 @@ diffexp:
     formula:
       design: ~ 1
       # enables group design by joining the factors: false or true
+      # If you choose this option, you will have to change the contrasts, since you will only get to use grouped contrasts
       group: false
 
     # contrasts for the deseq2 results method

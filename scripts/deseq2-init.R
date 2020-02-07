@@ -30,24 +30,30 @@ dds <- DESeqDataSetFromMatrix(countData=cts,
 # remove uninformative rows with no counts 
 dds <- dds[ rowSums(counts(dds)) > 1, ]
 
+if (strcmp(Reduce(paste, deparse(formula)),"~1")) {
+	formula <- do.call(paste, c(as.list(colnames(coldata)), sep = "*"))
+	formula <- as.formula(paste0("~",formula))
+	design(dds) <- formula
+	dds <- DESeq(dds)
+
+	dds2 <- DESeqDataSetFromMatrix(countData=cts,
+                              colData=coldata,
+                              design=formula)
+	dds2$group <- factor(do.call(paste0,coldata)) 										 	
+	design(dds2) <- ~ group
+	dds2 <- DESeq(dds2)
+	saveRDS(dds2, file=snakemake@output[["dds2"]])
+}
+
 # group
 group <- snakemake@params[["group"]]
 group <- sapply(group,toupper)
 
 if (group) {
-	dds$group <- factor(do.call(paste0,coldata)) # [1] 4htreated   4huntreated 8htreated   8huntreated 8huntreated
-											 	 # Levels: 4htreated 4huntreated 8htreated 8huntreated
+	dds$group <- factor(do.call(paste0,coldata)) 										 	
 	design(dds) <- ~ group
 	dds <- DESeq(dds)
-
-	# create all possible contrasts
-	# vars %>% sapply(levels) # matrix mit leveln
-
-
 }
-
-
-
 
 # is this a Time Course Experiment?
 time <- snakemake@params[["time"]]
@@ -64,31 +70,4 @@ if (time) {
    	dds <- DESeq(dds, parallel=parallel)
 }
 
-
-
-#new but might be unnecessary, would have to do it before the DESeq call
-#try standard: parametric fitType
-# suppressWarnings(tryDESeq <- try(DESeq(dds, parallel=parallel, quiet=TRUE), silent=TRUE))
-
-# if(inherits(tryDESeq,"try-error")){
-# 	# try local fitType
-# 	suppressWarnings(tryDESeq <- try(DESeq(dds, fitType="local", parallel=parallel, quiet=TRUE), silent=TRUE))
-
-
-# 	if(inherits(tryDESeq,"try-error")){
-# 		# try mean fitType
-# 		suppressWarnings(tryDESeq <- try(DESeq(dds, fitType="mean", parallel=parallel, quiet=TRUE), silent=TRUE))
-# 	}
-
-# 	if(inherits(tryDESeq,"try-error")){
-# 	#all gene-wise dispersion estimates are within 2 orders of magnitude from the minimum value
-# 	#so we will use gene-wise estimates as final estimates
-# 		dds <- estimateSizeFactors(dds)
-# 		dds <- estimateDispersionsGeneEst(dds)
-# 		dispersions(dds) <- mcols(dds)$dispGeneEst
-# 		tryDESeq <- nbinomWaldTest(dds)
-# 		#try previous: try(nbinomWaldTest(dds),silent=TRUE)
-# 	}
-# }
-
-saveRDS(dds, file=snakemake@output[[1]])
+saveRDS(dds, file=snakemake@output[["dds"]])

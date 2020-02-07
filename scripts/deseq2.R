@@ -4,10 +4,8 @@ sink(log, type="message")
 
 
 library("DESeq2")
-#library("tidyverse")
-library("apeglm")
 library("pracma")
-library("gtools")
+library("ashr")
 
 parallel <- FALSE
 if (snakemake@threads > 1) {
@@ -17,59 +15,62 @@ if (snakemake@threads > 1) {
     parallel <- TRUE
 }
 
-dds <- readRDS(snakemake@input[[1]])
 
-# creates a plot for given coef
- contrast <- snakemake@params[["contrast"]]
-# res <- results(dds, name="condition_untreated_vs_treated", parallel=parallel)
-# res <- lfcShrink(dds, coef="condition_untreated_vs_treated", type="apeglm", res=res)
-# res <- res[order(res$padj),]
-# svg(snakemake@output[["ma_plot"]])
-# plotMA(res, main="apeglm")
-# dev.off()
-# write.table(as.data.frame(res), file=snakemake@output[["table"]])
+coldata <- read.table(snakemake@params[["samples"]], header=TRUE, row.names="sample", check.names=FALSE)
+
+dds <- readRDS(snakemake@input[["dds"]])
+dds2 <- readRDS(snakemake@input[["dds2"]])
+# get contrasts
+contrast <- c(snakemake@params[["contrast"]])
+
+formula <- as.formula(snakemake@params[["formula"]])
 
 
+# create all contrasts if no formula is given
+# otherwise use given formula and contrasts
+if (strcmp(Reduce(paste, deparse(formula)),"~1")) { 
+	# in case we have a complex contrast use dds2 with grouped formula
+	# otherwise use simple contrasts
+	if(strcmp(contrast[[1]],'group')){ 
+		res <- results(dds2, contrast=contrast, parallel=parallel)
+ 		res <- lfcShrink(dds2, contrast=contrast, type="ashr", res=res)
+ 		# sort by p-value
+ 		res <- res[order(res$padj),]
+ 		# TODO explore IHW usage
+ 		# ---- IHW should be here ----
 
-coefs <- resultsNames(dds)
-coefsList <- as.list(coefs)
-
- 
-for (i in 1:length(coefsList)) {
-	if(strcmp(coefsList[[i]],"Intercept")){
-
+ 		# store results
+ 		svg(snakemake@output[["ma_plot"]])
+ 		plotMA(res, main="apeglm")
+ 		dev.off()
+ 		write.table(as.data.frame(res), file=snakemake@output[["table"]])
 	}else{
-		res <- results(dds, name=coefsList[[i]], parallel=parallel)
-		res <- lfcShrink(dds, coef=coefsList[[i]], type="apeglm", res=res)
-		res <- res[order(res$padj),]
-		svg(snakemake@output[["ma_plot"]])
-		plotMA(res, main="apeglm")
-		dev.off()
-		write.table(as.data.frame(res), file=snakemake@output[["table"]])
+		res <- results(dds, contrast=contrast, parallel=parallel)
+ 		res <- lfcShrink(dds, contrast=contrast, type="ashr",res=res)
+ 		# sort by p-value
+ 		res <- res[order(res$padj),]
+ 		# TODO explore IHW usage
+ 		# ---- IHW should be here ----
+
+ 		# store results
+ 		svg(snakemake@output[["ma_plot"]])
+ 		plotMA(res, main="apeglm")
+ 		dev.off()
+ 		write.table(as.data.frame(res), file=snakemake@output[["table"]])
 	}
+}else{	
+
+ 	res <- results(dds, contrast=contrast, parallel=parallel)
+ 	res <- lfcShrink(dds, contrast=contrast, res=res) ## only if user wants it. Will throw "LFC shrinkage type='normal' not implemented for designs with interactions"
+ 	# sort by p-value
+ 	res <- res[order(res$padj),]
+ 	# TODO explore IHW usage
+ 	# ---- IHW should be here ----
+
+ 	# store results
+ 	svg(snakemake@output[["ma_plot"]])
+ 	plotMA(res, main="apeglm")
+ 	dev.off()
+ 	write.table(as.data.frame(res), file=snakemake@output[["table"]])
 }
 
-
-
-
-#old
-#contrast <- c("condition", snakemake@params[["contrast"]])
-#new, still needs to be fixxed
-#contrast <- c("condition", "treated", "untreated")
-
-# res <- results(dds, parallel=parallel)
-# #res <- results(dds, contrast=contrast, parallel=parallel)
-# # shrink fold changes for lowly expressed genes
-# res <- lfcShrink(dds, contrast=contrast, res=res)
-
-# # sort by p-value
-# res <- res[order(res$padj),]
-# # TODO explore IHW usage
-
-
-# # store results
-# svg(snakemake@output[["ma_plot"]])
-# plotMA(res, ylim=c(-2,2))
-# dev.off()
-
-# write.table(as.data.frame(res), file=snakemake@output[["table"]])
