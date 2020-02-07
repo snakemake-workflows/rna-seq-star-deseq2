@@ -30,6 +30,7 @@ dds <- DESeqDataSetFromMatrix(countData=cts,
 # remove uninformative rows with no counts 
 dds <- dds[ rowSums(counts(dds)) > 1, ]
 
+# User is using the standard option in config/didn't set a formula
 if (strcmp(Reduce(paste, deparse(formula)),"~1")) {
 	formula <- do.call(paste, c(as.list(colnames(coldata)), sep = "*"))
 	formula <- as.formula(paste0("~",formula))

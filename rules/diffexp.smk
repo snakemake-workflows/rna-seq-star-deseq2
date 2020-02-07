@@ -58,6 +58,20 @@ rule pca:
     script:
         "../scripts/plot-pca.R"
 
+rule meanSdPlot:
+    input:
+        "deseq2/all.rds"
+    output:
+        report("results/meanSdPlot.svg", "../report/meanSdPlot.rst")
+    params:
+        transformation=config["meanSdPlot"]["transformation"]
+    conda:
+        "../envs/deseq2.yaml"
+    log:
+        "logs/meanSdPlot.log"
+    script:
+        "../scripts/meanSdPlot.R"
+
 def get_contrast(wildcards):
     return config["diffexp"]["advanced"]["contrasts"][wildcards.contrast]
 

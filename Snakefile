@@ -67,6 +67,14 @@ def estimateContrasts():
         print("::::::::::::::::::::::::::::::::::::::::::::::")
 
 estimateContrasts()
+
+def additionalInput():
+    input=[]
+
+    if config["meanSdPlot"]["activate"]:
+        input.extend(expand("results/meanSdPlot.svg"))
+
+    return input
 ##### target rules #####
 
 rule all:
@@ -75,6 +83,7 @@ rule all:
                 "results/diffexp/{contrast}.ma-plot.svg"],
                contrast=config["diffexp"]["advanced"]["contrasts"]),
         "results/pca.svg",
+        additionalInput(),
         "qc/multiqc_report.html"
 
 

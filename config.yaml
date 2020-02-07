@@ -29,7 +29,16 @@ pca:
   labels:
     # columns of sample sheet to use for PCA
     - time
-    - condition
+
+meanSdPlot:
+  # activate meanSdPlot: false or true
+  activate: true
+    # you can choose between a variance stabilizing transformation using either norm or VST or rlog: norm or VST or rlog
+    # rlog tends to work better for smaller data sets whereas VST is usually better for medium-to-large data sets
+    # default is norm (VST needs at least 1000 genes)
+  transformation: norm
+
+
 
 diffexp:
   # The following will be mostly useful if you're unexperienced with designs
