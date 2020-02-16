@@ -76,6 +76,10 @@ def additionalInput():
         input.extend(expand("results/pca.svg"))
     if config["dispersionPlot"]["activate"]:
         input.extend(expand("results/dispersionPlot.svg"))
+    if config["IndependentHypothesisWeighting"]["activate"]:
+        input.extend(expand("results/IHW.svg"))
+        input.extend(expand("results/IHW2.svg"))
+        input.extend(expand("results/pvalHisto1.svg"))
     return input
 
 estimateContrasts()

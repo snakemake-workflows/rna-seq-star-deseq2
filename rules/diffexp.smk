@@ -98,6 +98,23 @@ rule dispersionPlot:
     script:
         "../scripts/dispersionPlot.R"
 
+rule IHW:
+    input:
+        "deseq2/all.rds"
+    output:
+        IHW_data=report("results/IHW.tsv", "../report/IHW.rst"),
+        IHW_plots=report("results/IHW.svg", "../report/IHW.rst"),
+        IHW_plots2=report("results/IHW2.svg", "../report/IHW2.rst"),
+        pvalHisto1=report("results/pvalHisto1.svg", "../report/pvalHisto.rst")
+    params:
+        IHWalpha=config["IndependentHypothesisWeighting"]["alpha"]
+    conda:
+        "../envs/deseq2.yaml"
+    log:
+        "logs/IHW.log"
+    script:
+        "../scripts/IHW.R"
+
 def get_contrast(wildcards):
     return config["diffexp"]["advanced"]["contrasts"][wildcards.contrast]
 
@@ -108,10 +125,12 @@ checkpoint deseq2:
     output:
         table=report("results/diffexp/{contrast}.diffexp.tsv", "../report/diffexp.rst"),
         ma_plot=report("results/diffexp/{contrast}.ma-plot.svg", "../report/ma.rst"),
+        sumPadj=report("results/diffexp/{contrast}.diffexp.sumPadj.tsv")
     params:
         samples=config["samples"],
         formula=config["diffexp"]["advanced"]["formula"]["design"],
-        contrast=get_contrast
+        contrast=get_contrast,
+        alpha=config["diffexp"]["advanced"]["alpha"]
     conda:
         "../envs/deseq2.yaml"
     log:

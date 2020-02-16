@@ -1,1 +1,2 @@
 `MA plot <https://en.wikipedia.org/wiki/MA_plot>`_ of log fold change vs. mean of normalized counts for each gene when calculating differential expression for contrast {{ snakemake.wildcards.contrast }}.
+After independent filtering with an alpha threshold of {{ snakemake.config["diffexp"]["advanced"]["alpha"] }} gives see `{{ snakemake.wildcards.contrast }}.diffexp.sumPadj.tsv`_ adjusted pvalues smaller than alpha.

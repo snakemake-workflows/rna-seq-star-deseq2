@@ -51,6 +51,14 @@ dispersionPlot:
   # activate dispersionPlot: false or true
   activate: true
 
+IndependentHypothesisWeighting:
+  # Creates a pvalHistogram
+  # This function creates a few diagonstic plots
+  # activate IndependentHypothesisWeighting: false or true
+  activate: true
+  # significance level
+  alpha: 0.05
+
 ###################################################################################
 # pval histogram missing, needs additional work, because pvals need to be checked #
 ###################################################################################
@@ -64,6 +72,8 @@ diffexp:
     createContrasts: true
   # The following will be mostly useful if you already have some experience with designs (please keep it like this if you use standard)
   advanced:
+    # alpha used for results, if not changed, it will always use 0.1
+    alpha: 0.1
     # are you testing for a Time Course Experiment: false or true
     # LRT with the ability to set a reduced model
     time: false
@@ -90,3 +100,5 @@ params:
   star: ""
   cutadapt-se: ""
   cutadapt-pe: ""
+
+sumPadj: 0

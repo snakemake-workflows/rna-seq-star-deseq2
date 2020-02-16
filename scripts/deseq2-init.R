@@ -40,6 +40,8 @@ if (strcmp(Reduce(paste, deparse(formula)),"~1")) {
 	dds2 <- DESeqDataSetFromMatrix(countData=cts,
                               colData=coldata,
                               design=formula)
+	# remove uninformative rows with no counts 
+	dds2 <- dds2[ rowSums(counts(dds2)) > 1, ]
 	dds2$group <- factor(do.call(paste0,coldata)) 										 	
 	design(dds2) <- ~ group
 	dds2 <- DESeq(dds2)
