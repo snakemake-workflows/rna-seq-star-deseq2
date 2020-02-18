@@ -35,7 +35,6 @@ if (strcmp(Reduce(paste, deparse(formula)),"~1")) {
 	formula <- do.call(paste, c(as.list(colnames(coldata)), sep = "*"))
 	formula <- as.formula(paste0("~",formula))
 	design(dds) <- formula
-	dds <- DESeq(dds)
 
 	dds2 <- DESeqDataSetFromMatrix(countData=cts,
                               colData=coldata,
@@ -44,7 +43,7 @@ if (strcmp(Reduce(paste, deparse(formula)),"~1")) {
 	dds2 <- dds2[ rowSums(counts(dds2)) > 1, ]
 	dds2$group <- factor(do.call(paste0,coldata)) 										 	
 	design(dds2) <- ~ group
-	dds2 <- DESeq(dds2)
+   	dds2 <- DESeq(dds2, parallel=parallel)
 	saveRDS(dds2, file=snakemake@output[["dds2"]])
 }
 
@@ -55,7 +54,6 @@ group <- sapply(group,toupper)
 if (group) {
 	dds$group <- factor(do.call(paste0,coldata)) 										 	
 	design(dds) <- ~ group
-	dds <- DESeq(dds)
 }
 
 # is this a Time Course Experiment?
@@ -66,9 +64,7 @@ if (time) {
     # Time Course Experiment
 	reduced <- as.formula(snakemake@params[["reduced"]])
     dds <- DESeq(dds, test="LRT", reduced = reduced, parallel=parallel)
-
-    # create in deseq2.R
-    #resTCE_LRT <- results(ddsTCE_LRT)
+    # dds will go over to TimeCoursePlots.R
 }else{
    	dds <- DESeq(dds, parallel=parallel)
 }

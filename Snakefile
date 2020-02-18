@@ -80,6 +80,8 @@ def additionalInput():
         input.extend(expand("results/IHW.svg"))
         input.extend(expand("results/IHW2.svg"))
         input.extend(expand("results/pvalHisto1.svg"))
+    if config["diffexp"]["advanced"]["time"]["activate"]:
+        input.extend(expand("results/heatmapTime.svg"))
     return input
 
 estimateContrasts()

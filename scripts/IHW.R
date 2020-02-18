@@ -31,16 +31,14 @@ ggplot(res, aes(x = pvalue)) + geom_histogram(binwidth = 0.025, boundary = 0)
 dev.off()
 # IHW
 ihwRes <- ihw(pvalue ~ baseMean,  data = res, alpha = IHWalpha)
-ggplot(as.data.frame(ihwRes), aes(x = pvalue)) + geom_histogram(binwidth = 0.025, boundary = 0)
-dev.off()
-write.table(as.data.frame(ihwRes), file=snakemake@output[["IHW_data"]])
+write.table(as.data.frame(ihwRes), file=snakemake@output[["IHWData"]])
 # estimatedWeights
-svg(snakemake@output[["IHW_plots"]])
+svg(snakemake@output[["IHWPlots"]])
 plot(ihwRes)
 dev.off()
 
 # decisionBoundary
-svg(snakemake@output[["IHW_plots2"]])
+svg(snakemake@output[["IHWPlots2"]])
 plot(ihwRes, what = "decisionboundary")
 dev.off()
 

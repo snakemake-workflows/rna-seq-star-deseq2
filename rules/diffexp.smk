@@ -32,8 +32,8 @@ rule deseq2_init:
     params:
         samples=config["samples"],
         formula=config["diffexp"]["advanced"]["formula"]["design"],
-        time=config["diffexp"]["advanced"]["time"],
-        reduced=config["diffexp"]["advanced"]["reduced"],
+        time=config["diffexp"]["advanced"]["time"]["activate"],
+        reduced=config["diffexp"]["advanced"]["time"]["reduced"],
         group=config["diffexp"]["advanced"]["formula"]["group"]
     conda:
         "../envs/deseq2.yaml"
@@ -47,7 +47,7 @@ rule pca:
     input:
         "deseq2/all.rds"
     output:
-        report("results/pca.svg", "../report/pca.rst")
+        report("results/pca.svg", "../report/pca.rst", category="Plots")
     params:
         pca_labels=config["pca"]["labels"],
         transformation=config["pca"]["transformation"]
@@ -62,7 +62,7 @@ rule meanSdPlot:
     input:
         "deseq2/all.rds"
     output:
-        report("results/meanSdPlot.svg", "../report/meanSdPlot.rst")
+        report("results/meanSdPlot.svg", "../report/meanSdPlot.rst", category="Plots")
     params:
         transformation=config["meanSdPlot"]["transformation"]
     conda:
@@ -76,7 +76,7 @@ rule heatmap:
     input:
         "deseq2/all.rds"
     output:
-        report("results/heatmap.svg", "../report/heatmap.rst")
+        report("results/heatmap.svg", "../report/heatmap.rst", category="Plots")
     params:
         samples=config["samples"]
     conda:
@@ -90,7 +90,7 @@ rule dispersionPlot:
     input:
         "deseq2/all.rds"
     output:
-        report("results/dispersionPlot.svg", "../report/dispersionPlot.rst")
+        report("results/dispersionPlot.svg", "../report/dispersionPlot.rst", category="Plots")
     conda:
         "../envs/deseq2.yaml"
     log:
@@ -98,14 +98,30 @@ rule dispersionPlot:
     script:
         "../scripts/dispersionPlot.R"
 
+rule TimeCoursePlots:
+    input:
+        "deseq2/all.rds"
+    output:
+        heatmapTime=report("results/heatmapTime.svg", "../report/heatmapTime.rst", category="TimeCourseExperiment")
+    params:
+        reduced=config["diffexp"]["advanced"]["time"]["reduced"],
+        thr=config["diffexp"]["advanced"]["time"]["threshold"]
+    conda:
+        "../envs/deseq2.yaml"
+    log:
+        "logs/TimeCoursePlots.log"
+    threads: get_deseq2_threads()
+    script:
+        "../scripts/TimeCoursePlot.R"
+
 rule IHW:
     input:
         "deseq2/all.rds"
     output:
-        IHW_data=report("results/IHW.tsv", "../report/IHW.rst"),
-        IHW_plots=report("results/IHW.svg", "../report/IHW.rst"),
-        IHW_plots2=report("results/IHW2.svg", "../report/IHW2.rst"),
-        pvalHisto1=report("results/pvalHisto1.svg", "../report/pvalHisto.rst")
+        IHWData=report("results/IHW.tsv", "../report/IHW.rst", category="IHW"),
+        IHWPlots=report("results/IHW.svg", "../report/IHW.rst", category="IHW"),
+        IHWPlots2=report("results/IHW2.svg", "../report/IHW2.rst", category="IHW"),
+        pvalHisto1=report("results/pvalHisto1.svg", "../report/pvalHisto.rst", category="IHW")
     params:
         IHWalpha=config["IndependentHypothesisWeighting"]["alpha"]
     conda:
@@ -123,14 +139,15 @@ checkpoint deseq2:
         dds="deseq2/all.rds",
         dds2="deseq2/all2.rds"
     output:
-        table=report("results/diffexp/{contrast}.diffexp.tsv", "../report/diffexp.rst"),
-        ma_plot=report("results/diffexp/{contrast}.ma-plot.svg", "../report/ma.rst"),
-        sumPadj=report("results/diffexp/{contrast}.diffexp.sumPadj.tsv")
+        table=report("results/diffexp/{contrast}.diffexp.tsv", "../report/diffexp.rst", category="Contrasts"),
+        ma_plot=report("results/diffexp/{contrast}.ma-plot.svg", "../report/ma.rst", category="Contrasts")
     params:
         samples=config["samples"],
         formula=config["diffexp"]["advanced"]["formula"]["design"],
         contrast=get_contrast,
-        alpha=config["diffexp"]["advanced"]["alpha"]
+        alpha=config["diffexp"]["advanced"]["alpha"],
+        lfcShrink=config["diffexp"]["advanced"]["lfcShrink"]["activate"],
+        lfcShrinkType=config["diffexp"]["advanced"]["lfcShrink"]["type"]
     conda:
         "../envs/deseq2.yaml"
     log:

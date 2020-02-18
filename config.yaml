@@ -56,12 +56,8 @@ IndependentHypothesisWeighting:
   # This function creates a few diagonstic plots
   # activate IndependentHypothesisWeighting: false or true
   activate: true
-  # significance level
+  # nominal level for FDR control
   alpha: 0.05
-
-###################################################################################
-# pval histogram missing, needs additional work, because pvals need to be checked #
-###################################################################################
 
 diffexp:
   # The following will be mostly useful if you're unexperienced with designs
@@ -72,13 +68,22 @@ diffexp:
     createContrasts: true
   # The following will be mostly useful if you already have some experience with designs (please keep it like this if you use standard)
   advanced:
+    # log fold change shrinkage on results
+    lfcShrink:
+      # activate lfcShrink: false or true
+      activate: false
+      # possible types: normal, apeglm, ashr
+      type: apeglm
     # alpha used for results, if not changed, it will always use 0.1
     alpha: 0.1
-    # are you testing for a Time Course Experiment: false or true
     # LRT with the ability to set a reduced model
-    time: false
+    time:
+      # are you testing for a Time Course Experiment: false or true
+      activate: false
       # specify a reduced model for LRT, e.g. "design: ~ treatment + time + treatment:time" then you might want to use "reduced: ~ treatment + time"
-    reduced: ~ 1
+      reduced: ~ 1
+      # threshold for the color key range (has to be a numeric value)
+      threshold: 5
 
     # formula design for the DESeqDataSet
     formula:
@@ -96,9 +101,8 @@ diffexp:
         - 4h
         - 8h
 
+# additional parameter arguments
 params:
   star: ""
   cutadapt-se: ""
   cutadapt-pe: ""
-
-sumPadj: 0

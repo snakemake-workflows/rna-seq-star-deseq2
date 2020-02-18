@@ -6,7 +6,7 @@ sink(log, type="message")
 library("DESeq2")
 library("pracma")
 library("ashr")
-library("IHW")
+library("apeglm")
 
 parallel <- FALSE
 if (snakemake@threads > 1) {
@@ -26,6 +26,10 @@ contrast <- c(snakemake@params[["contrast"]])
 
 formula <- as.formula(snakemake@params[["formula"]])
 
+type <- snakemake@params[["lfcShrinkType"]]
+lfcShrink <- snakemake@params[["lfcShrink"]]
+lfcShrink <- sapply(lfcShrink,toupper)
+
 alpha <- as.numeric(snakemake@params[["alpha"]])
 # create all contrasts if no formula is given
 # otherwise use given formula and contrasts
@@ -34,7 +38,10 @@ if (strcmp(Reduce(paste, deparse(formula)),"~1")) {
 	# otherwise use simple contrasts
 	if(strcmp(contrast[[1]],'group')){ 
 		res <- results(dds2, contrast=contrast, parallel=parallel, alpha=alpha)
- 		res <- lfcShrink(dds2, contrast=contrast, type="ashr", res=res)
+
+		if (lfcShrink) {
+ 			res <- lfcShrink(dds2, contrast=contrast, type=type, res=res)
+ 		}
  		# sort by p-value
  		res <- res[order(res$padj),]
  		# store results
@@ -44,7 +51,9 @@ if (strcmp(Reduce(paste, deparse(formula)),"~1")) {
  		write.table(as.data.frame(res), file=snakemake@output[["table"]])
 	}else{
 		res <- results(dds, contrast=contrast, parallel=parallel, alpha=alpha)
- 		res <- lfcShrink(dds, contrast=contrast, type="ashr",res=res)
+		if (lfcShrink) {
+ 			res <- lfcShrink(dds, contrast=contrast, type=type,res=res)
+ 		}
  		# sort by p-value
  		res <- res[order(res$padj),]
  		# store results
@@ -56,7 +65,9 @@ if (strcmp(Reduce(paste, deparse(formula)),"~1")) {
 }else{	
 
  	res <- results(dds, contrast=contrast, parallel=parallel, alpha=alpha)
- 	res <- lfcShrink(dds, contrast=contrast, res=res) ## only if user wants it. Will throw "LFC shrinkage type='normal' not implemented for designs with interactions"
+ 	if (lfcShrink) {
+ 		res <- lfcShrink(dds, contrast=contrast, res=res, type=type)
+ 	}
  	# sort by p-value
  	res <- res[order(res$padj),]
  	# store results
@@ -65,5 +76,3 @@ if (strcmp(Reduce(paste, deparse(formula)),"~1")) {
  	dev.off()
  	write.table(as.data.frame(res), file=snakemake@output[["table"]])
 }
-
-write.table(as.data.frame(sum(res$padj < alpha)), file=snakemake@output[["sumPadj"]])
