@@ -41,16 +41,11 @@ properties:
 
   diffexp:
     type: object
-    properties:
-      contrasts:
-        type: object
-    required:
-      - contrasts
 
   params:
     type: object
     properties:
-      star: 
+      star:
         type: string
       cutadapt-se:
         type: string

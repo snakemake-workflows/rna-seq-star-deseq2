@@ -1,3 +1,5 @@
-sample	condition
-A	treated
-B	untreated
+"sample"	"type"	"condition"
+"A"	"Single_read"	"treated"
+"B"	"Single_read"	"untreated"
+"C"	"Paired_end"	"treated"
+"D"	"Paired_end"	"untreated"

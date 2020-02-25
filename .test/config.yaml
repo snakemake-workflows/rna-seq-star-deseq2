@@ -24,7 +24,9 @@ diffexp:
     treated-vs-untreated:
       - treated
       - untreated
-
+    type:
+      - Single_read
+      - Paired_end
 
 params:
   star: ""

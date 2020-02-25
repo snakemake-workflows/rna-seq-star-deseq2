@@ -17,22 +17,93 @@ trimming:
 
 ref:
   # the STAR index
-  index: "path/to/star/index"
+  index: "data/ref/index"
   # gtf file with transcripts
-  annotation: "path/to/annotation.gtf"
+  annotation: "data/ref/annotation.chr21.gtf"
 
 pca:
+  # activate pca: false or true
+  activate: true
+  # you can choose between a transformation using either VST or rlog: VST or rlog
+  # rlog tends to work better for smaller data sets whereas VST is usually better for medium-to-large data sets
+  # default is rlog (VST needs at least 1000 genes)
+  transformation: rlog
   labels:
     # columns of sample sheet to use for PCA
     - condition
 
-diffexp:
-  # contrasts for the deseq2 results method
-  contrasts:
-    treated-vs-untreated:
-      - treated
-      - untreated
+meanSdPlot:
+  # activate meanSdPlot: false or true
+  activate: true
+    # you can choose between a variance stabilizing transformation using either norm or VST or rlog: norm or VST or rlog
+    # norm uses log2 with a pseudocount of 1 on normalized counts, rlog tends to work better for smaller data sets whereas VST is usually better for medium-to-large data sets
+    # default is norm (VST needs at least 1000 genes)
+  transformation: rlog
 
+heatmap:
+  # heatmap of the count matrix
+  # activate heatmap: false or true
+  activate: true
+
+dispersionPlot:
+  # Plots the dispersion estimates
+  # activate dispersionPlot: false or true
+  activate: true
+
+IndependentHypothesisWeighting:
+  # Following Plots are created for every contrast:
+  # - pvalHistogram
+  # - 2 additional diagonstic plots
+  # activate IndependentHypothesisWeighting: false or true
+  activate: true
+  # nominal level for FDR control
+  alpha: 0.1
+
+diffexp:
+  # The following will be mostly useful if you're unexperienced with designs
+  standard:
+    # creates useful contrasts for unexperienced users to work with
+    # If you want to use advanced and don't want duplicates of contrasts I'd recommend setting it to false
+    # createContrasts: false or true
+    createContrasts: true
+  # The following will be mostly useful if you already have some experience with designs (please keep it like this if you use standard)
+  advanced:
+    # log fold change shrinkage on results
+    lfcShrink:
+      # activate lfcShrink: false or true
+      activate: false
+      # possible types: normal (not for designs with interaction, i.e. : or * in designs), ashr
+      type: ashr
+    # alpha used for results and the corresponding MAplot
+    alpha: 0.1
+    # LRT with the ability to set a reduced model
+    time:
+      # are you testing for a Time Course Experiment: false or true
+      activate: false
+      # specify a reduced model for LRT, e.g. "design: ~ treatment + time + treatment:time" then you might want to use "reduced: ~ treatment + time"
+      reduced: ~ 1
+      # heatmap for time differences. Threshold for the color key range (has to be a numeric value) of the given heatmap
+      threshold: 5
+
+    # formula design for the DESeqDataSet
+    formula:
+      design: ~ 1
+      # enables group design by joining the factors: false or true
+      # If you choose this option, you will have to change the contrasts, since you will only get to use grouped contrasts
+      group: false
+
+    # contrasts for the deseq2 results method
+    contrasts:
+      # arbitrary-name:
+      #    - columnname
+      #    - effect1
+      #    - effect2
+      treated-vs-untreated:
+        - condition
+        - treated
+        - untreated
+
+# additional parameter arguments
 params:
   star: ""
   cutadapt-se: ""

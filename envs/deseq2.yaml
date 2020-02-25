@@ -1,6 +1,6 @@
 channels:
-  - bioconda
   - conda-forge
+  - bioconda
   - defaults
 dependencies:
   - r-base =3.4.1
@@ -22,6 +22,10 @@ dependencies:
   - bioconductor-tximport =1.6.0
   - bioconductor-xvector =0.18.0
   - bioconductor-zlibbioc =1.24.0
+  - bioconductor-vsn =3.38.0
+  - bioconductor-ihw =1.6.0
+  - bioconductor-apeglm =1.0.3
+  - r-pheatmap =1.0.8
   - r-acepack =1.4.1
   - r-backports =1.0.5
   - r-base64enc =0.1_3
@@ -44,11 +48,11 @@ dependencies:
   - r-futile.options =1.0.0
   - r-gdata =2.17.0
   - r-getopt =1.20.0
-  - r-ggplot2 =2.2.0
+  - r-ggplot2 =2.2.1
   - r-gplots =3.0.1
   - r-gridextra =2.2.1
   - r-gtable =0.2.0
-  - r-gtools =3.5.0
+  - r-ashr =2.0.5
   - r-highr =0.6
   - r-hmisc =4.0_3
   - r-htmltable =1.9
@@ -95,3 +99,6 @@ dependencies:
   - r-xml =3.98_1.6
   - r-xtable =1.8_2
   - r-yaml =2.1.14
+  - r-tidyverse =1.2.1
+  - r-pracma =2.1.5
+  - r-dplyr =0.7.4
