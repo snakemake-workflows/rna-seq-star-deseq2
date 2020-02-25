@@ -25,7 +25,7 @@ In any case, if you use this workflow in a paper, don't forget to give credits t
 #### Step 2: Configure workflow
 
 Configure the workflow according to your needs via editing the file `config.yaml`.
-See [guidance](https://github.com/Jukre111/rna-seq-star-deseq2/blob/master/Guidance.md)
+See [Guidance](https://github.com/Jukre111/rna-seq-star-deseq2/blob/master/Guidance.md)
 
 #### Step 3: Execute workflow
 
