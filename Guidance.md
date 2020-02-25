@@ -1,7 +1,7 @@
 # Guidance for the config.yaml
 Written by Julian Kremer (@jukre111)
 
-# This file was made to guide you through the config.yaml. The order is: 1. **Set up** 2.**Plot Options** 3.**Differential Expression Options**
+# This file was made to guide you through the config.yaml. The order is: 1. **Set up** 2. **Plot Options** 3. **Differential Expression Options**
 
 ## Set up
 
