@@ -1,5 +1,7 @@
-# Guidance
+# Guidance for the config.yaml
 Written by Julian Kremer (@jukre111)
+
+# This file was made to guide you through the config.yaml. The order is: 1. **Set up** 2.**Plot Options** 3.**Differential Expression Options**
 
 ## Set up
 
@@ -116,7 +118,7 @@ For more detail: [IHW-Package](http://bioconductor.org/packages/release/bioc/htm
 
 ## Differential Expression Options
 
-### Standard:  createContrasts
+### Standard:  createContrasts (for inexperienced users)
 Option:
 - createContrasts: enable or disable createContrasts
     - true
@@ -129,7 +131,7 @@ Option:
 
 For more detail: [DESeq2-Package](https://bioconductor.org/packages/release/bioc/html/DESeq2.html) and for the creation, estimateContrasts() in the Snakefile
 
-### Advanced:
+### Advanced: (for experienced users)
 
 #### lfcShrink 
 Options:
