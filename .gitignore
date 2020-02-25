@@ -21,3 +21,5 @@ scripts/.snakemake*
 !.gitattributes
 !.test
 !.test/data
+!report
+!report/*

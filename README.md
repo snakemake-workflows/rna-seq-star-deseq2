@@ -1,8 +1,6 @@
 # Snakemake workflow: rna-seq-star-deseq2
 
 [![Snakemake](https://img.shields.io/badge/snakemake-≥5.2.1-brightgreen.svg)](https://snakemake.bitbucket.io)
-[![Build Status](https://travis-ci.org/snakemake-workflows/rna-seq-star-deseq2.svg?branch=master)](https://travis-ci.org/snakemake-workflows/rna-seq-star-deseq2)
-[![Snakemake-Report](https://img.shields.io/badge/snakemake-report-green.svg)](https://cdn.rawgit.com/snakemake-workflows/rna-seq-star-deseq2/master/.test/report.html)
 
 This workflow performs a differential expression analysis with STAR and Deseq2.
 
@@ -11,6 +9,7 @@ This workflow performs a differential expression analysis with STAR and Deseq2.
 * Johannes Köster (@johanneskoester), https://koesterlab.github.io
 * Sebastian Schmeier (@sschmeier), https://sschmeier.com
 * Jose Maturana (@matrs)
+* Julian Kremer (@jukre111)
 
 ## Usage
 
@@ -26,6 +25,7 @@ In any case, if you use this workflow in a paper, don't forget to give credits t
 #### Step 2: Configure workflow
 
 Configure the workflow according to your needs via editing the file `config.yaml`.
+See [guidance](https://github.com/Jukre111/rna-seq-star-deseq2/blob/master/Guidance.md)
 
 #### Step 3: Execute workflow
 
@@ -46,12 +46,6 @@ or
     snakemake --use-conda --drmaa --jobs 100
 
 See the [Snakemake documentation](https://snakemake.readthedocs.io/en/stable/executable.html) for further details.
-
-If you not only want to fix the software stack but also the underlying OS, use
-
-    snakemake --use-conda --use-singularity
-
-in combination with any of the modes above.
 
 # Step 4: Investigate results
 

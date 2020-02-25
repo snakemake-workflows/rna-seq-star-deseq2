@@ -1,5 +1,3 @@
-"sample"	"time"	"condition"
-"A"	"4h"	"treated"
-"B"	"4h"	"untreated"
-"C"	"8h"	"treated"
-"D"	"8h"	"untreated"
+"sample"	"condition"
+"A"	"treated"
+"B"	"untreated"

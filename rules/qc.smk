@@ -161,5 +161,7 @@ rule multiqc:
         "qc/multiqc_report.html"
     log:
         "logs/multiqc.log"
+    conda:
+        "../envs/multiqc.yaml"
     wrapper:
         "0.36.0/bio/multiqc"

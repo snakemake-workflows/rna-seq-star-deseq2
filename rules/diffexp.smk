@@ -114,23 +114,6 @@ rule TimeCoursePlots:
     script:
         "../scripts/TimeCoursePlot.R"
 
-rule IHW:
-    input:
-        "deseq2/all.rds"
-    output:
-        IHWData=report("results/IHW.tsv", "../report/IHW.rst", category="IHW"),
-        IHWPlots=report("results/IHW.svg", "../report/IHW.rst", category="IHW"),
-        IHWPlots2=report("results/IHW2.svg", "../report/IHW2.rst", category="IHW"),
-        pvalHisto1=report("results/pvalHisto1.svg", "../report/pvalHisto.rst", category="IHW")
-    params:
-        IHWalpha=config["IndependentHypothesisWeighting"]["alpha"]
-    conda:
-        "../envs/deseq2.yaml"
-    log:
-        "logs/IHW.log"
-    script:
-        "../scripts/IHW.R"
-
 def get_contrast(wildcards):
     return config["diffexp"]["advanced"]["contrasts"][wildcards.contrast]
 
@@ -140,18 +123,24 @@ checkpoint deseq2:
         dds2="deseq2/all2.rds"
     output:
         table=report("results/diffexp/{contrast}.diffexp.tsv", "../report/diffexp.rst", category="Contrasts"),
-        ma_plot=report("results/diffexp/{contrast}.ma-plot.svg", "../report/ma.rst", category="Contrasts")
+        ma_plot=report("results/diffexp/{contrast}.ma-plot.svg", "../report/ma.rst", category="Contrasts"),
+        IHWData=report("results/diffexp/IHW/{contrast}IHW.tsv", "../report/IHW.rst", category="IHW") if config["IndependentHypothesisWeighting"]["activate"] else "",
+        IHWPlots=report("results/diffexp/IHW/{contrast}IHW.svg", "../report/IHW.rst", category="IHW") if config["IndependentHypothesisWeighting"]["activate"] else "",
+        IHWPlots2=report("results/diffexp/IHW/{contrast}IHW2.svg", "../report/IHW2.rst", category="IHW") if config["IndependentHypothesisWeighting"]["activate"] else "",
+        pvalHisto1=report("results/diffexp/IHW/{contrast}pvalHisto.svg", "../report/pvalHisto.rst", category="IHW") if config["IndependentHypothesisWeighting"]["activate"] else ""
     params:
         samples=config["samples"],
         formula=config["diffexp"]["advanced"]["formula"]["design"],
         contrast=get_contrast,
         alpha=config["diffexp"]["advanced"]["alpha"],
         lfcShrink=config["diffexp"]["advanced"]["lfcShrink"]["activate"],
-        lfcShrinkType=config["diffexp"]["advanced"]["lfcShrink"]["type"]
+        lfcShrinkType=config["diffexp"]["advanced"]["lfcShrink"]["type"],
+        IHWalpha=config["IndependentHypothesisWeighting"]["alpha"],
+        IHWactive=config["IndependentHypothesisWeighting"]["activate"]
     conda:
         "../envs/deseq2.yaml"
     log:
-        "logs/deseq2/{contrast}.diffexp.log"
+        "logs/deseq2/contrasts/{contrast}.diffexp.log"
     threads: get_deseq2_threads()
     script:
         "../scripts/deseq2.R"

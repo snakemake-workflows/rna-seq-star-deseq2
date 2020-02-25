@@ -11,7 +11,6 @@ dds <- readRDS(snakemake@input[[1]])
 
 transformation <- snakemake@params[["transformation"]]
 
-#obtain normalized counts
 if(strcmp(transformation,"rlog")){
 	rld <- rlog(dds, blind=FALSE)
 	svg(snakemake@output[[1]])

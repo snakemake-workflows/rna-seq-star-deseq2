@@ -45,6 +45,8 @@ if (strcmp(Reduce(paste, deparse(formula)),"~1")) {
 	design(dds2) <- ~ group
    	dds2 <- DESeq(dds2, parallel=parallel)
 	saveRDS(dds2, file=snakemake@output[["dds2"]])
+}else{
+  saveRDS(dds, file=snakemake@output[["dds2"]])
 }
 
 # group

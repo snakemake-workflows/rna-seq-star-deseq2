@@ -10,7 +10,7 @@ shell.executable("/bin/bash")
 configfile: "config.yaml"
 validate(config, schema="schemas/config.schema.yaml")
 
-samples = pd.read_table(config["samples"]).set_index("sample", drop=False)
+samples = pd.read_table(config["samples"]).set_index("sample", drop=False).astype(str)
 validate(samples, schema="schemas/samples.schema.yaml")
 
 units = pd.read_table(config["units"], dtype=str).set_index(["sample", "unit"], drop=False)
@@ -77,9 +77,11 @@ def additionalInput():
     if config["dispersionPlot"]["activate"]:
         input.extend(expand("results/dispersionPlot.svg"))
     if config["IndependentHypothesisWeighting"]["activate"]:
-        input.extend(expand("results/IHW.svg"))
-        input.extend(expand("results/IHW2.svg"))
-        input.extend(expand("results/pvalHisto1.svg"))
+        input.extend(expand(["results/diffexp/IHW/{contrast}IHW.tsv",
+                        "results/diffexp/IHW/{contrast}IHW.svg",
+                        "results/diffexp/IHW/{contrast}IHW2.svg",
+                        "results/diffexp/IHW/{contrast}pvalHisto.svg"],
+                       contrast=config["diffexp"]["advanced"]["contrasts"]))
     if config["diffexp"]["advanced"]["time"]["activate"]:
         input.extend(expand("results/heatmapTime.svg"))
     return input

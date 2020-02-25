@@ -24,14 +24,13 @@ ref:
 pca:
   # activate pca: false or true
   activate: true
-  # you can choose between a variance stabilizing transformation using either VST or rlog: VST or rlog
+  # you can choose between a transformation using either VST or rlog: VST or rlog
   # rlog tends to work better for smaller data sets whereas VST is usually better for medium-to-large data sets
   # default is rlog (VST needs at least 1000 genes)
   transformation: rlog
   labels:
     # columns of sample sheet to use for PCA
     - condition
-    - time
 
 meanSdPlot:
   # activate meanSdPlot: false or true
@@ -39,7 +38,7 @@ meanSdPlot:
     # you can choose between a variance stabilizing transformation using either norm or VST or rlog: norm or VST or rlog
     # norm uses log2 with a pseudocount of 1 on normalized counts, rlog tends to work better for smaller data sets whereas VST is usually better for medium-to-large data sets
     # default is norm (VST needs at least 1000 genes)
-  transformation: norm
+  transformation: rlog
 
 heatmap:
   # heatmap of the count matrix
@@ -52,12 +51,13 @@ dispersionPlot:
   activate: true
 
 IndependentHypothesisWeighting:
-  # Creates a pvalHistogram
-  # This function creates a few diagonstic plots
+  # Following Plots are created for every contrast:
+  # - pvalHistogram
+  # - 2 additional diagonstic plots
   # activate IndependentHypothesisWeighting: false or true
   activate: true
   # nominal level for FDR control
-  alpha: 0.05
+  alpha: 0.1
 
 diffexp:
   # The following will be mostly useful if you're unexperienced with designs
@@ -72,9 +72,9 @@ diffexp:
     lfcShrink:
       # activate lfcShrink: false or true
       activate: false
-      # possible types: normal, apeglm, ashr
-      type: apeglm
-    # alpha used for results, if not changed, it will always use 0.1
+      # possible types: normal (not for designs with interaction, i.e. : or * in designs), ashr
+      type: ashr
+    # alpha used for results and the corresponding MAplot
     alpha: 0.1
     # LRT with the ability to set a reduced model
     time:
@@ -82,7 +82,7 @@ diffexp:
       activate: false
       # specify a reduced model for LRT, e.g. "design: ~ treatment + time + treatment:time" then you might want to use "reduced: ~ treatment + time"
       reduced: ~ 1
-      # threshold for the color key range (has to be a numeric value)
+      # heatmap for time differences. Threshold for the color key range (has to be a numeric value) of the given heatmap
       threshold: 5
 
     # formula design for the DESeqDataSet
@@ -94,12 +94,14 @@ diffexp:
 
     # contrasts for the deseq2 results method
     contrasts:
+      # arbitrary-name:
+      #    - columnname
+      #    - effect1
+      #    - effect2
       treated-vs-untreated:
+        - condition
         - treated
         - untreated
-      4h-vs-8h:
-        - 4h
-        - 8h
 
 # additional parameter arguments
 params:
