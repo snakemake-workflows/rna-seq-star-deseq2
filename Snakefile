@@ -26,8 +26,9 @@ def getSimpleContrasts(columns,rows):
     # simple Contrasts e.g. treated vs untreated
     for key in columns: # n*(n-1)/2 combinations
         for values in itertools.combinations(rows[i],2):
-            name=values[0]+"-vs-"+values[1]
-            simpleContrasts[name]=[key,values[0],values[1]]
+            if values[0]!=values[1]:
+                name=values[0]+"-vs-"+values[1]
+                simpleContrasts[name]=[key,values[0],values[1]]
         i+=1
     return simpleContrasts
 
@@ -41,8 +42,9 @@ def getComplexContrasts(columns):
         complexRows.append(string)
     # complex Contrasts e.g. 4hourstreated vs 8hourstreated
     for values in itertools.combinations(complexRows,2): # n*(n-1)/2 combinations
-        name=values[0]+"-vs-"+values[1]
-        complexContrasts[name]=['group',values[0],values[1]]
+        if values[0]!=values[1]:
+            name=values[0]+"-vs-"+values[1]
+            complexContrasts[name]=['group',values[0],values[1]]
     return complexContrasts
 
 def estimateContrasts():
