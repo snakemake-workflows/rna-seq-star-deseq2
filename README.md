@@ -1,7 +1,7 @@
 # Snakemake workflow: rna-seq-star-deseq2
 
 [![Snakemake](https://img.shields.io/badge/snakemake-≥5.2.1-brightgreen.svg)](https://snakemake.bitbucket.io)
-
+[![DOI](https://zenodo.org/badge/220815538.svg)](https://zenodo.org/badge/latestdoi/220815538)
 This workflow performs a differential expression analysis with STAR and Deseq2.
 
 ## Authors
