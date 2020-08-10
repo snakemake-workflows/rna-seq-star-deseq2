@@ -1,0 +1,52 @@
+# path or URL to sample sheet (TSV format, columns: sample, condition, ...)
+samples: samples.tsv
+# path or URL to sequencing unit sheet (TSV format, columns: sample, unit, fq1, fq2)
+# Units are technical replicates (e.g. lanes, or resequencing of the same biological
+# sample).
+units: units.tsv
+
+# the sequencing adapter
+adapter: ACGGATCGATCGATCGATCGAT
+
+ref:
+  # Number of chromosomes to consider for calling.
+  # The first n entries of the FASTA will be considered.
+  n_chromosomes: 25
+  # Ensembl species name
+  species: homo_sapiens
+  # Ensembl release (make sure to take one where snpeff data is available, check 'snpEff databases' output)
+  release: 100
+  # Genome build
+  build: GRCh38
+
+pca:
+  activate: false
+  labels:
+    # columns of sample sheet to use for PCA
+    - condition
+
+diffexp:
+  activate: false
+  # contrasts for the deseq2 results method
+  contrasts:
+    treated-vs-untreated:
+      - treated
+      - untreated
+
+fusion:
+  arriba:
+    activate: true
+    blacklist: "config/arriba_blacklist.txt"
+
+params:
+  # Is the sequencing data strand-specific? Can be no, yes, reverse. Default is 'no'.
+  # Check https://physiology.med.cornell.edu/faculty/skrabanek/lab/angsd/lecture_notes/STARmanual.pdf
+  strand-specific: no
+  # Recommended STAR params from arriba (link)
+  star: "--outSAMtype BAM Unsorted --chimSegmentMin 10 --chimOutType WithinBAM SoftClip"
+        " --chimJunctionOverhangMin 10 --chimScoreMin 1 --chimScoreDropMax 30 --chimScoreJunctionNonGTAG 0"
+        " --chimScoreSeparation 1 --alignSJstitchMismatchNmax 5 -1 5 5 --chimSegmentReadGapMax 3"
+  cutadapt-se: ""
+  cutadapt-pe: ""
+  fusion:
+    arriba: "-T -P"
