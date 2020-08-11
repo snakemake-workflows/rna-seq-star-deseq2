@@ -2,7 +2,7 @@ $schema: "http://json-schema.org/draft-06/schema#"
 
 description: an entry in the sample sheet
 properties:
-  sample:
+  sample_name:
     type: string
     description: sample name/identifier
   condition:
@@ -10,5 +10,5 @@ properties:
     description: sample condition that will be compared during differential expression analysis (e.g. a treatment, a tissue time, a disease)
 
 required:
-  - sample
+  - sample_name
   - condition

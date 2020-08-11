@@ -9,62 +9,88 @@ properties:
     type: string
   units:
     type: string
-  adapter:
-    type: string
-    pattern: "^[ACGT]+$"
 
   ref:
     type: object
     properties:
-      genome:
+      n_chromosomes:
+        type: integer
+      species:
         type: string
-      index:
-        type: string
-      annotation:
-        type: string
-      metainfo:
+      release:
+        type: integer
+      build:
         type: string
     required:
-      - index
-      - annotation
+    required:
+      - species
+      - release
+      - build
+      - n_chromosomes
 
   pca:
     type: object
     properties:
+      activate:
+       type: boolean
       labels:
         type: array
         items:
           type: string
     required:
       - labels
+      - activate
 
   diffexp:
     type: object
     properties:
+      activate:
+       type: boolean
       contrasts:
         type: object
     required:
+      - activate
       - contrasts
+
+  fusion:
+    type: object
+    properties:
+      arriba:
+        type: object
+        properties:
+          activate:
+            type: boolean
+          blacklist:
+            type: string
+        blacklist:
+          - activate
+          - params
 
   params:
     type: object
     properties:
+      strand-specific:
+        type: string
       star: 
         type: string
       cutadapt-se:
         type: string
       cutadapt-pe:
         type: string
+      arriba:
+        type: string
     required:
       - star
       - cutadapt-se
       - cutadapt-pe
+      - arriba
+      - strand-specific
 
 required:
   - samples
   - units
-  - adapter
   - ref
   - pca
   - diffexp
+  - fusion
   - params

@@ -1,11 +1,11 @@
-$schema: "http://json-schema.org/draft-06/schema#"
+$schema: "http://json-schema.org/draft-04/schema#"
 description: row of the units.tsv, representing a sequencing unit, i.e. single-end or paired-end data
 type: object
 properties:
-  sample:
+  sample_name:
     type: string
     description: sample name/id the unit has been sequenced from
-  unit:
+  unit_name:
     type: string
     description: unit id
   fq1:
@@ -14,7 +14,13 @@ properties:
   fq2:
     type: string
     description: path to second FASTQ file (leave empty in case of single-end)
+  sra:
+    type: string
+    description: SRA id for automatic download of unit
+  adapters:
+    type: string
+    description: adapter trimming settings to use (for cutadapt)
+
 required:
-  - sample
-  - unit
-  - fq1
+  - sample_name
+  - unit_name

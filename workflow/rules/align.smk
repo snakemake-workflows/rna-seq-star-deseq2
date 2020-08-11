@@ -5,8 +5,8 @@ rule align:
         index="resources/star_genome"
     output:
         # see STAR manual for additional output files
-        "star/{sample}/Aligned.out.bam",
-        "star/{sample}/ReadsPerGene.out.tab"
+        "results/star/{sample}/Aligned.out.bam",
+        "results/star/{sample}/ReadsPerGene.out.tab"
     log:
         "logs/star/{sample}.log"
     params:

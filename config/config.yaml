@@ -5,8 +5,6 @@ samples: samples.tsv
 # sample).
 units: units.tsv
 
-# the sequencing adapter
-adapter: ACGGATCGATCGATCGATCGAT
 
 ref:
   # Number of chromosomes to consider for calling.

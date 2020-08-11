@@ -1,8 +1,8 @@
 rule count_matrix:
     input:
-        expand("star/{unit.sample}/ReadsPerGene.out.tab", unit=units.itertuples())
+        expand("results/star/{unit.sample}/ReadsPerGene.out.tab", unit=units.itertuples())
     output:
-        "counts/all.tsv"
+        "results/counts/all.tsv"
     params:
         units=units,
         ## Is the sequencing data strand-specific? Can be no, yes, reverse. Default is 'no'.
@@ -35,9 +35,9 @@ def get_deseq2_threads(wildcards=None):
 
 rule deseq2_init:
     input:
-        counts="counts/all.tsv"
+        counts="results/counts/all.tsv"
     output:
-        "deseq2/all.rds"
+        "results/deseq2/all.rds"
     params:
         samples=config["samples"],
         model=config["diffexp"]["model"]
@@ -52,7 +52,7 @@ rule deseq2_init:
 
 rule pca:
     input:
-        "deseq2/all.rds"
+        "results/deseq2/all.rds"
     output:
         report("results/pca.svg", "../report/pca.rst")
     params:
@@ -71,7 +71,7 @@ def get_contrast(wildcards):
 
 rule deseq2:
     input:
-        "deseq2/all.rds"
+        "results/deseq2/all.rds"
     output:
         table=report("results/diffexp/{contrast}.diffexp.tsv", "../report/diffexp.rst"),
         ma_plot=report("results/diffexp/{contrast}.ma-plot.svg", "../report/ma.rst"),
