@@ -8,7 +8,7 @@ col = count_columns[strand_specific]
 counts = [pd.read_table(f, index_col=0, usecols=[0, col], header=None, skiprows=4)
           for f in snakemake.input]
 
-for t, (sample, unit) in zip(counts, snakemake.params.units.index):
+for t, sample in zip(counts, snakemake.params.samples):
     t.columns = [sample]
 
 matrix = pd.concat(counts, axis=1)

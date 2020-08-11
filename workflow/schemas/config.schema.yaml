@@ -16,9 +16,13 @@ properties:
   ref:
     type: object
     properties:
+      genome:
+        type: string
       index:
         type: string
       annotation:
+        type: string
+      metainfo:
         type: string
     required:
       - index
