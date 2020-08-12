@@ -48,6 +48,8 @@ properties:
        type: boolean
       contrasts:
         type: object
+      model:
+        type: string
     required:
       - activate
       - contrasts
@@ -69,22 +71,16 @@ properties:
   params:
     type: object
     properties:
-      strand-specific:
-        type: string
       star: 
         type: string
-      cutadapt-se:
-        type: string
-      cutadapt-pe:
+      cutadapt:
         type: string
       arriba:
         type: string
     required:
       - star
-      - cutadapt-se
-      - cutadapt-pe
+      - cutadapt
       - arriba
-      - strand-specific
 
 required:
   - samples

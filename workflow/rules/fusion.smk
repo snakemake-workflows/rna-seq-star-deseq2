@@ -4,16 +4,16 @@ rule arriba:
         genome="resources/genome.fasta",
         annotation="resources/genome.gtf"
     output:
-        fusions="results/arriba/{sample}.fusions.tsv",
-        discarded="results/arriba/{sample}.fusions.discarded.tsv"
+        fusions="results/fusion/arriba/{sample}.fusions.tsv",
+        discarded="results/fusion/arriba/{sample}.fusions.discarded.tsv"
     params:
         blacklist=config["fusion"]["arriba"]["blacklist"],
-        extra=config["params"]["fusion"]["arriba"]
+        extra=config["params"]["arriba"]
     log:
         "results/logs/arriba/{sample}.log"
     threads: 1
     wrapper:
-        "0.64.1/bio/arriba"
+        "0.64.0/bio/arriba"
         
 ## TODO: Update
 # rule fusioncatcher:

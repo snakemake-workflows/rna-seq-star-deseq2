@@ -19,7 +19,7 @@ coldata <- read.table(snakemake@params[["samples"]], header=TRUE, row.names="sam
 
 dds <- DESeqDataSetFromMatrix(countData=cts,
                               colData=coldata,
-                              design=~ snakemake@params[["model"]])
+                              design=snakemake@params[["model"]])
 
 # remove uninformative columns
 dds <- dds[ rowSums(counts(dds)) > 1, ]

@@ -1,7 +1,7 @@
 rule align:
     input:
-        fq1=get_map_reads1_input,
-        fq2=get_map_reads2_input,
+        fq1=get_map_reads_input_R1,
+        fq2=get_map_reads_input_R2,
         index="resources/star_genome"
     output:
         # see STAR manual for additional output files

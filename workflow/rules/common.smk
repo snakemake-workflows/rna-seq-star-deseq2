@@ -13,7 +13,7 @@ samples = pd.read_csv(config["samples"], sep="\t", dtype={"sample_name": str}).s
 def get_final_output():
     if config["diffexp"]["activate"]:
         final_output = expand("results/diffexp/{contrast}.diffexp.tsv",
-                        contrast=config["diffexp"]["contrasts"])),
+                        contrast=config["diffexp"]["contrasts"])
     else:
         final_output = "results/counts/all.tsv",
     return final_output
@@ -23,11 +23,12 @@ validate(samples, schema="../schemas/samples.schema.yaml")
 units = pd.read_csv(config["units"], sep="\t", dtype={"sample_name": str, "unit_name": str}).set_index(["sample_name", "unit_name"], drop=False).sort_index()
 validate(units, schema="../schemas/units.schema.yaml")
 
-def get_fusion_output:
+def get_fusion_output():
     if config["fusion"]["arriba"]["activate"]:
-        fusion_output = expand("results/fusion/arriba/{sample}.fusions.tsv")
+        fusion_output = expand("results/fusion/arriba/{sample}.fusions.tsv", sample=samples.sample_name)
     else:
         fusion_output = ""
+    return fusion_output
 
 def get_cutadapt_input(wildcards):
     unit = units.loc[wildcards.sample].loc[wildcards.unit]

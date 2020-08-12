@@ -1,30 +1,35 @@
+def get_strandness(units):
+    if "strandedness" in units.columns:
+        return units["strandedness"].tolist()
+    else:
+        strand_list=["none"]
+        return strand_list*units.shape[0]
+
 rule count_matrix:
     input:
-        expand("results/star/{unit.sample}/ReadsPerGene.out.tab", unit=units.itertuples())
+        expand("results/star/{unit.sample_name}/ReadsPerGene.out.tab", unit=units.itertuples())
     output:
         "results/counts/all.tsv"
     params:
-        units=units,
-        ## Is the sequencing data strand-specific? Can be no, yes, reverse. Default is 'no'.
-        ## Check https://physiology.med.cornell.edu/faculty/skrabanek/lab/angsd/lecture_notes/STARmanual.pdf
-        strand=config["params"]["strand-specific"]
+        samples=units["sample_name"].tolist(),
+        strand=get_strandness(units)
     conda:
         "../envs/pandas.yaml"
     script:
         "../scripts/count-matrix.py"
 
 
-rule add_metainfo:
-    input:
-        "{table}.tsv"
-    output:
-        "{table}.info.tsv"
-    params:
-        genetype=config["ref"]["metainfo"]
-    conda:
-        "../envs/pandas.yaml"
-    script:
-        "../scripts/add_metainfo.py"
+# rule add_metainfo:
+#     input:
+#         "{table}.tsv"
+#     output:
+#         "{table}.info.tsv"
+#     params:
+#         genetype=config["ref"]["metainfo"]
+#     conda:
+#         "../envs/pandas.yaml"
+#     script:
+#         "../scripts/add_metainfo.py"
 
 
 def get_deseq2_threads(wildcards=None):

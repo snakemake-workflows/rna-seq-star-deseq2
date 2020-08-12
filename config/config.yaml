@@ -1,9 +1,9 @@
 # path or URL to sample sheet (TSV format, columns: sample, condition, ...)
-samples: samples.tsv
+samples: config/samples.tsv
 # path or URL to sequencing unit sheet (TSV format, columns: sample, unit, fq1, fq2)
 # Units are technical replicates (e.g. lanes, or resequencing of the same biological
 # sample).
-units: units.tsv
+units: config/units.tsv
 
 
 ref:
@@ -30,21 +30,15 @@ diffexp:
     treated-vs-untreated:
       - treated
       - untreated
+  model: ~condition
 
 fusion:
   arriba:
     activate: true
-    blacklist: "config/arriba_blacklist.txt"
+    blacklist: "config/arriba_blacklist_hg38.tsv.gz"
 
 params:
-  # Is the sequencing data strand-specific? Can be no, yes, reverse. Default is 'no'.
-  # Check https://physiology.med.cornell.edu/faculty/skrabanek/lab/angsd/lecture_notes/STARmanual.pdf
-  strand-specific: no
   # Recommended STAR params from arriba (link)
-  star: "--outSAMtype BAM Unsorted --chimSegmentMin 10 --chimOutType WithinBAM SoftClip"
-        " --chimJunctionOverhangMin 10 --chimScoreMin 1 --chimScoreDropMax 30 --chimScoreJunctionNonGTAG 0"
-        " --chimScoreSeparation 1 --alignSJstitchMismatchNmax 5 -1 5 5 --chimSegmentReadGapMax 3"
-  cutadapt-se: ""
-  cutadapt-pe: ""
-  fusion:
-    arriba: "-T -P"
+  star: "--outSAMtype BAM Unsorted --chimSegmentMin 10 --chimOutType WithinBAM SoftClip --chimJunctionOverhangMin 10 --chimScoreMin 1 --chimScoreDropMax 30 --chimScoreJunctionNonGTAG 0 --chimScoreSeparation 1 --alignSJstitchMismatchNmax 5 -1 5 5 --chimSegmentReadGapMax 3"
+  cutadapt: "--minimum-length 1"
+  arriba: "-T -P"
