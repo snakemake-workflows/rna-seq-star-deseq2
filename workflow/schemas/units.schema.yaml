@@ -20,6 +20,9 @@ properties:
   adapters:
     type: string
     description: adapter trimming settings to use (for cutadapt)
+  strandedness:
+    type: string
+    description: one of the values 'none', 'yes' or 'reverse' according to protocol strandedness
 
 required:
   - sample_name
