@@ -22,11 +22,17 @@ properties:
       build:
         type: string
     required:
-    required:
       - species
       - release
       - build
       - n_chromosomes
+
+  trimming:
+    type: object
+    properties:
+      activate: bool
+    required:
+      - activate
 
   pca:
     type: object
@@ -90,3 +96,4 @@ required:
   - diffexp
   - fusion
   - params
+  - trimming

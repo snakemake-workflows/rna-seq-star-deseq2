@@ -17,6 +17,9 @@ ref:
   # Genome build
   build: GRCh38
 
+trimming:
+  activate: false
+
 pca:
   activate: false
   labels:
