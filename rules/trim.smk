@@ -10,7 +10,8 @@ rule cutadapt_pe:
         fastq2="trimmed/{sample}-{unit}.2.fastq.gz",
         qc="trimmed/{sample}-{unit}.qc.txt"
     params:
-        "-a {} {}".format(config["trimming"]["adapter"], config["params"]["cutadapt-pe"])
+        adapters="-a {} ".format(config["trimming"]["adapter"]),
+        others=config["params"]["cutadapt-pe"]
     log:
         "logs/cutadapt/{sample}-{unit}.log"
     wrapper:
