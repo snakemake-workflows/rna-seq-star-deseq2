@@ -5,3 +5,4 @@ channels:
 dependencies:
   - bioconductor-deseq2 =1.28.0
   - bioconductor-biocparallel =1.22.0
+  - r-ashr =2.2_47
