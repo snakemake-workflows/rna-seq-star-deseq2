@@ -14,6 +14,7 @@ rule cutadapt_pe:
         others=config["params"]["cutadapt-pe"]
     log:
         "logs/cutadapt/{sample}-{unit}.log"
+    threads: 24
     wrapper:
         "0.66.0/bio/cutadapt/pe"
 
@@ -28,5 +29,6 @@ rule cutadapt:
         "-a {} {}".format(config["trimming"]["adapter"], config["params"]["cutadapt-se"])
     log:
         "logs/cutadapt/{sample}-{unit}.log"
+    threads: 24
     wrapper:
         "0.66.0/bio/cutadapt/se"
