@@ -18,16 +18,16 @@ ref:
   build: GRCh38
 
 trimming:
-  activate: false
+  activate: False
 
 pca:
-  activate: false
+  activate: False
   labels:
     # columns of sample sheet to use for PCA
     - condition
 
 diffexp:
-  activate: false
+  activate: False
   # contrasts for the deseq2 results method
   contrasts:
     treated-vs-untreated:
@@ -37,7 +37,7 @@ diffexp:
 
 fusion:
   arriba:
-    activate: true
+    activate: True
     blacklist: "config/arriba_blacklist_hg38.tsv.gz"
 
 params:

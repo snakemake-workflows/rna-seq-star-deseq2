@@ -30,7 +30,8 @@ properties:
   trimming:
     type: object
     properties:
-      activate: bool
+      activate:
+        type: boolean
     required:
       - activate
 
@@ -70,9 +71,9 @@ properties:
             type: boolean
           blacklist:
             type: string
-        blacklist:
+        required:
           - activate
-          - params
+
 
   params:
     type: object
