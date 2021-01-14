@@ -4,28 +4,32 @@ def get_fastq(wildcards):
 
 rule cutadapt_pe:
     input:
-        get_fastq
+        get_fastq,
     output:
         fastq1="trimmed/{sample}-{unit}.1.fastq.gz",
         fastq2="trimmed/{sample}-{unit}.2.fastq.gz",
-        qc="trimmed/{sample}-{unit}.qc.txt"
+        qc="trimmed/{sample}-{unit}.qc.txt",
     params:
-        "-a {} {}".format(config["trimming"]["adapter"], config["params"]["cutadapt-pe"])
+        "-a {} {}".format(
+            config["trimming"]["adapter"], config["params"]["cutadapt-pe"]
+        ),
     log:
-        "logs/cutadapt/{sample}-{unit}.log"
+        "logs/cutadapt/{sample}-{unit}.log",
     wrapper:
         "0.17.4/bio/cutadapt/pe"
 
 
 rule cutadapt:
     input:
-        get_fastq
+        get_fastq,
     output:
         fastq="trimmed/{sample}-{unit}.fastq.gz",
-        qc="trimmed/{sample}-{unit}.qc.txt"
+        qc="trimmed/{sample}-{unit}.qc.txt",
     params:
-        "-a {} {}".format(config["trimming"]["adapter"], config["params"]["cutadapt-se"])
+        "-a {} {}".format(
+            config["trimming"]["adapter"], config["params"]["cutadapt-se"]
+        ),
     log:
-        "logs/cutadapt/{sample}-{unit}.log"
+        "logs/cutadapt/{sample}-{unit}.log",
     wrapper:
         "0.17.4/bio/cutadapt/se"
