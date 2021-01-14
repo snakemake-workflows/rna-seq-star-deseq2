@@ -41,12 +41,12 @@ rule all:
         "qc/multiqc_report.html",
 
 
-##### setup singularity #####
+##### setup container #####
 
 
-# this container defines the underlying OS for each job when using the workflow
+# this container image defines the underlying OS for each job when using the workflow
 # with --use-conda --use-singularity
-singularity: "docker://continuumio/miniconda3"
+container: "docker://continuumio/miniconda3"
 
 
 ##### setup report #####

@@ -26,7 +26,7 @@ rule rseqc_junction_annotation:
         "logs/rseqc/rseqc_junction_annotation/{sample}-{unit}.log",
     params:
         extra=r"-q 255",  # STAR uses 255 as a score for unique mappers
-        prefix="qc/rseqc/{sample}-{unit}.junctionanno",
+        prefix=lambda w, output: strip_suffix(output[0], ".junction.bed"),
     conda:
         "../envs/rseqc.yaml"
     shell:
@@ -45,7 +45,9 @@ rule rseqc_junction_saturation:
         "logs/rseqc/rseqc_junction_saturation/{sample}-{unit}.log",
     params:
         extra=r"-q 255",
-        prefix="qc/rseqc/{sample}-{unit}.junctionsat",
+        prefix=lambda w, output: strip_suffix(
+            output[0], ".junctionSaturation_plot.pdf"
+        ),
     conda:
         "../envs/rseqc.yaml"
     shell:
@@ -92,7 +94,7 @@ rule rseqc_innerdis:
     log:
         "logs/rseqc/rseqc_innerdis/{sample}-{unit}.log",
     params:
-        prefix="qc/rseqc/{sample}-{unit}.inner_distance_freq",
+        prefix=lambda w, output: strip_suffix(output[0], ".inner_distance.txt"),
     conda:
         "../envs/rseqc.yaml"
     shell:
@@ -123,7 +125,7 @@ rule rseqc_readdup:
     log:
         "logs/rseqc/rseqc_readdup/{sample}-{unit}.log",
     params:
-        prefix="qc/rseqc/{sample}-{unit}.readdup",
+        prefix=lambda w, output: strip_suffix(output[0], ".DupRate_plot.pdf"),
     conda:
         "../envs/rseqc.yaml"
     shell:
@@ -139,7 +141,7 @@ rule rseqc_readgc:
     log:
         "logs/rseqc/rseqc_readgc/{sample}-{unit}.log",
     params:
-        prefix="qc/rseqc/{sample}-{unit}.readgc",
+        prefix=lambda w, output: strip_suffix(output[0], ".GC_plot.pdf"),
     conda:
         "../envs/rseqc.yaml"
     shell:

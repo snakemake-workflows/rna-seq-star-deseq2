@@ -1,7 +1,3 @@
-def get_fastq(wildcards):
-    return units.loc[(wildcards.sample, wildcards.unit), ["fq1", "fq2"]].dropna()
-
-
 rule cutadapt_pe:
     input:
         get_fastq,
