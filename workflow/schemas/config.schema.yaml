@@ -34,6 +34,14 @@ properties:
         type: boolean
     required:
       - activate
+  
+  mergeReads:
+    type: object
+    properties:
+      activate:
+        type: boolean
+    required:
+      - activate
 
   pca:
     type: object
@@ -51,43 +59,26 @@ properties:
   diffexp:
     type: object
     properties:
-      activate:
-       type: boolean
       contrasts:
         type: object
       model:
         type: string
     required:
-      - activate
       - contrasts
-
-  fusion:
-    type: object
-    properties:
-      arriba:
-        type: object
-        properties:
-          activate:
-            type: boolean
-          blacklist:
-            type: string
-        required:
-          - activate
-
 
   params:
     type: object
     properties:
+      cutadapt-pe:
+        type: string
+      cutadapt-se:
+        type: string
       star: 
         type: string
-      cutadapt:
-        type: string
-      arriba:
-        type: string
     required:
+      - cutadapt-pe
+      - cutadapt-se
       - star
-      - cutadapt
-      - arriba
 
 required:
   - samples
@@ -95,6 +86,6 @@ required:
   - ref
   - pca
   - diffexp
-  - fusion
   - params
   - trimming
+  - mergeReads

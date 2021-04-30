@@ -19,14 +19,12 @@ include: "rules/ref.smk"
 include: "rules/trim.smk"
 include: "rules/align.smk"
 include: "rules/diffexp.smk"
-include: "rules/fusion.smk"
 
 ##### target rules #####
 
 rule all:
     input:
-        get_final_output(),
-        get_fusion_output()
+        get_final_output()
 
 
 

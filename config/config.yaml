@@ -20,6 +20,9 @@ ref:
 trimming:
   activate: False
 
+mergeReads:
+  activate: False
+
 pca:
   activate: False
   labels:
@@ -27,7 +30,6 @@ pca:
     - condition
 
 diffexp:
-  activate: False
   # contrasts for the deseq2 results method
   contrasts:
     treated-vs-untreated:
@@ -35,13 +37,8 @@ diffexp:
       - untreated
   model: ~condition
 
-fusion:
-  arriba:
-    activate: True
-    blacklist: "config/arriba_blacklist_hg38.tsv.gz"
-
 params:
+  cutadapt-pe: ""
+  cutadapt-se: ""
   # Recommended STAR params from arriba (link)
-  star: "--outSAMtype BAM Unsorted --chimSegmentMin 10 --chimOutType WithinBAM SoftClip --chimJunctionOverhangMin 10 --chimScoreMin 1 --chimScoreDropMax 30 --chimScoreJunctionNonGTAG 0 --chimScoreSeparation 1 --alignSJstitchMismatchNmax 5 -1 5 5 --chimSegmentReadGapMax 3"
-  cutadapt: "--minimum-length 1"
-  arriba: "-T -P"
+  star: ""
