@@ -25,7 +25,7 @@ rule rseqc_junction_annotation:
     log:
         "logs/rseqc/rseqc_junction_annotation/{sample}-{unit}.log",
     params:
-        extra=r"-q 255",  # STAR uses 255 as a score for unique mappers
+        extra=r"-q 255", # STAR uses 255 as a score for unique mappers
         prefix=lambda w, output: strip_suffix(output[0], ".junction.bed"),
     conda:
         "../envs/rseqc.yaml"
@@ -151,7 +151,8 @@ rule rseqc_readgc:
 rule multiqc:
     input:
         expand(
-            "results/star/{unit.sample}-{unit.unit}/Aligned.out.bam", unit=units.itertuples()
+            "results/star/{unit.sample}-{unit.unit}/Aligned.out.bam",
+            unit=units.itertuples(),
         ),
         expand(
             "results/qc/rseqc/{unit.sample}-{unit.unit}.junctionanno.junction.bed",
@@ -165,7 +166,10 @@ rule multiqc:
             "results/qc/rseqc/{unit.sample}-{unit.unit}.infer_experiment.txt",
             unit=units.itertuples(),
         ),
-        expand("results/qc/rseqc/{unit.sample}-{unit.unit}.stats.txt", unit=units.itertuples()),
+        expand(
+            "results/qc/rseqc/{unit.sample}-{unit.unit}.stats.txt",
+            unit=units.itertuples(),
+        ),
         expand(
             "results/qc/rseqc/{unit.sample}-{unit.unit}.inner_distance_freq.inner_distance.txt",
             unit=units.itertuples(),
