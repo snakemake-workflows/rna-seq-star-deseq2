@@ -11,7 +11,7 @@ rule align_pe:
         "logs/star-pe/{sample}-{unit}.log"
     params:
         # path to STAR reference genome index
-        index="resources/star_genome",
+        index=lambda wc, input: input.index,
         # optional parameters
         extra="--quantMode GeneCounts --sjdbGTFfile {} {}".format(
               "resources/genome.gtf", config["params"]["star"])
@@ -31,7 +31,7 @@ rule align_se:
         "logs/star-se/{sample}-{unit}.log"
     params:
         # path to STAR reference genome index
-        index="resources/star_genome",
+        index=lambda wc, input: input.index,
         # optional parameters
         extra="--quantMode GeneCounts --sjdbGTFfile {} {}".format(
               "resources/genome.gtf", config["params"]["star"])
