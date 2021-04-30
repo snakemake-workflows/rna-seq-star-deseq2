@@ -134,9 +134,3 @@ def get_fastqs(wc):
 
 def get_contrast(wildcards):
     return config["diffexp"]["contrasts"][wildcards.contrast]
-
-def get_arriba_input(wc):
-    if is_paired_end(wc.sample):
-        return("results/star/{}/{}-{}/Aligned.out.bam".format(
-            lib, wc.sample, wc.unit
-        ))
