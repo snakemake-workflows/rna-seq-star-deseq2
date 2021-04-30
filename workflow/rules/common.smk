@@ -96,7 +96,6 @@ def get_star_output(wildcards):
             lib = "pe"
         else:
             lib = "se"
-        print(lib)
         res.append("results/star/{}/{}-{}/ReadsPerGene.out.tab".format(
             lib, unit.sample_name, unit.unit_name
         ))
