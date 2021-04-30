@@ -21,7 +21,7 @@ rule get_annotation:
         fmt="gtf",
         build=config["ref"]["build"],
         release=config["ref"]["release"],
-        flavor="", # optional, e.g. chr_patch_hapl_scaff, see Ensembl FTP.
+        flavor="",
     cache: True
     log:
         "logs/get_annotation.log",

@@ -25,7 +25,7 @@ rule rseqc_junction_annotation:
     log:
         "logs/rseqc/rseqc_junction_annotation/{sample}-{unit}.log",
     params:
-        extra=r"-q 255", # STAR uses 255 as a score for unique mappers
+        extra=r"-q 255",  # STAR uses 255 as a score for unique mappers
         prefix=lambda w, output: strip_suffix(output[0], ".junction.bed"),
     conda:
         "../envs/rseqc.yaml"

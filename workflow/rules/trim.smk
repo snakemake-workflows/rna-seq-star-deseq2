@@ -17,7 +17,7 @@ rule cutadapt_pipe:
         "logs/pipe-fastqs/catadapt/{sample}-{unit}.{fq}.{ext}.log",
     wildcard_constraints:
         ext=r"fastq|fastq\.gz",
-    threads: 0 # this does not need CPU
+    threads: 0
     shell:
         "cat {input} > {output} 2> {log}"
 
