@@ -4,13 +4,12 @@ rule align_pe:
         fq2=get_map_reads_input_R2,
         index="resources/star_genome",
     output:
-        "results/star/pe/{sample}-{unit}/Aligned.out.bam", # see STAR manual for additional output files
+        "results/star/pe/{sample}-{unit}/Aligned.out.bam",
         "results/star/pe/{sample}-{unit}/ReadsPerGene.out.tab",
     log:
         "logs/star-pe/{sample}-{unit}.log",
     params:
-        index=lambda wc, input: input.index, # path to STAR reference genome index
-         # optional parameters
+        index=lambda wc, input: input.index,
         extra="--quantMode GeneCounts --sjdbGTFfile {} {}".format(
             "resources/genome.gtf", config["params"]["star"]
         ),
@@ -24,13 +23,12 @@ rule align_se:
         fq1=get_map_reads_input_R1,
         index="resources/star_genome",
     output:
-        "results/star/se/{sample}-{unit}/Aligned.out.bam", # see STAR manual for additional output files
+        "results/star/se/{sample}-{unit}/Aligned.out.bam",
         "results/star/se/{sample}-{unit}/ReadsPerGene.out.tab",
     log:
         "logs/star-se/{sample}-{unit}.log",
     params:
-        index=lambda wc, input: input.index, # path to STAR reference genome index
-         # optional parameters
+        index=lambda wc, input: input.index,
         extra="--quantMode GeneCounts --sjdbGTFfile {} {}".format(
             "resources/genome.gtf", config["params"]["star"]
         ),
