@@ -38,4 +38,4 @@ diffexp:
 params:
   cutadapt-pe: ""
   cutadapt-se: ""
-  star: ""
+  star: "--outSAMtype BAM Unsorted"

@@ -17,7 +17,7 @@ dds <- readRDS(snakemake@input[[1]])
 contrast <- c("condition", snakemake@params[["contrast"]])
 res <- results(dds, contrast=contrast, parallel=parallel)
 # shrink fold changes for lowly expressed genes
-res <- lfcShrink(dds, contrast=contrast, res=res)
+res <- lfcShrink(dds, contrast=contrast, res=res, type="normal")
 # sort by p-value
 res <- res[order(res$padj),]
 # TODO explore IHW usage
