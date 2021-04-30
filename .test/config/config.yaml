@@ -8,11 +8,12 @@ units: config/units.tsv
 
 ref:
   # Ensembl species name
-  species: homo_sapiens
-  # Ensembl release (make sure to take one where snpeff data is available, check 'snpEff databases' output)
+  species: saccharomyces_cerevisiae
+  # Ensembl release
   release: 100
   # Genome build
-  build: GRCh38
+  build: R64-1-1
+
 
 trimming:
   activate: False
