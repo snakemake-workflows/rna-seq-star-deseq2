@@ -40,5 +40,4 @@ diffexp:
 params:
   cutadapt-pe: ""
   cutadapt-se: ""
-  # Recommended STAR params from arriba (link)
   star: ""
