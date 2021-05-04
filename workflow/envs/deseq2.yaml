@@ -1,0 +1,6 @@
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - bioconductor-deseq2 =1.30.0
+  - bioconductor-apeglm =1.12.0
