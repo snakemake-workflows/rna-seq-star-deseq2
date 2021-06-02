@@ -26,4 +26,8 @@ dds <- dds[ rowSums(counts(dds)) > 1, ]
 # normalization and preprocessing
 dds <- DESeq(dds, parallel=parallel)
 
+# Write dds object as RDS
 saveRDS(dds, file=snakemake@output[[1]])
+# Write normalized counts
+norm_counts = counts(dds, normalized=T)
+write.table(data.frame("gene"=rownames(norm_counts), norm_counts), file=snakemake@output[[2]], sep='\t', row.names=F)
