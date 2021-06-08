@@ -25,6 +25,7 @@ container: "docker://continuumio/miniconda3"
 include: "rules/common.smk"
 include: "rules/ref.smk"
 include: "rules/trim.smk"
+include: "rules/qc.smk"
 include: "rules/align.smk"
 include: "rules/diffexp.smk"
 
@@ -35,3 +36,4 @@ include: "rules/diffexp.smk"
 rule all:
     input:
         get_final_output(),
+        "results/qc/multiqc_report.html",
