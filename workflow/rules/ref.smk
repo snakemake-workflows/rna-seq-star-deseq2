@@ -66,5 +66,6 @@ rule star_index:
         extra="--sjdbGTFfile resources/genome.gtf --sjdbOverhang 100",
     log:
         "logs/star_index_genome.log",
+    cache: True
     wrapper:
         "0.64.0/bio/star/index"

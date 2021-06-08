@@ -1,6 +1,6 @@
 rule count_matrix:
     input:
-        get_star_output,
+        get_star_output_all_units,
     output:
         "results/counts/all.tsv",
     log:
@@ -19,6 +19,7 @@ rule deseq2_init:
         counts="results/counts/all.tsv",
     output:
         "results/deseq2/all.rds",
+        "results/deseq2/normcounts.tsv",
     params:
         samples=config["samples"],
         model=config["diffexp"]["model"],
