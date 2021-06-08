@@ -124,7 +124,11 @@ def get_map_reads_input_R2(wildcards):
     return ""
 
 
-def get_star_output(wildcards):
+def get_star_output(wildcards, fi="counts"):
+    if fi == "bam":
+        outfile = "Aligned.out.bam"
+    else:
+        outfile = "ReadsPerGene.out.tab"
     res = []
     for unit in units.itertuples():
         if is_paired_end(unit.sample_name):
@@ -132,11 +136,21 @@ def get_star_output(wildcards):
         else:
             lib = "se"
         res.append(
-            "results/star/{}/{}-{}/ReadsPerGene.out.tab".format(
-                lib, unit.sample_name, unit.unit_name
+            "results/star/{}/{}-{}/{}".format(
+                lib, unit.sample_name, unit.unit_name, outfile
             )
         )
     return res
+
+
+def get_star_bam(wildcards):
+    if is_paired_end(wildcards.sample):
+        lib = "pe"
+    else:
+        lib = "se"
+    return "results/star/{}/{}-{}/Aligned.out.bam".format(
+        lib, wildcards.sample, wildcards.unit
+    )
 
 
 def get_strandedness(units):
