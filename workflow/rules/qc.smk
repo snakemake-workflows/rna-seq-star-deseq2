@@ -148,7 +148,7 @@ rule rseqc_readgc:
 
 rule multiqc:
     input:
-        lambda wc: get_star_output(wc, fi="bam"),
+        lambda wc: get_star_output_all_units(wc, fi="bam"),
         expand(
             "results/qc/rseqc/{unit.sample_name}-{unit.unit_name}.junctionanno.junction.bed",
             unit=units.itertuples(),

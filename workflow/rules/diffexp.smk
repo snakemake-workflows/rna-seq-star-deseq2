@@ -1,6 +1,6 @@
 rule count_matrix:
     input:
-        get_star_output,
+        get_star_output_all_units,
     output:
         "results/counts/all.tsv",
     log:
