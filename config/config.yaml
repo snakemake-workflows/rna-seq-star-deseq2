@@ -17,9 +17,6 @@ ref:
 trimming:
   activate: False
 
-mergeReads:
-  activate: False
-
 pca:
   activate: True
   labels:

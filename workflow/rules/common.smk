@@ -83,74 +83,31 @@ def is_paired_end(sample):
     )
     return all_paired
 
-
-def get_map_reads_input_R1(wildcards):
-    if not is_activated("mergeReads"):
-        if config["trimming"]["activate"]:
-            return expand(
-                "results/trimmed/{sample}_{unit}_R1.fastq.gz",
-                unit=units.loc[wildcards.sample, "unit_name"],
-                sample=wildcards.sample,
-            )
-        unit = units.loc[wildcards.sample]
-        if all(pd.isna(unit["fq1"])):
+    
+def get_fq(wildcards):
+    if config["trimming"]["activate"]:
+        # activated trimming, use trimmed data
+        if is_paired_end(wildcards.sample):
+            # paired-end sample
+            return dict(zip(
+                ['fq1', 'fq2' ],
+                expand("results/trimmed/{sample}_{unit}_{group}.fastq.gz", group=["R1", "R2"], **wildcards)))
+        # single end sample
+        return { 'fq1': "trimmed/{sample}_{unit}_single.fastq.gz".format(**wildcards) }
+    else:
+        # no trimming, use raw reads
+        u = units.loc[(wildcards.sample, wildcards.unit), ["fq1", "fq2"]].dropna()
+        if pd.isna(u["fq1"]):
             # SRA sample (always paired-end for now)
-            accession = unit["sra"]
-            return expand("sra/{accession}_R1.fastq", accession=accession)
-        sample_units = units.loc[wildcards.sample]
-        return sample_units["fq1"]
-    if is_paired_end(wildcards.sample):
-        return "results/merged/{sample}_R1.fastq.gz"
-    return "results/merged/{sample}_single.fastq.gz"
-
-
-def get_map_reads_input_R2(wildcards):
-    if is_paired_end(wildcards.sample):
-        if not is_activated("mergeReads"):
-            if config["trimming"]["activate"]:
-                return expand(
-                    "results/trimmed/{sample}_{unit}_R1.fastq.gz",
-                    unit=units.loc[wildcards.sample, "unit_name"],
-                    sample=wildcards.sample,
-                )
-            unit = units.loc[wildcards.sample]
-            if all(pd.isna(unit["fq1"])):
-                # SRA sample (always paired-end for now)
-                accession = unit["sra"]
-                return expand("sra/{accession}_R2.fastq", accession=accession)
-            sample_units = units.loc[wildcards.sample]
-            return sample_units["fq2"]
-        return ("results/merged/{sample}_R2.fastq.gz",)
-    return ""
-
-
-def get_star_output_all_units(wildcards, fi="counts"):
-    if fi == "bam":
-        outfile = "Aligned.out.bam"
-    else:
-        outfile = "ReadsPerGene.out.tab"
-    res = []
-    for unit in units.itertuples():
-        if is_paired_end(unit.sample_name):
-            lib = "pe"
+            accession = u["sra"]
+            return dict(zip(
+                ["fq1", "fq2"],
+                expand("sra/{accession}_{group}.fastq", accession=accession, group=["R1", "R2"])))
+        if not is_paired_end(wildcards.sample):
+            return { 'fq1': f"{u.fq1}" }
         else:
-            lib = "se"
-        res.append(
-            "results/star/{}/{}-{}/{}".format(
-                lib, unit.sample_name, unit.unit_name, outfile
-            )
-        )
-    return res
-
-
-def get_star_bam(wildcards):
-    if is_paired_end(wildcards.sample):
-        lib = "pe"
-    else:
-        lib = "se"
-    return "results/star/{}/{}-{}/Aligned.out.bam".format(
-        lib, wildcards.sample, wildcards.unit
-    )
+            return { 'fq1': f"{u.fq1}",
+                        'fq2': f"{u.fq2}" }
 
 
 def get_strandedness(units):

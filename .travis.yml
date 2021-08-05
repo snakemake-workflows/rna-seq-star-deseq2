@@ -1,0 +1,29 @@
+language: python
+python:
+  # We don't actually use the Travis Python, but this keeps it organized.
+  - "3.6"
+
+install:
+  - wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+  - bash miniconda.sh -b -p $HOME/miniconda
+  - export PATH="$HOME/miniconda/bin:$PATH"
+  - hash -r
+  - conda config --set always_yes yes --set changeps1 no
+  - conda update -q conda
+  # Useful for debugging any issues with conda
+  - conda info -a
+  - conda config --add channels defaults
+  - conda config --add channels conda-forge
+  - conda config --add channels bioconda
+  - conda create -q -n snakemake snakemake>=5.1.2 python=$TRAVIS_PYTHON_VERSION
+  - conda create -q -n star star=2.7.5c
+  - source activate star
+  # create STAR index (too big to live in git)
+  - mkdir .test/data/ref/index
+  - STAR --runMode genomeGenerate --genomeSAindexNbases 11 --genomeDir .test/data/ref/index --genomeFastaFiles .test/data/ref/genome.chr21.fa
+
+script:
+  - source activate snakemake
+  # run the workflow
+  - snakemake --cores 1 --use-conda --directory .test || (for f in .test/logs/*; do echo $f; cat $f; done; for f in .test/logs/*/*; do echo $f; cat $f; done; exit 1)
+  - snakemake --cores 1 --use-conda --use-singularity --directory .test

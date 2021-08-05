@@ -10,7 +10,7 @@ rule get_genome:
         release=config["ref"]["release"],
     cache: True
     wrapper:
-        "0.59.2/bio/reference/ensembl-sequence"
+        "0.77.0/bio/reference/ensembl-sequence"
 
 
 rule get_annotation:
@@ -26,7 +26,7 @@ rule get_annotation:
     log:
         "logs/get_annotation.log",
     wrapper:
-        "0.59.2/bio/reference/ensembl-annotation"
+        "0.77.0/bio/reference/ensembl-annotation"
 
 
 rule genome_faidx:
@@ -38,7 +38,7 @@ rule genome_faidx:
         "logs/genome-faidx.log",
     cache: True
     wrapper:
-        "0.59.2/bio/samtools/faidx"
+        "0.77.0/bio/samtools/faidx"
 
 
 rule bwa_index:
@@ -52,7 +52,7 @@ rule bwa_index:
         mem_mb=369000,
     cache: True
     wrapper:
-        "0.59.2/bio/bwa/index"
+        "0.77.0/bio/bwa/index"
 
 
 rule star_index:
@@ -68,4 +68,4 @@ rule star_index:
         "logs/star_index_genome.log",
     cache: True
     wrapper:
-        "0.64.0/bio/star/index"
+        "0.77.0/bio/star/index"

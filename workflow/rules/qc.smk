@@ -17,7 +17,7 @@ rule rseqc_gtf2bed:
 
 rule rseqc_junction_annotation:
     input:
-        bam=get_star_bam,
+        bam="results/star/{sample}-{unit}/Aligned.sortedByCoord.out.bam",
         bed="results/qc/rseqc/annotation.bed",
     output:
         "results/qc/rseqc/{sample}-{unit}.junctionanno.junction.bed",
@@ -36,7 +36,7 @@ rule rseqc_junction_annotation:
 
 rule rseqc_junction_saturation:
     input:
-        bam=get_star_bam,
+        bam="results/star/{sample}-{unit}/Aligned.sortedByCoord.out.bam",
         bed="results/qc/rseqc/annotation.bed",
     output:
         "results/qc/rseqc/{sample}-{unit}.junctionsat.junctionSaturation_plot.pdf",
@@ -55,7 +55,7 @@ rule rseqc_junction_saturation:
 
 rule rseqc_stat:
     input:
-        get_star_bam,
+        "results/star/{sample}-{unit}/Aligned.sortedByCoord.out.bam",
     output:
         "results/qc/rseqc/{sample}-{unit}.stats.txt",
     priority: 1
@@ -69,7 +69,7 @@ rule rseqc_stat:
 
 rule rseqc_infer:
     input:
-        bam=get_star_bam,
+        bam="results/star/{sample}-{unit}/Aligned.sortedByCoord.out.bam",
         bed="results/qc/rseqc/annotation.bed",
     output:
         "results/qc/rseqc/{sample}-{unit}.infer_experiment.txt",
@@ -84,7 +84,7 @@ rule rseqc_infer:
 
 rule rseqc_innerdis:
     input:
-        bam=get_star_bam,
+        bam="results/star/{sample}-{unit}/Aligned.sortedByCoord.out.bam",
         bed="results/qc/rseqc/annotation.bed",
     output:
         "results/qc/rseqc/{sample}-{unit}.inner_distance_freq.inner_distance.txt",
@@ -101,7 +101,7 @@ rule rseqc_innerdis:
 
 rule rseqc_readdis:
     input:
-        bam=get_star_bam,
+        bam="results/star/{sample}-{unit}/Aligned.sortedByCoord.out.bam",
         bed="results/qc/rseqc/annotation.bed",
     output:
         "results/qc/rseqc/{sample}-{unit}.readdistribution.txt",
@@ -116,7 +116,7 @@ rule rseqc_readdis:
 
 rule rseqc_readdup:
     input:
-        get_star_bam,
+        "results/star/{sample}-{unit}/Aligned.sortedByCoord.out.bam",
     output:
         "results/qc/rseqc/{sample}-{unit}.readdup.DupRate_plot.pdf",
     priority: 1
@@ -132,7 +132,7 @@ rule rseqc_readdup:
 
 rule rseqc_readgc:
     input:
-        get_star_bam,
+        "results/star/{sample}-{unit}/Aligned.sortedByCoord.out.bam",
     output:
         "results/qc/rseqc/{sample}-{unit}.readgc.GC_plot.pdf",
     priority: 1
@@ -148,7 +148,7 @@ rule rseqc_readgc:
 
 rule multiqc:
     input:
-        lambda wc: get_star_output_all_units(wc, fi="bam"),
+        expand("results/star/{unit.sample_name}-{unit.unit_name}/Aligned.sortedByCoord.out.bam", unit=units.itertuples()),
         expand(
             "results/qc/rseqc/{unit.sample_name}-{unit.unit_name}.junctionanno.junction.bed",
             unit=units.itertuples(),
