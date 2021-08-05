@@ -83,31 +83,44 @@ def is_paired_end(sample):
     )
     return all_paired
 
-    
+
 def get_fq(wildcards):
     if config["trimming"]["activate"]:
         # activated trimming, use trimmed data
         if is_paired_end(wildcards.sample):
             # paired-end sample
-            return dict(zip(
-                ['fq1', 'fq2' ],
-                expand("results/trimmed/{sample}_{unit}_{group}.fastq.gz", group=["R1", "R2"], **wildcards)))
+            return dict(
+                zip(
+                    ["fq1", "fq2"],
+                    expand(
+                        "results/trimmed/{sample}_{unit}_{group}.fastq.gz",
+                        group=["R1", "R2"],
+                        **wildcards,
+                    ),
+                )
+            )
         # single end sample
-        return { 'fq1': "trimmed/{sample}_{unit}_single.fastq.gz".format(**wildcards) }
+        return {"fq1": "trimmed/{sample}_{unit}_single.fastq.gz".format(**wildcards)}
     else:
         # no trimming, use raw reads
         u = units.loc[(wildcards.sample, wildcards.unit), ["fq1", "fq2"]].dropna()
         if pd.isna(u["fq1"]):
             # SRA sample (always paired-end for now)
             accession = u["sra"]
-            return dict(zip(
-                ["fq1", "fq2"],
-                expand("sra/{accession}_{group}.fastq", accession=accession, group=["R1", "R2"])))
+            return dict(
+                zip(
+                    ["fq1", "fq2"],
+                    expand(
+                        "sra/{accession}_{group}.fastq",
+                        accession=accession,
+                        group=["R1", "R2"],
+                    ),
+                )
+            )
         if not is_paired_end(wildcards.sample):
-            return { 'fq1': f"{u.fq1}" }
+            return {"fq1": f"{u.fq1}"}
         else:
-            return { 'fq1': f"{u.fq1}",
-                        'fq2': f"{u.fq2}" }
+            return {"fq1": f"{u.fq1}", "fq2": f"{u.fq2}"}
 
 
 def get_strandedness(units):

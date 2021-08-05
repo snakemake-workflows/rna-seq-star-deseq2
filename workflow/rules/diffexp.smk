@@ -1,6 +1,9 @@
 rule count_matrix:
     input:
-        expand("results/star/{unit.sample_name}-{unit.unit_name}/ReadsPerGene.out.tab", unit=units.itertuples()),
+        expand(
+            "results/star/{unit.sample_name}-{unit.unit_name}/ReadsPerGene.out.tab",
+            unit=units.itertuples(),
+        ),
     output:
         "results/counts/all.tsv",
     log:
@@ -51,9 +54,7 @@ rule deseq2:
     input:
         "results/deseq2/all.rds",
     output:
-        table=report(
-            "results/diffexp/{contrast}.diffexp.tsv", "../report/diffexp.rst"
-        ),
+        table=report("results/diffexp/{contrast}.diffexp.tsv", "../report/diffexp.rst"),
         ma_plot=report("results/diffexp/{contrast}.ma-plot.svg", "../report/ma.rst"),
     params:
         contrast=get_contrast,
