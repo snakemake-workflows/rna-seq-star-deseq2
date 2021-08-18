@@ -15,8 +15,12 @@ if (snakemake@threads > 1) {
 # colData and countData must have the same sample order, but this is ensured
 # by the way we create the count matrix
 cts <- read.table(snakemake@input[["counts"]], header=TRUE, row.names="gene", check.names=FALSE)
+cts <- cts[ , order(names(cts))]
+print(head(cts))
 coldata <- read.table(snakemake@params[["samples"]], header=TRUE, row.names="sample_name", check.names=FALSE)
-
+print(coldata)
+coldata <- coldata[order(row.names(coldata)), , drop=F]
+print(coldata)
 dds <- DESeqDataSetFromMatrix(countData=cts,
                               colData=coldata,
                               design=as.formula(snakemake@params[["model"]]))
