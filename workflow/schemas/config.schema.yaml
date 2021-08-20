@@ -31,14 +31,6 @@ properties:
         type: boolean
     required:
       - activate
-  
-  mergeReads:
-    type: object
-    properties:
-      activate:
-        type: boolean
-    required:
-      - activate
 
   pca:
     type: object
@@ -85,4 +77,3 @@ required:
   - diffexp
   - params
   - trimming
-  - mergeReads

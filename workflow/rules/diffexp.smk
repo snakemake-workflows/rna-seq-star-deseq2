@@ -1,6 +1,9 @@
 rule count_matrix:
     input:
-        get_star_output_all_units,
+        expand(
+            "results/star/{unit.sample_name}-{unit.unit_name}/ReadsPerGene.out.tab",
+            unit=units.itertuples(),
+        ),
     output:
         "results/counts/all.tsv",
     log:
