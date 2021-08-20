@@ -20,7 +20,7 @@ rule gene_2_symbol:
     output:
         symbol="{prefix}.symbol.tsv",
     params:
-        species=get_bioc_species_name()
+        species=get_bioc_species_name(),
     log:
         "logs/gene2symbol/{prefix}.log",
     conda:
@@ -66,9 +66,7 @@ rule deseq2:
     input:
         "results/deseq2/all.rds",
     output:
-        table=report(
-            "results/diffexp/{contrast}.diffexp.tsv", "../report/diffexp.rst"
-        ),
+        table=report("results/diffexp/{contrast}.diffexp.tsv", "../report/diffexp.rst"),
         ma_plot=report("results/diffexp/{contrast}.ma-plot.svg", "../report/ma.rst"),
     params:
         contrast=get_contrast,
