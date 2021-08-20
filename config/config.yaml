@@ -29,12 +29,12 @@ pca:
 diffexp:
   # contrasts for the deseq2 results method
   contrasts:
-    treated-vs-untreated:
-      - treated
-      - untreated
+    A-vs-B:
+      - A
+      - B
   model: ~condition
 
 params:
   cutadapt-pe: ""
   cutadapt-se: ""
-  star: ""
+  star: "--outSAMtype BAM Unsorted"
