@@ -17,6 +17,21 @@ rule count_matrix:
         "../scripts/count-matrix.py"
 
 
+rule gene_2_symbol:
+    input:
+        counts="{prefix}.tsv",
+    output:
+        symbol="{prefix}.symbol.tsv",
+    params:
+        species=get_bioc_species_name(),
+    log:
+        "logs/gene2symbol/{prefix}.log",
+    conda:
+        "../envs/biomart.yaml"
+    script:
+        "../scripts/gene2symbol.R"
+
+
 rule deseq2_init:
     input:
         counts="results/counts/all.tsv",

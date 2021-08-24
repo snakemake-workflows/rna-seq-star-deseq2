@@ -17,9 +17,11 @@ samples = (
 
 def get_final_output():
     final_output = expand(
-        "results/diffexp/{contrast}.diffexp.tsv",
+        "results/diffexp/{contrast}.diffexp.symbol.tsv",
         contrast=config["diffexp"]["contrasts"],
     )
+    final_output.append("results/deseq2/normcounts.symbol.tsv")
+    final_output.append("results/counts/all.symbol.tsv")
     return final_output
 
 
@@ -142,6 +144,12 @@ def is_activated(xpath):
     for entry in xpath.split("/"):
         c = c.get(entry, {})
     return bool(c.get("activate", False))
+
+
+def get_bioc_species_name():
+    first_letter = config["ref"]["species"][0]
+    subspecies = config["ref"]["species"].split("_")[1]
+    return first_letter + subspecies
 
 
 def get_fastqs(wc):
