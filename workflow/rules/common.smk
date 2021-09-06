@@ -14,6 +14,9 @@ samples = (
     .sort_index()
 )
 
+wildcard_constraints:
+    sample="|".join(samples["sample_name"]),
+
 
 def get_final_output():
     final_output = expand(
