@@ -9,7 +9,7 @@ rule align:
         "logs/star/{sample}-{unit}.log",
     params:
         index=lambda wc, input: input.index,
-        extra="--outSAMtype BAM SortedByCoordinate --quantMode GeneCounts --sjdbGTFfile {} {}".format(
+        extra="--quantMode GeneCounts --sjdbGTFfile {} {}".format(
             "resources/genome.gtf", config["params"]["star"]
         ),
     threads: 24
