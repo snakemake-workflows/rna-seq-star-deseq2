@@ -99,7 +99,7 @@ def get_fq(wildcards):
                 zip(
                     ["fq1", "fq2"],
                     expand(
-                        "results/trimmed/{sample}_{unit}_{group}.fastq.gz",
+                        "results/trimmed/{sample}-{unit}_{group}.fastq.gz",
                         group=["R1", "R2"],
                         **wildcards,
                     ),
