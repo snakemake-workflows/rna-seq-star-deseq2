@@ -38,7 +38,7 @@ validate(units, schema="../schemas/units.schema.yaml")
 def get_cutadapt_input(wildcards):
     unit = units.loc[wildcards.sample].loc[wildcards.unit]
 
-    if pd.isna(unit["fq1"]):
+    if pd.isna(unit["fq1"]).all():
         # SRA sample (always paired-end for now)
         accession = unit["sra"]
         return expand("sra/{accession}_{read}.fastq", accession=accession, read=[1, 2])
@@ -48,7 +48,7 @@ def get_cutadapt_input(wildcards):
     else:
         ending = ""
 
-    if pd.isna(unit["fq2"]):
+    if pd.isna(unit["fq2"]).all():
         # single end local sample
         return "pipe/cutadapt/{S}/{U}.fq1.fastq{E}".format(
             S=unit.sample_name, U=unit.unit_name, E=ending
@@ -106,7 +106,7 @@ def get_fq(wildcards):
     else:
         # no trimming, use raw reads
         u = units.loc[(wildcards.sample, wildcards.unit), ["fq1", "fq2"]].dropna()
-        if pd.isna(u["fq1"]):
+        if pd.isna(u["fq1"]).all():
             # SRA sample (always paired-end for now)
             accession = u["sra"]
             return dict(
@@ -161,7 +161,7 @@ def get_fastqs(wc):
             read=wc.read,
         )
     unit = units.loc[wc.sample]
-    if all(pd.isna(unit["fq1"])):
+    if pd.isna(unit["fq1"]).all():
         # SRA sample (always paired-end for now)
         accession = unit["sra"]
         return expand(
