@@ -120,9 +120,9 @@ def get_fq(wildcards):
                 )
             )
         if not is_paired_end(wildcards.sample):
-            return {"fq1": f"{u.fq1}"}
+            return {"fq1": u.fq1.to_list()}
         else:
-            return {"fq1": f"{u.fq1}", "fq2": f"{u.fq2}"}
+            return {"fq1": u.fq1.to_list(), "fq2": u.fq2.to_list()}
 
 
 def get_strandedness(units):
