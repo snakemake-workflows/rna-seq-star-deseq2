@@ -15,6 +15,7 @@ jobs:
       uses: actions/checkout@v2
       with:
         submodules: recursive
+        fetch-depth: 0
     - name: Formatting
       uses: github/super-linter@v4
       env:
