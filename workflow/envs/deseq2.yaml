@@ -1,6 +1,7 @@
 channels:
-  - bioconda
   - conda-forge
+  - bioconda
+  - nodefaults
 dependencies:
-  - bioconductor-deseq2 =1.30.0
-  - r-ashr =2.2_47
+  - bioconductor-deseq2 =1.38
+  - r-ashr =2.2_54
