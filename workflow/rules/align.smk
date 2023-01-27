@@ -14,4 +14,4 @@ rule align:
         ),
     threads: 24
     wrapper:
-        "0.77.0/bio/star/align"
+        "v1.21.4/bio/star/align"
