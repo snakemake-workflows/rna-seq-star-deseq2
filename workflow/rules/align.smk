@@ -3,8 +3,8 @@ rule align:
         unpack(get_fq),
         index="resources/star_genome",
     output:
-        "results/star/{sample}-{unit}/Aligned.sortedByCoord.out.bam",
-        "results/star/{sample}-{unit}/ReadsPerGene.out.tab",
+        aln="results/star/{sample}-{unit}/Aligned.sortedByCoord.out.bam",
+        reads_per_gene="results/star/{sample}-{unit}/ReadsPerGene.out.tab",
     log:
         "logs/star/{sample}-{unit}.log",
     params:
