@@ -8,7 +8,7 @@ rule align:
     log:
         "logs/star/{sample}-{unit}.log",
     params:
-        index=lambda wc, input: input.index,
+        idx=lambda wc, input: input.index,
         extra="--outSAMtype BAM SortedByCoordinate --quantMode GeneCounts --sjdbGTFfile {} {}".format(
             "resources/genome.gtf", config["params"]["star"]
         ),
