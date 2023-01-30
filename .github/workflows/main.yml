@@ -11,9 +11,11 @@ jobs:
   formatting:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: Checkout submodules
-      uses: textbook/git-checkout-submodule-action@2.0.0
+    - name: Checkout with submodules
+      uses: actions/checkout@v2
+      with:
+        submodules: recursive
+        fetch-depth: 0
     - name: Formatting
       uses: github/super-linter@v4
       env:
@@ -24,7 +26,7 @@ jobs:
   linting:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Linting
       uses: snakemake/snakemake-github-action@v1.22.0
       with:
@@ -38,10 +40,10 @@ jobs:
       - linting
       - formatting
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v1
-    - name: Checkout submodules
-      uses: textbook/git-checkout-submodule-action@2.0.0
+    - name: Checkout repository with submodules
+      uses: actions/checkout@v2
+      with:
+        submodules: recursive
     - name: Test workflow
       uses: snakemake/snakemake-github-action@v1.22.0
       with:

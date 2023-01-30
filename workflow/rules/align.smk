@@ -3,15 +3,15 @@ rule align:
         unpack(get_fq),
         index="resources/star_genome",
     output:
-        "results/star/{sample}-{unit}/Aligned.sortedByCoord.out.bam",
-        "results/star/{sample}-{unit}/ReadsPerGene.out.tab",
+        aln="results/star/{sample}-{unit}/Aligned.sortedByCoord.out.bam",
+        reads_per_gene="results/star/{sample}-{unit}/ReadsPerGene.out.tab",
     log:
         "logs/star/{sample}-{unit}.log",
     params:
-        index=lambda wc, input: input.index,
+        idx=lambda wc, input: input.index,
         extra="--outSAMtype BAM SortedByCoordinate --quantMode GeneCounts --sjdbGTFfile {} {}".format(
             "resources/genome.gtf", config["params"]["star"]
         ),
     threads: 24
     wrapper:
-        "0.77.0/bio/star/align"
+        "v1.21.4/bio/star/align"
