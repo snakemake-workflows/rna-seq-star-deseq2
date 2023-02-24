@@ -1,5 +1,6 @@
 channels:
   - conda-forge
   - bioconda
+  - nodefaults
 dependencies:
-  - gffutils =0.10
+  - gffutils =0.11
