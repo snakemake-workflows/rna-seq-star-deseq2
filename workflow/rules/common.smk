@@ -95,14 +95,14 @@ def get_fq(wildcards):
                 zip(
                     ["fq1", "fq2"],
                     expand(
-                        "results/trimmed/{sample}-{unit}_{group}.fastq.gz",
+                        "results/trimmed/{sample}_{unit}_{group}.fastq.gz",
                         group=["R1", "R2"],
                         **wildcards,
                     ),
                 )
             )
         # single end sample
-        return {"fq1": "trimmed/{sample}-{unit}_single.fastq.gz".format(**wildcards)}
+        return {"fq1": "trimmed/{sample}_{unit}_single.fastq.gz".format(**wildcards)}
     else:
         # no trimming, use raw reads
         u = units.loc[(wildcards.sample, wildcards.unit), ["fq1", "fq2"]].dropna()
