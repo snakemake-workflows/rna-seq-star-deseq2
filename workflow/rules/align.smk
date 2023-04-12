@@ -3,10 +3,10 @@ rule align:
         unpack(get_fq),
         index="resources/star_genome",
     output:
-        aln="results/star/{sample}-{unit}/Aligned.sortedByCoord.out.bam",
-        reads_per_gene="results/star/{sample}-{unit}/ReadsPerGene.out.tab",
+        aln="results/star/{sample}_{unit}/Aligned.sortedByCoord.out.bam",
+        reads_per_gene="results/star/{sample}_{unit}/ReadsPerGene.out.tab",
     log:
-        "logs/star/{sample}-{unit}.log",
+        "logs/star/{sample}_{unit}.log",
     params:
         idx=lambda wc, input: input.index,
         extra="--outSAMtype BAM SortedByCoordinate --quantMode GeneCounts --sjdbGTFfile {} {}".format(
