@@ -77,6 +77,6 @@ rule deseq2:
         "../envs/deseq2.yaml"
     log:
         "logs/deseq2/{contrast}.diffexp.log",
-    threads: get_deseq2_threads
+    threads: get_deseq2_threads()
     script:
         "../scripts/deseq2.R"
