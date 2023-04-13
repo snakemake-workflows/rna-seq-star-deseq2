@@ -105,7 +105,7 @@ def get_fq(wildcards):
         return {"fq1": "trimmed/{sample}_{unit}_single.fastq.gz".format(**wildcards)}
     else:
         # no trimming, use raw reads
-        u = units.loc[(wildcards.sample, wildcards.unit), ["fq1", "fq2"]].dropna()
+        u = units.loc[(wildcards.sample, wildcards.unit)]
         if pd.isna(u["fq1"]):
             # SRA sample (always paired-end for now)
             accession = u["sra"]
