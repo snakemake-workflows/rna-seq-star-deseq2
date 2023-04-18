@@ -38,9 +38,6 @@ rule deseq2_init:
     output:
         "results/deseq2/all.rds",
         "results/deseq2/normcounts.tsv",
-    params:
-        samples=config["samples"],
-        model=config["diffexp"]["model"],
     conda:
         "../envs/deseq2.yaml"
     log:

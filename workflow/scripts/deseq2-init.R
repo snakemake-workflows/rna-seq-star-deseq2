@@ -2,6 +2,7 @@ log <- file(snakemake@log[[1]], open = "wt")
 sink(log)
 sink(log, type="message")
 
+library(stringr)
 library("DESeq2")
 
 parallel <- FALSE
@@ -21,20 +22,52 @@ counts_data <- read.table(
 counts_data <- counts_data[, order(names(counts_data))]
 
 col_data <- read.table(
-  snakemake@params[["samples"]],
+  snakemake@config[["samples"]],
   header = TRUE,
   row.names = "sample_name",
   check.names = FALSE
 )
 col_data <- col_data[order(row.names(col_data)), , drop = FALSE]
 
+# properly set the base level to the configuration in config.yaml, avoiding
+# the default behaviour of choosing the alphabetical minimum level
+for (vof in names(snakemake@config[["diffexp"]][["variables_of_interest"]])) {
+  snakemake@config[["diffexp"]][["variables_of_interest"]][[vof]]
+  base_level <- snakemake@config[["diffexp"]][["variables_of_interest"]][[vof]][["base_level"]]
+  col_data[[vof]] <- relevel(
+    factor(col_data[[vof]]), base_level
+  )
+}
 
-coldata <- read.table(snakemake@params[["samples"]], header=TRUE, row.names="sample_name", check.names=FALSE)
-coldata <- coldata[order(row.names(coldata)), , drop=F]
+# properly turn all batch effects into factors, even if they are numeric
+batch_effects <- snakemake@config[["diffexp"]][["batch_effects"]]
+for (effect in batch_effects) {
+  col_data[[effect]] <- factor(col_data[[effect]])
+}
 
-dds <- DESeqDataSetFromMatrix(countData=counts_data,
-                              colData=col_data,
-                              design=as.formula(snakemake@params[["model"]]))
+# build up formula with additive batch_effects and all interactions between the
+# variables_of_interes
+
+batch_effects <- str_flatten(batch_effects, " + ")
+
+if (str_length(batch_effects) > 0) {
+  batch_effects <- str_c(batch_effects, " + ")
+}
+
+vof_interactions <- str_flatten(
+  names(snakemake@config[["diffexp"]][["variables_of_interest"]]),
+  " * "
+)
+
+design_formula <- str_c("~", batch_effects, vof_interactions)
+
+save.image("deseq2-init_dump.rda")
+
+dds <- DESeqDataSetFromMatrix(
+  countData = counts_data,
+  colData = col_data,
+  design = as.formula(design_formula)
+)
 
 # remove uninformative columns
 dds <- dds[rowSums(counts(dds)) > 1, ]
