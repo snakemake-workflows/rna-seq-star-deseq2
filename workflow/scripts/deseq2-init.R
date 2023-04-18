@@ -48,20 +48,19 @@ for (effect in batch_effects) {
 # build up formula with additive batch_effects and all interactions between the
 # variables_of_interes
 
-batch_effects <- str_flatten(batch_effects, " + ")
+design_formula <- snakemake@config[["diffexp"]][["model"]]
 
-if (str_length(batch_effects) > 0) {
-  batch_effects <- str_c(batch_effects, " + ")
+if (str_length(design_formula) == 0) {
+  batch_effects <- str_flatten(batch_effects, " + ")
+  if (str_length(batch_effects) > 0) {
+    batch_effects <- str_c(batch_effects, " + ")
+  }
+  vof_interactions <- str_flatten(
+    names(snakemake@config[["diffexp"]][["variables_of_interest"]]),
+    " * "
+  )
+  design_formula <- str_c("~", batch_effects, vof_interactions)
 }
-
-vof_interactions <- str_flatten(
-  names(snakemake@config[["diffexp"]][["variables_of_interest"]]),
-  " * "
-)
-
-design_formula <- str_c("~", batch_effects, vof_interactions)
-
-save.image("deseq2-init_dump.rda")
 
 dds <- DESeqDataSetFromMatrix(
   countData = counts_data,
