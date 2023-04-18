@@ -12,28 +12,28 @@ if (snakemake@threads > 1) {
     parallel <- TRUE
 }
 
-cts <- read.table(
+counts_data <- read.table(
   snakemake@input[["counts"]],
   header = TRUE,
   row.names = "gene",
   check.names = FALSE
 )
-cts <- cts[, order(names(cts))]
+counts_data <- counts_data[, order(names(counts_data))]
 
-coldata <- read.table(
+col_data <- read.table(
   snakemake@params[["samples"]],
   header = TRUE,
   row.names = "sample_name",
   check.names = FALSE
 )
-coldata <- coldata[order(row.names(coldata)), , drop = FALSE]
+col_data <- col_data[order(row.names(col_data)), , drop = FALSE]
 
 
 coldata <- read.table(snakemake@params[["samples"]], header=TRUE, row.names="sample_name", check.names=FALSE)
 coldata <- coldata[order(row.names(coldata)), , drop=F]
 
-dds <- DESeqDataSetFromMatrix(countData=cts,
-                              colData=coldata,
+dds <- DESeqDataSetFromMatrix(countData=counts_data,
+                              colData=col_data,
                               design=as.formula(snakemake@params[["model"]]))
 
 # remove uninformative columns
