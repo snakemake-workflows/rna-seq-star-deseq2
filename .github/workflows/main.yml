@@ -44,15 +44,27 @@ jobs:
       uses: actions/checkout@v2
       with:
         submodules: recursive
-    - name: Test workflow
+    - name: Test workflow (basic model, no batch_effects)
       uses: snakemake/snakemake-github-action@v1.22.0
       with:
         directory: .test
         snakefile: workflow/Snakefile
-        args: "--use-conda --show-failed-logs --cores 2 --conda-cleanup-pkgs cache"
-    - name: Test report
+        args: "--configfile .test/config_basic/config.yaml --use-conda --show-failed-logs --cores 2 --conda-cleanup-pkgs cache"
+    - name: Test report (basic model, no batch_effects)
       uses: snakemake/snakemake-github-action@v1.22.0
       with:
         directory: .test
         snakefile: workflow/Snakefile
-        args: "--report report.zip"
+        args: "--configfile .test/config_basic/config.yaml --report report.zip"
+    - name: Test workflow (multiple variables_of_interest, include batch_effects)
+      uses: snakemake/snakemake-github-action@v1.22.0
+      with:
+        directory: .test
+        snakefile: workflow/Snakefile
+        args: "--configfile .test/config_complex/config.yaml --use-conda --show-failed-logs --cores 2 --conda-cleanup-pkgs cache"
+    - name: Test report (multiple variables_of_interest, include batch_effects)
+      uses: snakemake/snakemake-github-action@v1.22.0
+      with:
+        directory: .test
+        snakefile: workflow/Snakefile
+        args: "--configfile .test/config_complex/config.yaml --report report.zip"

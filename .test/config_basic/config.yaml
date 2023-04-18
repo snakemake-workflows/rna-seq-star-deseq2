@@ -1,0 +1,55 @@
+# path or URL to sample sheet (TSV format, columns: sample, condition, ...)
+samples: config_basic/samples.tsv
+# path or URL to sequencing unit sheet (TSV format, columns: sample, unit, fq1, fq2)
+# Units are technical replicates (e.g. lanes, or resequencing of the same biological
+# sample).
+units: config_basic/units.tsv
+
+
+ref:
+  # Ensembl species name
+  species: saccharomyces_cerevisiae
+  # Ensembl release
+  release: 100
+  # Genome build
+  build: R64-1-1
+
+
+trimming:
+  activate: False
+
+mergeReads:
+  activate: False
+
+pca:
+  activate: True
+  labels:
+    # columns of sample sheet to use for PCA
+    - condition
+
+diffexp:
+  # variables where you are interested in whether they have
+  # an effect on expression levels
+  variables_of_interest:
+    condition:
+      # any fold change will be relative to this factor level
+      base_level: untreated
+  batch_effects: ""
+  # contrasts for the deseq2 results method to determine fold changes
+  contrasts:
+    treated-vs-untreated:
+      # must be one of the variables_of_interest
+      variable_of_interest: condition
+      level_of_interest: treated
+  # The default model includes all interactions among variables_of_interest
+  # and batch_effects added on. For the example above this implicitly is:
+  # model: ~condition
+  # For the default model to be used, simply specify an empty `model: ""`
+  # With more variables_of_interest or batch_effects, you could introduce different
+  # assumptions into your model, by specicifying a different model here.
+  model: ~condition
+
+params:
+  cutadapt-pe: ""
+  cutadapt-se: ""
+  star: ""
