@@ -12,8 +12,22 @@ if (snakemake@threads > 1) {
     parallel <- TRUE
 }
 
-cts <- read.table(snakemake@input[["counts"]], header=TRUE, row.names="gene", check.names=FALSE)
-cts <- cts[ , order(names(cts))]
+cts <- read.table(
+  snakemake@input[["counts"]],
+  header = TRUE,
+  row.names = "gene",
+  check.names = FALSE
+)
+cts <- cts[, order(names(cts))]
+
+coldata <- read.table(
+  snakemake@params[["samples"]],
+  header = TRUE,
+  row.names = "sample_name",
+  check.names = FALSE
+)
+coldata <- coldata[order(row.names(coldata)), , drop = FALSE]
+
 
 coldata <- read.table(snakemake@params[["samples"]], header=TRUE, row.names="sample_name", check.names=FALSE)
 coldata <- coldata[order(row.names(coldata)), , drop=F]
