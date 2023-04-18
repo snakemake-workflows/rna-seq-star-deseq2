@@ -1,4 +1,4 @@
-log <- file(snakemake@log[[1]], open="wt")
+log <- file(snakemake@log[[1]], open = "wt")
 sink(log)
 sink(log, type="message")
 
@@ -37,12 +37,20 @@ dds <- DESeqDataSetFromMatrix(countData=counts_data,
                               design=as.formula(snakemake@params[["model"]]))
 
 # remove uninformative columns
-dds <- dds[ rowSums(counts(dds)) > 1, ]
+dds <- dds[rowSums(counts(dds)) > 1, ]
 # normalization and preprocessing
-dds <- DESeq(dds, parallel=parallel)
+dds <- DESeq(dds, parallel = parallel)
 
 # Write dds object as RDS
-saveRDS(dds, file=snakemake@output[[1]])
+saveRDS(dds, file = snakemake@output[[1]])
 # Write normalized counts
-norm_counts = counts(dds, normalized=T)
-write.table(data.frame("gene"=rownames(norm_counts), norm_counts), file=snakemake@output[[2]], sep='\t', row.names=F)
+norm_counts <- counts(dds, normalized = TRUE)
+write.table(
+  data.frame(
+    "gene" = rownames(norm_counts),
+    norm_counts
+  ),
+  file = snakemake@output[[2]],
+  sep = "\t",
+  row.names = FALSE
+)
