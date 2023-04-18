@@ -14,7 +14,30 @@ if (snakemake@threads > 1) {
 
 dds <- readRDS(snakemake@input[[1]])
 
-contrast <- c("condition", snakemake@params[["contrast"]])
+contrast_config <- snakemake@config[["diffexp"]][["contrasts"]][[
+    snakemake@wildcards[["contrast"]]
+]]
+
+# basic case of contrast specification, see:
+# https://www.bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#contrasts
+if (length(contrast_config) == 2 && typeof(contrast_config) == "list") {
+  contrast <- c(
+    contrast_config[["variable_of_interest"]],
+    contrast_config[["level_of_interest"]],
+    snakemake@config[["diffexp"]][["variables_of_interest"]][[
+      contrast_config[["variable_of_interest"]]
+    ]][["base_level"]]
+  )
+# more complex contrast specification via list(c(), c()), see ?results docs of
+# the DESeq2 package and this tutorial (plus the linked seqanswers thread):
+# https://github.com/tavareshugo/tutorial_DESeq2_contrasts/blob/main/DESeq2_contrasts.md
+} else if (
+    length(contrast_config) == 1 &&
+    typeof(contrast_config) == "character"
+  ) {
+  contrast <- d <- eval(parse(text = contrast_config))
+}
+
 res <- results(
   dds,
   contrast = contrast,
