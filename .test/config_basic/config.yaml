@@ -26,8 +26,14 @@ mergeReads:
 
 pca:
   activate: True
+  # Per default, a separate PCA plot is generated for each of the
+  # `variables_of_interest` and the `batch_effects`, coloring according to
+  # that variables groups.
+  # If you want PCA plots for further columns in the samples.tsv sheet, you
+  # can request them under labels as a list, for example:
+  # - relatively_uninteresting_variable_X
+  # - possible_batch_effect_Y
   labels:
-    # columns of sample sheet to use for PCA
     - condition
 
 diffexp:
