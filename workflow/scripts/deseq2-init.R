@@ -42,7 +42,9 @@ for (vof in names(snakemake@config[["diffexp"]][["variables_of_interest"]])) {
 # properly turn all batch effects into factors, even if they are numeric
 batch_effects <- snakemake@config[["diffexp"]][["batch_effects"]]
 for (effect in batch_effects) {
-  col_data[[effect]] <- factor(col_data[[effect]])
+  if (str_length(effect) > 0) {
+    col_data[[effect]] <- factor(col_data[[effect]])
+  }
 }
 
 # build up formula with additive batch_effects and all interactions between the
