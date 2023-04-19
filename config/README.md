@@ -49,6 +49,6 @@ Then, enter the adapter sequences into the `adapters` column of that unit, prece
 
 ### strandedness of library preparation protocol
 
-To get the correct `geneCounts` from `STAR`, you can provide information on the strandedness of the library preparation protocol used for a unit.
-`STAR` can produce counts for unstranded (`None` - this is the default), forward oriented (`yes`) and reverse oriented (`reverse`) protocols.  
+To get the correct `geneCounts` from `STAR` output, you can provide information on the strandedness of the library preparation protocol used for a unit.
+`STAR` can produce counts for unstranded (`none` - this is the default), forward oriented (`yes`) and reverse oriented (`reverse`) protocols.  
 Enter the respective value into a `strandedness` column in the `units.tsv` file.
