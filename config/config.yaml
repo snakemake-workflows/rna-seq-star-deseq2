@@ -15,6 +15,9 @@ ref:
   build: GRCh38
 
 trimming:
+  # If you activate trimming by setting this to `True`, you will have to
+  # specify the respective cutadapt adapter trimming flag for each unit
+  # in the `units.tsv` file's `adapters` column
   activate: False
 
 pca:
