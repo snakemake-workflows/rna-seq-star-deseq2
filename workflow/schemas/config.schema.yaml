@@ -38,11 +38,12 @@ properties:
       activate:
        type: boolean
       labels:
-        type: array
+        type: 
+          - array
+          - string
         items:
           type: string
     required:
-      - labels
       - activate
 
   diffexp:
