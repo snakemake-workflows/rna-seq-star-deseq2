@@ -47,6 +47,11 @@ units = (
 validate(units, schema="../schemas/units.schema.yaml")
 
 
+wildcard_constraints:
+    sample="|".join(samples["sample_name"]),
+    unit="|".join(samples["unit_name"]),
+
+
 def get_cutadapt_input(wildcards):
     unit = units.loc[wildcards.sample].loc[wildcards.unit]
 
