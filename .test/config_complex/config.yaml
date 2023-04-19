@@ -53,12 +53,12 @@ diffexp:
   contrasts:
     treatment_1_alone:
       # must be one of the variables_of_interest
-      variable_of_interest: treament_1
+      variable_of_interest: treatment_1
       # the variable's level to test against the base_level
       level_of_interest: treated
     treatment_2_alone:
       # must be one of the variables_of_interest
-      variable_of_interest: treament_2
+      variable_of_interest: treatment_2
       # the variable's level to test against the base_level
       level_of_interest: treated
     # Must be a valid expression for option two in the contrasts description
