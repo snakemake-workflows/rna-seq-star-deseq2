@@ -2,6 +2,7 @@ log <- file(snakemake@log[[1]], open = "wt")
 sink(log)
 sink(log, type = "message")
 
+library("cli")
 library("DESeq2")
 
 parallel <- FALSE
@@ -21,6 +22,24 @@ contrast_config <- snakemake@config[["diffexp"]][["contrasts"]][[
 # basic case of contrast specification, see:
 # https://www.bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#contrasts
 if (length(contrast_config) == 2 && typeof(contrast_config) == "list") {
+  if (
+    # check for existence contrast's variable_of_interest to
+    # provide useful error message
+    !(contrast_config[["variable_of_interest"]] %in%
+      names(snakemake@config[["diffexp"]][["variables_of_interest"]])
+    )
+  ) {
+      cli_abort(
+        c(
+                "config.yaml: All variable_of_interest entries under `diffexp: contrasts:`",
+          " " = "must also exist under `diffexp: variables_of_interest:`.",
+          "x" = "Could not find variable_of_interest: {contrast_config[['variable_of_interest']]}",
+          " " = "It was not among the `diffexp: variables_of_interest:`"
+          " " = "{names(snakemake@config[['diffexp']][['variables_of_interest']])}",
+          "i" = "Are there any typos in the contrasts' `variable_of_interest:` entries?"
+        )
+      )
+  }
   contrast <- c(
     contrast_config[["variable_of_interest"]],
     contrast_config[["level_of_interest"]],
