@@ -34,7 +34,7 @@ if (length(contrast_config) == 2 && typeof(contrast_config) == "list") {
                 "config.yaml: All variable_of_interest entries under `diffexp: contrasts:`",
           " " = "must also exist under `diffexp: variables_of_interest:`.",
           "x" = "Could not find variable_of_interest: {contrast_config[['variable_of_interest']]}",
-          " " = "It was not among the `diffexp: variables_of_interest:`"
+          " " = "It was not among the `diffexp: variables_of_interest:`",
           " " = "{names(snakemake@config[['diffexp']][['variables_of_interest']])}",
           "i" = "Are there any typos in the contrasts' `variable_of_interest:` entries?"
         )
