@@ -1,3 +1,6 @@
-sample_name	condition
-A	untreated
-B	treated
+sample_name	treatment_1	treatment_2	jointly_handled
+A	untreated	untreated	1
+B	untreated	treated	1
+C	treated	untreated	1
+D	treated	untreated	2
+E	treated	treated	2

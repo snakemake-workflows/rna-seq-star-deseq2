@@ -5,10 +5,6 @@ properties:
   sample_name:
     type: string
     description: sample name/identifier
-  condition:
-    type: string
-    description: sample condition that will be compared during differential expression analysis (e.g. a treatment, a tissue time, a disease)
 
 required:
   - sample_name
-  - condition

@@ -12,12 +12,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout with submodules
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         submodules: recursive
         fetch-depth: 0
     - name: Formatting
-      uses: github/super-linter@v4
+      uses: github/super-linter@v5
       env:
         VALIDATE_ALL_CODEBASE: false
         DEFAULT_BRANCH: master
@@ -26,13 +26,13 @@ jobs:
   linting:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Linting
       uses: snakemake/snakemake-github-action@v1.22.0
       with:
         directory: .test
         snakefile: workflow/Snakefile
-        args: "--lint"
+        args: "--configfile .test/config_complex/config.yaml --lint"
 
   run-workflow:
     runs-on: ubuntu-latest
@@ -41,18 +41,30 @@ jobs:
       - formatting
     steps:
     - name: Checkout repository with submodules
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         submodules: recursive
-    - name: Test workflow
+    - name: Test workflow (basic model, no batch_effects)
       uses: snakemake/snakemake-github-action@v1.22.0
       with:
         directory: .test
         snakefile: workflow/Snakefile
-        args: "--use-conda --show-failed-logs --cores 2 --conda-cleanup-pkgs cache"
-    - name: Test report
+        args: "--configfile .test/config_basic/config.yaml --use-conda --show-failed-logs --cores 2 --conda-cleanup-pkgs cache"
+    - name: Test report (basic model, no batch_effects)
       uses: snakemake/snakemake-github-action@v1.22.0
       with:
         directory: .test
         snakefile: workflow/Snakefile
-        args: "--report report.zip"
+        args: "--configfile .test/config_basic/config.yaml --report report.zip"
+    - name: Test workflow (multiple variables_of_interest, include batch_effects)
+      uses: snakemake/snakemake-github-action@v1.22.0
+      with:
+        directory: .test
+        snakefile: workflow/Snakefile
+        args: "--configfile .test/config_complex/config.yaml --use-conda --show-failed-logs --cores 2 --conda-cleanup-pkgs cache"
+    - name: Test report (multiple variables_of_interest, include batch_effects)
+      uses: snakemake/snakemake-github-action@v1.22.0
+      with:
+        directory: .test
+        snakefile: workflow/Snakefile
+        args: "--configfile .test/config_complex/config.yaml --report report.zip"

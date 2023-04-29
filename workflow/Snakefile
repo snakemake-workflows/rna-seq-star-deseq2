@@ -36,5 +36,3 @@ include: "rules/diffexp.smk"
 rule all:
     input:
         get_final_output(),
-        "results/qc/multiqc_report.html",
-        "results/pca.svg",

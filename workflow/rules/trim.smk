@@ -32,7 +32,7 @@ rule cutadapt_pe:
     log:
         "logs/cutadapt/{sample}_{unit}.log",
     params:
-        others=config["params"]["cutadapt-pe"],
+        extra=config["params"]["cutadapt-pe"],
         adapters=lambda w: str(units.loc[w.sample].loc[w.unit, "adapters"]),
     threads: 8
     wrapper:
@@ -48,7 +48,7 @@ rule cutadapt_se:
     log:
         "logs/cutadapt/{sample}_{unit}.log",
     params:
-        others=config["params"]["cutadapt-se"],
+        extra=config["params"]["cutadapt-se"],
         adapters_r1=lambda w: str(units.loc[w.sample].loc[w.unit, "adapters"]),
     threads: 8
     wrapper:
