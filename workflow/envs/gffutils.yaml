@@ -3,4 +3,4 @@ channels:
   - bioconda
   - nodefaults
 dependencies:
-  - gffutils =0.11
+  - gffutils =0.12
