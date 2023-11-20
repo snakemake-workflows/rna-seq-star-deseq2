@@ -119,7 +119,9 @@ def get_fq(wildcards):
                 )
             )
         # single end sample
-        return {"fq1": "results/trimmed/{sample}_{unit}_single.fastq.gz".format(**wildcards)}
+        return {
+            "fq1": "results/trimmed/{sample}_{unit}_single.fastq.gz".format(**wildcards)
+        }
     else:
         # no trimming, use raw reads
         u = units.loc[(wildcards.sample, wildcards.unit)]
