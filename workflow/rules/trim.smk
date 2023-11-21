@@ -49,7 +49,7 @@ rule cutadapt_se:
         "logs/cutadapt/{sample}_{unit}.log",
     params:
         extra=config["params"]["cutadapt-se"],
-        adapters_r1=lambda w: str(units.loc[w.sample].loc[w.unit, "adapters"]),
+        adapters=lambda w: str(units.loc[w.sample].loc[w.unit, "adapters"]),
     threads: 8
     wrapper:
         "v1.21.4/bio/cutadapt/se"
