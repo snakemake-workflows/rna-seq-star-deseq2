@@ -1,5 +1,7 @@
 library(biomaRt)
 library(tidyverse)
+# useful error messages upon aborting
+library("cli")
 
 # this variable holds a mirror name until
 # useEnsembl succeeds ("www" is last, because 
@@ -24,7 +26,14 @@ while ( class(mart)[[1]] != "Mart" ) {
       # change or make configurable if you want more or
       # less rounds of tries of all the mirrors
       if (rounds >= 3) {
-        stop(
+        cli_abort(
+          str_c(
+            "Have tried all 4 available Ensembl biomaRt mirrors ",
+            rounds,
+            " times. You might have a connection problem, or no mirror is responsive.\n",
+            "The last error message was:\n",
+            message(e)
+          )
         )
       }
       # hop to next mirror
