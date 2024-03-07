@@ -64,6 +64,9 @@ if (str_length(design_formula) == 0) {
   design_formula <- str_c("~", batch_effects, vof_interactions)
 }
 
+# TODO: only here for debugging:
+save.image(file = "deseq2_init_dump.RData")
+
 dds <- DESeqDataSetFromMatrix(
   countData = counts_data,
   colData = col_data,
