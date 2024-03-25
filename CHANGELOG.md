@@ -6,7 +6,7 @@
 ### Bug Fixes
 
 * release-please branch to `master` and set permissions ([#79](https://github.com/snakemake-workflows/rna-seq-star-deseq2/issues/79)) ([4b781cf](https://github.com/snakemake-workflows/rna-seq-star-deseq2/commit/4b781cfa14fb5474108594fbaefa0ac8519f19dc))
-* update to using storage plugin ftp ([#76](https://github.com/snakemake-workflows/rna-seq-star-deseq2/issues/76)) ([0f18be7](https://github.com/snakemake-workflows/rna-seq-star-deseq2/commit/0f18be7618a8dfb998455edf1da89b7cfb2e1301))
+* remove unused ftp RemoteProvider and require recent snakemake 8 ([#76](https://github.com/snakemake-workflows/rna-seq-star-deseq2/issues/76)) ([0f18be7](https://github.com/snakemake-workflows/rna-seq-star-deseq2/commit/0f18be7618a8dfb998455edf1da89b7cfb2e1301))
 
 
 ### Performance Improvements
