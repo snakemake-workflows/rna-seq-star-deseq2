@@ -3,7 +3,11 @@ name: "release-please, see: https://github.com/marketplace/actions/release-pleas
 on:
   push:
     branches:
-      - main
+      - master
+
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
   release-please:
