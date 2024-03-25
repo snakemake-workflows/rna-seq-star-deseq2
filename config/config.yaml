@@ -37,23 +37,23 @@ diffexp:
   variables_of_interest:
     treatment_1:
       # any fold change will be relative to this factor level
-      base_level: B
+      base_level: untreated
     treatment_2:
       # any fold change will be relative to this factor level
-      base_level: C
+      base_level: untreated
   # variables whose effect you want to model to separate them from your
   # variables_of_interest
   batch_effects:
     - jointly_handled
   # contrasts for the deseq2 results method to determine fold changes
   contrasts:
-    A-vs-B_treatment_1:
+    treatment_1:
       # must be one of the variables_of_interest, for details see:
       # https://www.bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#contrasts
       variable_of_interest: treatment_1
       # must be a level present in the variable_of_interest that is not the
       # base_level specified above
-      level_of_interest: A
+      level_of_interest: treated
   # The default model includes all interactions among variables_of_interest
   # and batch_effects added on. For the example above this implicitly is:
   # model: ~jointly_handled + treatment_1 * treatment_2
