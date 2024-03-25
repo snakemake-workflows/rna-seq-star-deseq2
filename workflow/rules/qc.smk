@@ -193,4 +193,4 @@ rule multiqc:
     log:
         "logs/multiqc.log",
     wrapper:
-        "v2.7.0/bio/multiqc"
+        "v3.5.3/bio/multiqc"
