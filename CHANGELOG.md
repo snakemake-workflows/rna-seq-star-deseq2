@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.2](https://github.com/snakemake-workflows/rna-seq-star-deseq2/compare/v2.1.1...v2.1.2) (2024-06-05)
+
+
+### Bug Fixes
+
+* use derived input for star_index ([#81](https://github.com/snakemake-workflows/rna-seq-star-deseq2/issues/81)) ([87fffe6](https://github.com/snakemake-workflows/rna-seq-star-deseq2/commit/87fffe6a1beaa86e95c3564061d2720cc73308c7))
+
 ## [2.1.1](https://github.com/snakemake-workflows/rna-seq-star-deseq2/compare/v2.1.0...v2.1.1) (2024-03-25)
 
 
