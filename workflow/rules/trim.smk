@@ -1,7 +1,7 @@
 rule get_sra:
     output:
-        "sra/{accession}_1.fastq",
-        "sra/{accession}_2.fastq",
+        "sra/{accession}_R1.fastq",
+        "sra/{accession}_R2.fastq",
     log:
         "logs/get-sra/{accession}.log",
     wrapper:
