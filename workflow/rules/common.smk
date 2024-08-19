@@ -1,4 +1,5 @@
 import glob
+import subprocess
 
 import pandas as pd
 from snakemake.utils import validate
@@ -100,6 +101,44 @@ def is_paired_end(sample):
     return all_paired
 
 
+def is_sra_paired_end(sample):
+    sample_units = units.loc[sample]
+    
+    sra_accession = sample_units["sra"]
+    
+    if sra_accession.isnull().all():
+        raise ValueError(f"No SRA accession found for sample {sample}")
+    
+    # Dictionary to cache SRA accession and their LibraryLayout
+    sra_layout_cache = {}
+
+    def get_library_layout(sra):
+        if sra in sra_layout_cache:
+            return sra_layout_cache[sra]
+        
+        try:
+            cmd = f'esearch -db sra -query "{sra}" | efetch -format runinfo | tail -n +2 | cut -d "," -f 16'
+            library_layout = subprocess.check_output(cmd, shell=True).decode("utf-8").strip()
+            
+            if library_layout not in ["SINGLE", "PAIRED"]:
+                raise ValueError(f"Unexpected LibraryLayout: {library_layout} for SRA accession {sra}")
+            
+            sra_layout_cache[sra] = library_layout
+            return library_layout
+        except subprocess.CalledProcessError as e:
+            raise RuntimeError(f"Failed to fetch LibraryLayout for {sra}: {e}")
+    
+    # Fetch the LibraryLayout for the given sample
+    library_layout = get_library_layout(sra_accession.iloc[0])
+    
+    # Check for consistency among all SRA accessions for this sample
+    for sra in sra_accession.dropna():
+        if get_library_layout(sra) != library_layout:
+            raise ValueError(f"Inconsistent LibraryLayout found among samples with SRA accessions.")
+    
+    return library_layout == "PAIRED"
+
+
 def get_fq(wildcards):
     if config["trimming"]["activate"]:
         # activated trimming, use trimmed data
@@ -120,25 +159,27 @@ def get_fq(wildcards):
             "fq1": "results/trimmed/{sample}_{unit}_single.fastq.gz".format(**wildcards)
         }
     else:
-        # no trimming, use raw reads
         u = units.loc[(wildcards.sample, wildcards.unit)]
         if pd.isna(u["fq1"]):
-            # SRA sample (always paired-end for now)
             accession = u["sra"]
-            return dict(
-                zip(
-                    ["fq1", "fq2"],
-                    expand(
-                        "sra/{accession}_{group}.fastq",
-                        accession=accession,
-                        group=["1", "2"],
-                    ),
+            if is_sra_paired_end(wildcards.sample):
+                return dict(
+                    zip(
+                        ["fq1", "fq2"],
+                        expand(
+                            "sra/{accession}_{group}.fastq",
+                            accession=accession,
+                            group=["1", "2"],
+                        ),
+                    )
                 )
-            )
-        if not is_paired_end(wildcards.sample):
-            return {"fq1": f"{u.fq1}"}
+            else:
+                return {"fq1": f"sra/{accession}.fastq"}
         else:
-            return {"fq1": f"{u.fq1}", "fq2": f"{u.fq2}"}
+            if not is_paired_end(wildcards.sample):
+                return {"fq1": f"{u.fq1}"}
+            else:
+                return {"fq1": f"{u.fq1}", "fq2": f"{u.fq2}"}
 
 
 def get_strandedness(units):
