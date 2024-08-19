@@ -55,7 +55,7 @@ def get_cutadapt_input(wildcards):
     if pd.isna(unit["fq1"]):
         # SRA sample (always paired-end for now)
         accession = unit["sra"]
-        return expand("sra/{accession}_{read}.fastq", accession=accession, read=[1, 2])
+        return expand("sra/{accession}_{read}.fastq", accession=accession, read=[R1, R2])
 
     if unit["fq1"].endswith("gz"):
         ending = ".gz"
