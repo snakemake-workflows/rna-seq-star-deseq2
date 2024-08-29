@@ -146,6 +146,19 @@ rule rseqc_readgc:
         "read_GC.py -i {input} -o {params.prefix} > {log} 2>&1"
 
 
+rule rseqc_readqual:
+    input:
+        bam="results/star/{sample}_{unit}/Aligned.sortedByCoord.out.bam"
+    output:
+        "results/qc/rseqc/{sample}_{unit}.readqual.Quality_plot.pdf"
+    log:
+        "logs/rseqc/rseqc_readqual/{sample}_{unit}.log"
+    conda:
+        "../envs/rseqc.yaml"
+    shell:
+        "read_quality.py -i {input.bam} -o {output} > {log} 2>&1"
+
+
 rule multiqc:
     input:
         expand(
@@ -182,6 +195,10 @@ rule multiqc:
         ),
         expand(
             "results/qc/rseqc/{unit.sample_name}_{unit.unit_name}.readgc.GC_plot.pdf",
+            unit=units.itertuples(),
+        ),
+        expand(
+            "results/qc/rseqc/{unit.sample_name}_{unit.unit_name}.readqual.Quality_plot.pdf",
             unit=units.itertuples(),
         ),
         expand(
