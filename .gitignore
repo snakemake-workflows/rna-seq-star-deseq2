@@ -8,3 +8,5 @@ logs/**
 resources/**
 results/**
 .snakemake/**
+.DS_Store
+settings.json

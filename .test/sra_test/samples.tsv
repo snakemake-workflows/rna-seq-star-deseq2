@@ -1,0 +1,25 @@
+sample_name	Cell	Treated	Time
+SAMN15946684	human neutrophil	no treatment	6 h
+SAMN15946683	human neutrophil	no treatment	6 h
+SAMN15946682	human neutrophil	no treatment	6 h
+SAMN15946681	human neutrophil	R848 (5mM)	6 h
+SAMN15946680	human neutrophil	R848 (5mM)	6 h
+SAMN15946679	human neutrophil	R848 (5mM)	6 h
+SAMN15946678	human neutrophil	no treatment	20 h
+SAMN15946677	human neutrophil	no treatment	20 h
+SAMN15946676	human neutrophil	no treatment	20 h
+SAMN15946675	human neutrophil	R848 (5mM)	20 h
+SAMN15946674	human neutrophil	R848 (5mM)	20 h
+SAMN15946673	human neutrophil	R848 (5mM)	20 h
+SAMN15946672	human CD14+ monocytes	no treatment	6 h
+SAMN15946671	human CD14+ monocytes	no treatment	6 h
+SAMN15946670	human CD14+ monocytes	no treatment	6 h
+SAMN15946704	human CD14+ monocytes	R848 (5mM)	6 h
+SAMN15946703	human CD14+ monocytes	R848 (5mM)	6 h
+SAMN15946702	human CD14+ monocytes	R848 (5mM)	6 h
+SAMN15946701	human CD14+ monocytes	no treatment	20 h
+SAMN15946700	human CD14+ monocytes	no treatment	20 h
+SAMN15946699	human CD14+ monocytes	no treatment	20 h
+SAMN15946698	human CD14+ monocytes	R848 (5mM)	20 h
+SAMN15946697	human CD14+ monocytes	R848 (5mM)	20 h
+SAMN15946696	human CD14+ monocytes	R848 (5mM)	20 h
