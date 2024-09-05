@@ -1,0 +1,8 @@
+channels:
+  - conda-forge
+  - bioconda
+  - nodefaults
+dependencies:
+  - r-gsva
+  - r-msigdbr
+  - r-pheatmap

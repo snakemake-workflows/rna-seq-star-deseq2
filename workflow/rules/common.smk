@@ -32,6 +32,9 @@ def get_final_output():
         final_output.extend(
             expand("results/pca.{variable}.svg", variable=pca_variables)
         )
+    if config["pathway"]["activate"]:
+        final_output.append("results/pathway/hallmark_GSVA.csv")
+        final_output.append("results/pathway/hallmark_GSVA.svg")
     return final_output
 
 

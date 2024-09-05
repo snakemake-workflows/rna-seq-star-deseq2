@@ -55,6 +55,14 @@ properties:
         type: string
     required:
       - contrasts
+  
+  pathway:
+    type: object
+    properties:
+      activate:
+        type: boolean
+    required:
+      - activate
 
   params:
     type: object
