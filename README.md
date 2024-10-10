@@ -18,8 +18,9 @@ If you use this workflow in a paper, don't forget to give credits to the authors
 - I've made some changes to thread assignment and set global defaults much higher.
 - Using cookier cutter to create a slurm profile: `cookiecutter https://github.com/Snakemake-Profiles/slurm.git`
 - modified the config/units.yaml file to point to the test RNA data
+- make a cache dir on the shared FS, set the export SNAKEMAKE_OUTPUT_CACHE=/fsx/resources/environments/containers/ubuntu/cache/
 - I make a conda snakemake env, `conda create -n snakmake -f snakemake_env.yaml`
 - `snakemake --version` == 8.20.6
 ```bash
-snakemake --use-conda --use-singularity -j 1  --singularity-prefix /fsx/resources/environments/containers/ubuntu/ip-10-0-0-240/ --singularity-args "  -B /tmp:/tmp -B /fsx:/fsx  -B /home/$USER:/home/$USER -B $PWD/:$PWD" --conda-prefix /fsx/resources/environments/containers/ubuntu/ip-10-0-0-240/ --profile ./profiles/slurm_pcluster3
+snakemake --use-conda --use-singularity -j 1  --singularity-prefix /fsx/resources/environments/containers/ubuntu/ip-10-0-0-240/ --singularity-args "  -B /tmp:/tmp -B /fsx:/fsx  -B /home/$USER:/home/$USER -B $PWD/:$PWD" --conda-prefix /fsx/resources/environments/containers/ubuntu/ip-10-0-0-240/ --profile ./profiles/slurm_pcluster3 --cache
 ```
