@@ -11,6 +11,6 @@ rule align:
     params:
         idx=lambda wc, input: input.index,
         extra=lambda wc, input: f'--outSAMtype BAM SortedByCoordinate --quantMode GeneCounts --sjdbGTFfile {input.gtf} {config["params"]["star"]}',
-    threads: 24
+    threads: 192
     wrapper:
         "v3.5.3/bio/star/align"

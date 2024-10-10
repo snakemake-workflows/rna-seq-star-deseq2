@@ -17,7 +17,7 @@ rule cutadapt_pipe:
         "logs/pipe-fastqs/catadapt/{sample}_{unit}.{fq}.{ext}.log",
     wildcard_constraints:
         ext=r"fastq|fastq\.gz",
-    threads: 0
+    threads: 0  ## this does something special when running using pipe() output directives
     shell:
         "cat {input} > {output} 2> {log}"
 
@@ -34,7 +34,7 @@ rule cutadapt_pe:
     params:
         extra=config["params"]["cutadapt-pe"],
         adapters=lambda w: str(units.loc[w.sample].loc[w.unit, "adapters"]),
-    threads: 8
+    threads: 64
     wrapper:
         "v3.5.3/bio/cutadapt/pe"
 
@@ -50,6 +50,6 @@ rule cutadapt_se:
     params:
         extra=config["params"]["cutadapt-se"],
         adapters=lambda w: str(units.loc[w.sample].loc[w.unit, "adapters"]),
-    threads: 8
+    threads: 64
     wrapper:
         "v3.5.3/bio/cutadapt/se"

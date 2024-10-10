@@ -5,6 +5,17 @@ samples: config/samples.tsv
 # sample).
 units: config/units.tsv
 
+executor:
+  name: slurmg
+  sbatch_defaults:
+    - "--cpus-per-task={threads}"
+    - "--mem={resources.mem_mb}M"
+    - "--time={resources.time_min}"
+    - "--qos=long"
+    - "--mail-type=ALL"
+    - "--mail-user=your.email@example.com"
+  slurm_extra: "'--partition i64,i128,i192'"
+
 
 ref:
   # Ensembl species name

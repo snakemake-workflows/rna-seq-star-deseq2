@@ -61,7 +61,7 @@ rule star_index:
         annotation="resources/genome.gtf",
     output:
         directory("resources/star_genome"),
-    threads: 4
+    threads: 64
     params:
         extra=lambda wc, input: f"--sjdbGTFfile {input.annotation} --sjdbOverhang 100",
     log:
