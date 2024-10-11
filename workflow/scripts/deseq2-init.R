@@ -34,6 +34,10 @@ if (snakemake@threads > 1) {
   parallel <- TRUE
 }
 
+# Print the input file names for troubleshooting
+cat("Counts file: ", snakemake@input[["counts"]], "\n")
+cat("Samples file: ", snakemake@config[["samples"]], "\n")
+
 # Read input files
 counts_data <- read.table(
   snakemake@input[["counts"]],

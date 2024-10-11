@@ -1,34 +1,27 @@
 # path or URL to sample sheet (TSV format, columns: sample, condition, ...)
-samples: config/samples.tsv
+samples: config_complex/samples.tsv
 # path or URL to sequencing unit sheet (TSV format, columns: sample, unit, fq1, fq2)
 # Units are technical replicates (e.g. lanes, or resequencing of the same biological
 # sample).
-units: config/units.tsv
-
-executor:
-  name: slurmg
-  sbatch_defaults:
-    - "--cpus-per-task={threads}"
-    - "--mem={resources.mem_mb}M"
-    - "--time={resources.time_min}"
-    - "--qos=long"
-    - "--mail-type=ALL"
-    - "--mail-user=your.email@example.com"
-  slurm_extra: "'--partition i64,i128,i192'"
+units: config_complex/units.tsv
 
 
 ref:
   # Ensembl species name
-  species: homo_sapiens
-  # Ensembl release (make sure to take one where snpeff data is available, check 'snpEff databases' output)
+  species: saccharomyces_cerevisiae
+  # Ensembl release
   release: 100
   # Genome build
-  build: GRCh38
+  build: R64-1-1
+
 
 trimming:
   # If you activate trimming by setting this to `True`, you will have to
   # specify the respective cutadapt adapter trimming flag for each unit
   # in the `units.tsv` file's `adapters` column
+  activate: False
+
+mergeReads:
   activate: False
 
 pca:
@@ -40,11 +33,13 @@ pca:
   # can request them under labels as a list, for example:
   # - relatively_uninteresting_variable_X
   # - possible_batch_effect_Y
-  labels: ""
+  labels:
+    # columns of sample sheet to use for PCA
+    - jointly_handled
 
 diffexp:
-  # variables for whome you are interested in whether they have an effect on
-  # expression levels
+  # variables where you are interested in whether they have
+  # an effect on expression levels
   variables_of_interest:
     treatment_1:
       # any fold change will be relative to this factor level
@@ -52,20 +47,25 @@ diffexp:
     treatment_2:
       # any fold change will be relative to this factor level
       base_level: untreated
-  # variables whose effect you want to model to separate them from your
-  # variables_of_interest
   batch_effects:
     - jointly_handled
   # contrasts for the deseq2 results method to determine fold changes
   contrasts:
-    treatment_1:
-      # must be one of the variables_of_interest, for details see:
-      # https://www.bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#contrasts
+    treatment_1_alone:
+      # must be one of the variables_of_interest
       variable_of_interest: treatment_1
-      # must be a level present in the variable_of_interest that is not the
-      # base_level specified above
+      # the variable's level to test against the base_level
       level_of_interest: treated
-  # The default model includes all interactions among variables_of_interest
+    treatment_2_alone:
+      # must be one of the variables_of_interest
+      variable_of_interest: treatment_2
+      # the variable's level to test against the base_level
+      level_of_interest: treated
+    # Must be a valid expression for option two in the contrasts description
+    # of ?results in the DESeq2 package. For a more detailed intro, also see:
+    # https://github.com/tavareshugo/tutorial_DESeq2_contrasts/blob/main/DESeq2_contrasts.md
+    both_treatments: 'list(c("treatment_1_treated_vs_untreated", "treatment_2_treated_vs_untreated", "treatment_1treated.treatment_2treated"))'
+  # The default model includes all interactions among variables_of_interest,
   # and batch_effects added on. For the example above this implicitly is:
   # model: ~jointly_handled + treatment_1 * treatment_2
   # For the default model to be used, simply specify an empty `model: ""` below.
@@ -73,7 +73,6 @@ diffexp:
   # specify a different model to use, for example skipping the interaction:
   # model: ~jointly_handled + treatment_1 + treatment_2
   model: ""
-
 
 params:
   cutadapt-pe: ""
