@@ -1,7 +1,0 @@
-executor:
-  name: slurm
-  sbatch_extras:
-    - "--cpus-per-task {threads}"
-    - "--partition your_partition"
-    - "--comment RnD"
-

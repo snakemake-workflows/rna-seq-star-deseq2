@@ -2,6 +2,7 @@ rule get_sra:
     output:
         "sra/{accession}_1.fastq",
         "sra/{accession}_2.fastq",
+    threads: 32
     log:
         "logs/get-sra/{accession}.log",
     wrapper:
@@ -17,7 +18,7 @@ rule cutadapt_pipe:
         "logs/pipe-fastqs/catadapt/{sample}_{unit}.{fq}.{ext}.log",
     wildcard_constraints:
         ext=r"fastq|fastq\.gz",
-    threads: 0  ## this does something special when running using pipe() output directives
+    threads: 1  ## this does something special when running using pipe() output directives
     shell:
         "cat {input} > {output} 2> {log}"
 

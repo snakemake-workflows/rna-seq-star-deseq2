@@ -30,15 +30,6 @@ include: "rules/align.smk"
 include: "rules/diffexp.smk"
 
 
-# Function to get the default number of threads from config.yaml
-#def set_threads(wildcards):
-#    return int(config.get("threads", 64))  # Default to 1 if not specified
-
-# Apply to all rules that do not already have 'threads' defined
-#for rule in workflow.rules:
-#    if not rule.threads:
-#        rule.threads = set_threads
-
 ##### target rules #####
 
 rule all:

@@ -7,6 +7,7 @@ rule rseqc_gtf2bed:
     output:
         bed="results/qc/rseqc/annotation.bed",
         db=temp("results/qc/rseqc/annotation.db"),
+    threads: 32
     log:
         "logs/rseqc_gtf2bed.log",
     conda:
@@ -27,6 +28,7 @@ rule rseqc_junction_annotation:
     params:
         extra=r"-q 255",  # STAR uses 255 as a score for unique mappers
         prefix=lambda w, output: output[0].replace(".junction.bed", ""),
+    threads: 32
     conda:
         "../envs/rseqc.yaml"
     shell:
@@ -41,6 +43,7 @@ rule rseqc_junction_saturation:
     output:
         "results/qc/rseqc/{sample}_{unit}.junctionsat.junctionSaturation_plot.pdf",
     priority: 1
+    threads: 32
     log:
         "logs/rseqc/rseqc_junction_saturation/{sample}_{unit}.log",
     params:
@@ -61,6 +64,7 @@ rule rseqc_stat:
     priority: 1
     log:
         "logs/rseqc/rseqc_stat/{sample}_{unit}.log",
+    threads: 32
     conda:
         "../envs/rseqc.yaml"
     shell:
@@ -76,6 +80,7 @@ rule rseqc_infer:
     priority: 1
     log:
         "logs/rseqc/rseqc_infer/{sample}_{unit}.log",
+    threads: 32
     conda:
         "../envs/rseqc.yaml"
     shell:
@@ -93,6 +98,7 @@ rule rseqc_innerdis:
         "logs/rseqc/rseqc_innerdis/{sample}_{unit}.log",
     params:
         prefix=lambda w, output: output[0].replace(".inner_distance.txt", ""),
+    threads: 32
     conda:
         "../envs/rseqc.yaml"
     shell:
@@ -103,6 +109,7 @@ rule rseqc_readdis:
     input:
         bam="results/star/{sample}_{unit}/Aligned.sortedByCoord.out.bam",
         bed="results/qc/rseqc/annotation.bed",
+    threads: 32
     output:
         "results/qc/rseqc/{sample}_{unit}.readdistribution.txt",
     priority: 1
@@ -119,6 +126,7 @@ rule rseqc_readdup:
         "results/star/{sample}_{unit}/Aligned.sortedByCoord.out.bam",
     output:
         "results/qc/rseqc/{sample}_{unit}.readdup.DupRate_plot.pdf",
+    threads: 32
     priority: 1
     log:
         "logs/rseqc/rseqc_readdup/{sample}_{unit}.log",
@@ -135,6 +143,7 @@ rule rseqc_readgc:
         "results/star/{sample}_{unit}/Aligned.sortedByCoord.out.bam",
     output:
         "results/qc/rseqc/{sample}_{unit}.readgc.GC_plot.pdf",
+    threads: 32
     priority: 1
     log:
         "logs/rseqc/rseqc_readgc/{sample}_{unit}.log",
@@ -188,6 +197,7 @@ rule multiqc:
             "logs/rseqc/rseqc_junction_annotation/{unit.sample_name}_{unit.unit_name}.log",
             unit=units.itertuples(),
         ),
+    threads: 32
     output:
         "results/qc/multiqc_report.html",
     log:

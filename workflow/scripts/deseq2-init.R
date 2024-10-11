@@ -1,3 +1,24 @@
+# Check if `snakemake` object exists, if not, define it manually
+if (!exists("snakemake")) {
+  snakemake <- list(
+    input = list(counts = "results/counts/all.tsv"),
+    output = list("results/deseq2/all.rds", "results/deseq2/normcounts.tsv"),
+    log = list("logs/deseq2/init.log"),  # Correct the log definition
+    threads = 1,  # Or set the number of threads you want to use
+    config = list(
+      samples = "path/to/samples.tsv",
+      diffexp = list(
+        variables_of_interest = list(
+          "some_variable" = list(base_level = "some_level")
+        ),
+        batch_effects = c("effect1", "effect2")
+      )
+    )
+  )
+}
+
+
+# Redirecting logs
 log <- file(snakemake@log[[1]], open = "wt")
 sink(log)
 sink(log, type="message")
@@ -5,14 +26,15 @@ sink(log, type="message")
 library(stringr)
 library("DESeq2")
 
+# Setup parallelization
 parallel <- FALSE
 if (snakemake@threads > 1) {
-    library("BiocParallel")
-    # setup parallelization
-    register(MulticoreParam(snakemake@threads))
-    parallel <- TRUE
+  library("BiocParallel")
+  register(MulticoreParam(snakemake@threads))
+  parallel <- TRUE
 }
 
+# Read input files
 counts_data <- read.table(
   snakemake@input[["counts"]],
   header = TRUE,
@@ -29,23 +51,21 @@ col_data <- read.table(
 )
 col_data <- col_data[order(row.names(col_data)), , drop = FALSE]
 
-# properly set the base level to the configuration in config.yaml, avoiding
-# the default behaviour of choosing the alphabetical minimum level
+# Set base level for variables of interest
 for (vof in names(snakemake@config[["diffexp"]][["variables_of_interest"]])) {
-  snakemake@config[["diffexp"]][["variables_of_interest"]][[vof]]
   base_level <- snakemake@config[["diffexp"]][["variables_of_interest"]][[vof]][["base_level"]]
-  col_data[[vof]] <- relevel(
-    factor(col_data[[vof]]), base_level
-  )
+  col_data[[vof]] <- relevel(factor(col_data[[vof]]), base_level)
 }
 
-# properly turn all batch effects into factors, even if they are numeric
+# Handle batch effects
 batch_effects <- snakemake@config[["diffexp"]][["batch_effects"]]
 for (effect in batch_effects) {
   if (str_length(effect) > 0) {
     col_data[[effect]] <- factor(col_data[[effect]])
   }
 }
+
+
 
 # build up formula with additive batch_effects and all interactions between the
 # variables_of_interes
@@ -63,6 +83,9 @@ if (str_length(design_formula) == 0) {
   )
   design_formula <- str_c("~", batch_effects, vof_interactions)
 }
+
+print(paste("Dimensions of counts_data: ", dim(counts_data)))
+print(paste("Dimensions of col_data: ", dim(col_data)))
 
 dds <- DESeqDataSetFromMatrix(
   countData = counts_data,

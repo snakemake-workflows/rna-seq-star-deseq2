@@ -9,6 +9,7 @@ rule get_genome:
         build=config["ref"]["build"],
         release=config["ref"]["release"],
     cache: True
+    threads: 32
     wrapper:
         "v3.5.3/bio/reference/ensembl-sequence"
 
@@ -23,6 +24,7 @@ rule get_annotation:
         release=config["ref"]["release"],
         flavor="",
     cache: True
+    threads: 32
     log:
         "logs/get_annotation.log",
     wrapper:
@@ -37,6 +39,7 @@ rule genome_faidx:
     log:
         "logs/genome-faidx.log",
     cache: True
+    threads: 32
     wrapper:
         "v3.5.3/bio/samtools/faidx"
 
@@ -51,6 +54,7 @@ rule bwa_index:
     resources:
         mem_mb=369000,
     cache: True
+    threads: 32
     wrapper:
         "v3.5.3/bio/bwa/index"
 
@@ -61,11 +65,11 @@ rule star_index:
         annotation="resources/genome.gtf",
     output:
         directory("resources/star_genome"),
-    threads: 64
     params:
         extra=lambda wc, input: f"--sjdbGTFfile {input.annotation} --sjdbOverhang 100",
     log:
         "logs/star_index_genome.log",
     cache: True
+    threads: 32
     wrapper:
         "v3.5.3/bio/star/index"
