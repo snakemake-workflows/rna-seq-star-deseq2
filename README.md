@@ -1,26 +1,61 @@
 # Snakemake workflow: rna-seq-star-deseq2
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4737358.svg)](https://doi.org/10.5281/zenodo.4737358)
-[![Snakemake](https://img.shields.io/badge/snakemake-≥6.1.0-brightgreen.svg)](https://snakemake.github.io)
-[![GitHub actions status](https://github.com/snakemake-workflows/rna-seq-star-deseq2/workflows/Tests/badge.svg?branch=master)](https://github.com/snakemake-workflows/rna-seq-star-deseq2/actions?query=branch%3Amaster+workflow%3ATests)
-[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white)](https://conventionalcommits.org)
+This is my adoption of the [original forked repo's rna seq start deseq2](https://snakemake.github.io/snakemake-workflow-catalog/?usage=snakemake-workflows%2Frna-seq-star-deseq2) worflow, but to use AWS Parallel Cluster, via the [pcluser slurm snakemake executor](https://github.com/Daylily-Informatics/snakemake-executor-plugin-pcluster-slurm-ref).
 
 This workflow performs a differential gene expression analysis with STAR and Deseq2.
 
-## Usage
+# Usage
+## Prereq : Conda
+- Have conda activated.
 
-The usage of this workflow is described in the [Snakemake Workflow Catalog](https://snakemake.github.io/snakemake-workflow-catalog/?usage=snakemake-workflows%2Frna-seq-star-deseq2).
-
-If you use this workflow in a paper, don't forget to give credits to the authors by citing the URL of this (original) repository and its DOI (see above).
-
-
-# Daylily Notes
-- I've made some changes to thread assignment and set global defaults much higher.
-- Using cookier cutter to create a slurm profile: `cookiecutter https://github.com/Snakemake-Profiles/slurm.git`
-- modified the config/units.yaml file to point to the test RNA data
-- make a cache dir on the shared FS, set the export SNAKEMAKE_OUTPUT_CACHE=/fsx/resources/environments/containers/ubuntu/cache/
-- I make a conda snakemake env, `conda create -n snakmake -f snakemake_env.yaml`
-- `snakemake --version` == 8.20.6
+## Clone Repo (it includes sample data)
 ```bash
-snakemake --use-conda --use-singularity -j 1  --singularity-prefix /fsx/resources/environments/containers/ubuntu/ip-10-0-0-240/ --singularity-args "  -B /tmp:/tmp -B /fsx:/fsx  -B /home/$USER:/home/$USER -B $PWD/:$PWD" --conda-prefix /fsx/resources/environments/containers/ubuntu/ip-10-0-0-240/ --profile ./profiles/slurm_pcluster3 --cache
+git clone git@github.com:Daylily-Informatics/rna-seq-star-deseq2.git
+cd rna-seq-star-deseq2
 ```
+
+## Build The Snakemake (v8.*) Conda Env
+```bash
+conda create -n snakemake -c conda-forge  snakemake==8.20.6 snakedeploy tabulate yaml && pip install snakemake-executor-plugin-pcluster-slurm==0.0\
+.8
+
+conda activate snakemake
+snakemake --version
+8.20.6
+```
+
+### Run Test Data Workflow
+_you are advised to run the following in a tmux or screen session_
+
+```bash
+conda activate snakemake
+
+# Set your cache dir for saving resources useful across other jobs, snakemake uses this when the `--cache` flag is set.
+export SNAKEMAKE_OUTPUT_CACHE=/fsx/resources/environments/containers/ubuntu/cache/
+
+# I set a partition relevant to my install, but if you specify nothing, you will get an error along the lines of <could not find appropriate nodes>.
+snakemake --use-conda --use-singularity -j 1  --singularity-prefix /fsx/resources/environments/containers/ubuntu/ip-10-0-0-240/ --singularity-args "  -B /tmp:/tmp -B /fsx:/fsx  -B /home/$USER:/home/$USER -B $PWD/:$PWD" --conda-prefix /fsx/resources/environments/containers/ubuntu/ip-10-0-0-240/ --executor pcluster-slurm --default-resources slurm_partition=i192 --cache
+```
+
+- Watch your running nodes/jobs using `squeue` (also, `q` cluster commands work, but not reliably and are not supported).
+
+#### What Partitions Are Available?
+Use `sinfo` to learn about your cluster (note, `sinfo` reports on all potential and active compute nodes. Read the docs to interpret which are active, which are not yet requested spot instances, etc). Below is what the [daylily AWS parallel cluster](https://github.com/Daylily-Informatics/daylily/blob/main/config/day_cluster/prod_cluster.yaml) looks like.
+
+```bash
+sinfo
+PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST
+i8*          up   infinite     12  idle~ i8-dy-gb64-[1-12]
+i64          up   infinite     16  idle~ i64-dy-gb256-[1-8],i64-dy-gb512-[1-8]
+i96          up   infinite     16  idle~ i96-dy-gb384-[1-8],i96-dy-gb768-[1-8]
+i128         up   infinite     28  idle~ i128-dy-gb256-[1-8],i128-dy-gb512-[1-10],i128-dy-gb1024-[1-10]
+i192         up   infinite     30  idle~ i192-dy-gb384-[1-10],i192-dy-gb768-[1-10],i192-dy-gb1536-[1-10]
+a192         up   infinite     30  idle~ a192-dy-gb384-[1-10],a192-dy-gb768-[1-10],a192-dy-gb1536-[1-10]
+```
+-  As I look at this, it is possible that if unset, the partition will default to `i8` in the output above. Maybe.
+
+#### Budgets, and the `--comment` sbatch flag
+I etensively make use of  [Cost allocation tags with AWS ParallelCluster](https://github.com/Daylily-Informatics/aws-parallelcluster-cost-allocation-tags) in the [daylily omics analysis framework](https://github.com/Daylily-Informatics/daylily?tab=readme-ov-file#daylily-aws-ephemeral-cluster-setup-0714) [_$3 30x WGS analysis_](https://github.com/Daylily-Informatics/daylily?tab=readme-ov-file#3-30x-fastq-bam-bamdeduplicated-snvvcfsvvcf-add-035-for-a-raft-of-qc-reports)  to track AWS cluster usage costs in realtime, and impose limits where appropriate (by user and project). This makes use of overriding the `--comment` flag to hold `project/budget` tags applied to ephemeral AWS resources, and thus enabling cost tracking/controls.
+
+* To change the --comment flag in v`0.0.8` of the pcluster-slurm plugin, set the comment flag value in the envvar `SMK_SLURM_COMMENT=RandD` (RandD is the default).
+

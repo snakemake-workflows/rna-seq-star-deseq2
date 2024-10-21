@@ -1,9 +1,9 @@
 # path or URL to sample sheet (TSV format, columns: sample, condition, ...)
-samples: config_complex/samples.tsv
+samples: config/samples.tsv
 # path or URL to sequencing unit sheet (TSV format, columns: sample, unit, fq1, fq2)
 # Units are technical replicates (e.g. lanes, or resequencing of the same biological
 # sample).
-units: config_complex/units.tsv
+units: config/units.tsv
 
 
 ref:
