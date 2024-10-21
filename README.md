@@ -5,6 +5,9 @@ This is my adoption of the [original forked repo's rna seq start deseq2](https:/
 This workflow performs a differential gene expression analysis with STAR and Deseq2.
 
 # Usage
+## Have an `AWS Parallel Cluster` ( using slurm as the scheduler ) Running.
+From the headnode, proceed to the following steps.
+
 ## Prereq : Conda
 - Have conda activated.
 
@@ -34,10 +37,10 @@ conda activate snakemake
 export SNAKEMAKE_OUTPUT_CACHE=/fsx/resources/environments/containers/ubuntu/cache/
 
 # I set a partition relevant to my install, but if you specify nothing, you will get an error along the lines of <could not find appropriate nodes>.
-snakemake --use-conda --use-singularity -j 1  --singularity-prefix /fsx/resources/environments/containers/ubuntu/ip-10-0-0-240/ --singularity-args "  -B /tmp:/tmp -B /fsx:/fsx  -B /home/$USER:/home/$USER -B $PWD/:$PWD" --conda-prefix /fsx/resources/environments/containers/ubuntu/ip-10-0-0-240/ --executor pcluster-slurm --default-resources slurm_partition=i192 --cache
+snakemake --use-conda --use-singularity -j 1  --singularity-prefix /fsx/resources/environments/containers/ubuntu/ip-10-0-0-240/ --singularity-args "  -B /tmp:/tmp -B /fsx:/fsx  -B /home/$USER:/home/$USER -B $PWD/:$PWD" --conda-prefix /fsx/resources/environments/containers/ubuntu/ip-10-0-0-240/ --executor pcluster-slurm --default-resources slurm_partition=i192 --cache -k -n
 ```
-
 - Watch your running nodes/jobs using `squeue` (also, `q` cluster commands work, but not reliably and are not supported).
+- **note:** it seems a bug in this example causes a few jobs to fail (investigating)
 
 #### What Partitions Are Available?
 Use `sinfo` to learn about your cluster (note, `sinfo` reports on all potential and active compute nodes. Read the docs to interpret which are active, which are not yet requested spot instances, etc). Below is what the [daylily AWS parallel cluster](https://github.com/Daylily-Informatics/daylily/blob/main/config/day_cluster/prod_cluster.yaml) looks like.
