@@ -37,7 +37,7 @@ conda activate snakemake
 export SNAKEMAKE_OUTPUT_CACHE=/fsx/resources/environments/containers/ubuntu/cache/
 
 # I set a partition relevant to my install, but if you specify nothing, you will get an error along the lines of <could not find appropriate nodes>.
-snakemake --use-conda --use-singularity   --singularity-prefix /fsx/resources/environments/containers/ubuntu/ip-10-0-0-240/ --singularity-args "  -B /tmp:/tmp -B /fsx:/fsx  -B /home/$USER:/home/$USER -B $PWD/:$PWD" --conda-prefix /fsx/resources/environments/containers/ubuntu/ip-10-0-0-240/ --executor pcluster-slurm --default-resources slurm_partition=i64,i96,i192 --cache -k -j 14 -n
+snakemake --use-conda --use-singularity   --singularity-prefix /fsx/resources/environments/containers/ubuntu/ip-10-0-0-240/ --singularity-args "  -B /tmp:/tmp -B /fsx:/fsx  -B /home/$USER:/home/$USER -B $PWD/:$PWD" --conda-prefix /fsx/resources/environments/containers/ubuntu/ip-10-0-0-240/ --executor pcluster-slurm --default-resources slurm_partition=i64,i96,i192 --cache -p --verbose -k -j 14 -n
 ```
 - Remove the `-n` flag, and run not in dryrun mode.
 - `-j` sets the max jobs slurm will allow active at one time.
