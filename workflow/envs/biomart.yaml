@@ -3,8 +3,8 @@ channels:
   - bioconda
   - nodefaults
 dependencies:
-  - bioconductor-biomart =2.56
-  - r-tidyverse =2.0
+  - bioconductor-biomart=2.56
+  - r-tidyverse=2.0
   # remove once we can update to bioconductor-biomart of the 3.18 release, which will
   # include this proper fix for the underlying compatibility issue:
   # https://github.com/Bioconductor/BiocFileCache/pull/50
