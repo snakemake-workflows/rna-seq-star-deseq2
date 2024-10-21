@@ -3,4 +3,6 @@ channels:
   - bioconda
   - nodefaults
 dependencies:
-  - rseqc =5.0
+  - rseqc=5.0
+  - r-base
+  - r-essentials
