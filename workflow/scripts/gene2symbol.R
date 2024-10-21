@@ -1,3 +1,4 @@
+library(conflicted)
 library(biomaRt)
 library(tidyverse)
 # useful error messages upon aborting
