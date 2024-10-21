@@ -39,6 +39,7 @@ export SNAKEMAKE_OUTPUT_CACHE=/fsx/resources/environments/containers/ubuntu/cach
 # I set a partition relevant to my install, but if you specify nothing, you will get an error along the lines of <could not find appropriate nodes>.
 snakemake --use-conda --use-singularity -j 9  --singularity-prefix /fsx/resources/environments/containers/ubuntu/ip-10-0-0-240/ --singularity-args "  -B /tmp:/tmp -B /fsx:/fsx  -B /home/$USER:/home/$USER -B $PWD/:$PWD" --conda-prefix /fsx/resources/environments/containers/ubuntu/ip-10-0-0-240/ --executor pcluster-slurm --default-resources slurm_partition=i64,i192 --cache -k -n
 ```
+- Remove the `-n` flag, and run not in dryrun mode.
 - Watch your running nodes/jobs using `squeue` (also, `q` cluster commands work, but not reliably and are not supported).
 - **note:** it seems a bug in this example causes a few jobs to fail (investigating)
 
