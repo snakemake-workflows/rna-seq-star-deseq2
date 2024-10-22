@@ -9,7 +9,7 @@ rule get_genome:
         build=config["ref"]["build"],
         release=config["ref"]["release"],
     cache: True
-    threads: 32
+    threads: 45
     wrapper:
         "v3.5.3/bio/reference/ensembl-sequence"
 
