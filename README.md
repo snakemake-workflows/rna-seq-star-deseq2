@@ -35,10 +35,13 @@ _you are advised to run the following in a tmux or screen session_
 conda activate snakemake
 
 # Set your cache dir for saving resources useful across other jobs, snakemake uses this when the `--cache` flag is set.
-export SNAKEMAKE_OUTPUT_CACHE=/fsx/resources/environments/containers/ubuntu/cache/
+
+mkdir /fsx/resources/environments/containers/ubuntu/rnaseq_cache/
+export SNAKEMAKE_OUTPUT_CACHE=/fsx/resources/environments/containers/ubuntu/rnaseq_cache/
 
 # I set a partition relevant to my install, but if you specify nothing, you will get an error along the lines of <could not find appropriate nodes>.
-snakemake --use-conda --use-singularity   --singularity-prefix /fsx/resources/environments/containers/ubuntu/ip-10-0-0-240/ --singularity-args "  -B /tmp:/tmp -B /fsx:/fsx  -B /home/$USER:/home/$USER -B $PWD/:$PWD" --conda-prefix /fsx/resources/environments/containers/ubuntu/ip-10-0-0-240/ --executor pcluster-slurm --default-resources slurm_partition=i64,i96,i192 --cache -p --verbose -k -j 14 -n
+snakemake --use-conda --use-singularity   --singularity-prefix /fsx/resources/environments/containers/ubuntu/ --singularity-args "  -B /tmp:/tmp -B /fsx:/fsx  -B /home/$USER:/home/$USER -B $PWD/:$PWD" --conda-prefix /fsx/resources/environments/containers/ubuntu/ --executor pcluster-slurm --default-resources slurm_partition=i64,i96,i192 --cache -p --verbose -k -j 14 -n   --conda-create-envs-only
+- there seems to be a bug which requires you to run with  `--conda-create-envs-only` first...
 ```
 - Remove the `-n` flag, and run not in dryrun mode.
 - `-j` sets the max jobs slurm will allow active at one time.
