@@ -25,7 +25,7 @@ mergeReads:
   activate: False
 
 pca:
-  activate: True
+  activate: False
   # Per default, a separate PCA plot is generated for each of the
   # `variables_of_interest` and the `batch_effects`, coloring according to
   # that variables groups.
