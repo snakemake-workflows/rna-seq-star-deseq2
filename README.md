@@ -69,3 +69,4 @@ I etensively make use of  [Cost allocation tags with AWS ParallelCluster](https:
 
 * To change the --comment flag in v`0.0.8` of the pcluster-slurm plugin, set the comment flag value in the envvar `SMK_SLURM_COMMENT=RandD` (RandD is the default).
 
+ 
