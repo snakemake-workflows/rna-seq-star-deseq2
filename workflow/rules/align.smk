@@ -13,6 +13,6 @@ rule align:
     threads: 92
     params:
         idx=lambda wc, input: input.index,
-        extra=lambda wc, input: f'--outSAMtype BAM SortedByCoordinate --quantMode GeneCounts --sjdbGTFfile {input.gtf} {config["params"]["star"]} --runThreadN 92 ',
+        extra=lambda wc, input: f'--outSAMtype BAM SortedByCoordinate --quantMode GeneCounts --sjdbGTFfile {input.gtf} {config["params"]["star"]} ',
     wrapper:
         "v3.5.3/bio/star/align"
