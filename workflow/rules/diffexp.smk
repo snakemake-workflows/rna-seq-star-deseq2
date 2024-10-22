@@ -28,8 +28,10 @@ rule gene_2_symbol:
         "logs/gene2symbol/{prefix}.log",
     conda:
         "../envs/biomart.yaml"
-    script:
-        "../scripts/gene2symbol.R"
+    shell:
+        """
+        touch {output}
+        """
 
 
 rule deseq2_init:
@@ -43,10 +45,15 @@ rule deseq2_init:
     log:
         "logs/deseq2/init.log",
     threads: get_deseq2_threads()
-    script:
-        "../scripts/deseq2-init.R"
+    shell:
+        """
+        echo 'A' >> {log};
+        touch {output} >> {log};
+        echo 'B' >> {log}
+        """
 
 
+localrules: pca, deseq2
 rule pca:
     input:
         "results/deseq2/all.rds",
@@ -56,8 +63,20 @@ rule pca:
         "../envs/deseq2.yaml"
     log:
         "logs/pca.{variable}.log",
-    script:
-        "../scripts/plot-pca.R"
+    shell:
+        "touch {output}"
+
+#rule pca:
+#    input:
+#        "results/deseq2/all.rds",
+#    output:
+#        report("results/pca.{variable}.svg", "../report/pca.rst"),
+#    conda:
+#        "../envs/deseq2.yaml"
+#    log:
+#        "logs/pca.{variable}.log",
+#    script:
+#        "../scripts/plot-pca.R"
 
 
 rule deseq2:
@@ -73,5 +92,6 @@ rule deseq2:
     log:
         "logs/deseq2/{contrast}.diffexp.log",
     threads: get_deseq2_threads()
-    script:
-        "../scripts/deseq2.R"
+    shell:
+        "touch {output}"
+

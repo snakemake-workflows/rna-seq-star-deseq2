@@ -37,42 +37,28 @@ pca:
     # columns of sample sheet to use for PCA
     - ""
 
+
 diffexp:
   # variables where you are interested in whether they have
   # an effect on expression levels
   variables_of_interest:
-    treatment_1:
+    condition:
       # any fold change will be relative to this factor level
       base_level: untreated
-    treatment_2:
-      # any fold change will be relative to this factor level
-      base_level: untreated
-  batch_effects:
-    - jointly_handled
+  batch_effects: ""
   # contrasts for the deseq2 results method to determine fold changes
   contrasts:
-    treatment_1_alone:
+    treated-vs-untreated:
       # must be one of the variables_of_interest
-      variable_of_interest: treatment_1
-      # the variable's level to test against the base_level
-      level_of_interest: treated
-    treatment_2_alone:
-      # must be one of the variables_of_interest
-      variable_of_interest: treatment_2
-      # the variable's level to test against the base_level
-      level_of_interest: treated
-    # Must be a valid expression for option two in the contrasts description
-    # of ?results in the DESeq2 package. For a more detailed intro, also see:
-    # https://github.com/tavareshugo/tutorial_DESeq2_contrasts/blob/main/DESeq2_contrasts.md
-    both_treatments: 'list(c("treatment_1_treated_vs_untreated", "treatment_2_treated_vs_untreated", "treatment_1treated.treatment_2treated"))'
-  # The default model includes all interactions among variables_of_interest,
+      variable_of_interest: condition
+      level_of_interest: untreated
+  # The default model includes all interactions among variables_of_interest
   # and batch_effects added on. For the example above this implicitly is:
-  # model: ~jointly_handled + treatment_1 * treatment_2
-  # For the default model to be used, simply specify an empty `model: ""` below.
-  # If you want to introduce different assumptions into your model, you can
-  # specify a different model to use, for example skipping the interaction:
-  # model: ~jointly_handled + treatment_1 + treatment_2
-  model: ""
+  # model: ~condition
+  # For the default model to be used, simply specify an empty `model: ""`
+  # With more variables_of_interest or batch_effects, you could introduce different
+  # assumptions into your model, by specicifying a different model here.
+  model: ~condition
 
 params:
   cutadapt-pe: ""
