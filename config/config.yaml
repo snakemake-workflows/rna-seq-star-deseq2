@@ -8,11 +8,11 @@ units: config/units.tsv
 
 ref:
   # Ensembl species name
-  species: saccharomyces_cerevisiae
+  species: homo_sapiens
   # Ensembl release
   release: 100
   # Genome build
-  build: R64-1-1
+  build: GRCh38
 
 
 trimming:
@@ -35,7 +35,7 @@ pca:
   # - possible_batch_effect_Y
   labels:
     # columns of sample sheet to use for PCA
-    - jointly_handled
+    - ""
 
 diffexp:
   # variables where you are interested in whether they have
@@ -78,4 +78,3 @@ params:
   cutadapt-pe: ""
   cutadapt-se: ""
   star: ""
- 
