@@ -20,6 +20,7 @@ cd rna-seq-star-deseq2
 ## Build The Snakemake (v8.*) Conda Env
 ```bash
 conda create -n snakemake -c conda-forge  snakemake==8.20.6 snakedeploy tabulate yaml
+conda activate snakemake
 pip install snakemake-executor-plugin-pcluster-slurm
 
 conda activate snakemake
