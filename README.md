@@ -21,7 +21,7 @@ cd rna-seq-star-deseq2
 ```bash
 conda create -n snakemake -c conda-forge  snakemake==8.24 snakedeploy tabulate yaml
 conda activate snakemake
-pip install snakemake-executor-plugin-pcluster-slurm
+pip install snakemake-executor-plugin-pcluster-slurm==0.0.25
 
 conda activate snakemake
 snakemake --version
