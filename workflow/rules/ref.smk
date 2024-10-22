@@ -24,7 +24,7 @@ rule get_annotation:
         release=config["ref"]["release"],
         flavor="",
     cache: True
-    threads: 32
+    threads: 7
     log:
         "logs/get_annotation.log",
     wrapper:
@@ -70,6 +70,6 @@ rule star_index:
     log:
         "logs/star_index_genome.log",
     cache: True
-    threads: 32
+    threads: 64
     wrapper:
         "v3.5.3/bio/star/index"
