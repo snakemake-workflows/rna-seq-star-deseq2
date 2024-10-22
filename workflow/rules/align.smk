@@ -10,9 +10,9 @@ rule align:
         "logs/star/{sample}_{unit}.log",
     benchmark:
         "logs/star/{sample}_{unit}.bench.tsv",
+    threads: 92
     params:
         idx=lambda wc, input: input.index,
-        extra=lambda wc, input: f'--outSAMtype BAM SortedByCoordinate --quantMode GeneCounts --sjdbGTFfile {input.gtf} {config["params"]["star"]} --runThreadN {threads} ',
-    threads: 92
+        extra=lambda wc, input: f'--outSAMtype BAM SortedByCoordinate --quantMode GeneCounts --sjdbGTFfile {input.gtf} {config["params"]["star"]} --runThreadN 92 ',
     wrapper:
         "v3.5.3/bio/star/align"
