@@ -1,9 +1,2 @@
 sample_name	unit_name	fq1	fq2	sra	adapters	strandedness
-A1	1	.test/ngs-test-data/reads/a.scerevisiae.1.fq	.test/ngs-test-data/reads/a.scerevisiae.2.fq			
-A2	1	.test/ngs-test-data/reads/a.scerevisiae.1.fq	.test/ngs-test-data/reads/a.scerevisiae.2.fq			
-A3	1	.test/ngs-test-data/reads/c.scerevisiae.1.fq	.test/ngs-test-data/reads/c.scerevisiae.2.fq			
-A4	1	.test/ngs-test-data/reads/c.scerevisiae.1.fq	.test/ngs-test-data/reads/c.scerevisiae.2.fq			
-B1	1	.test/ngs-test-data/reads/c.scerevisiae.1.fq	.test/ngs-test-data/reads/c.scerevisiae.2.fq			
-B2	1	.test/ngs-test-data/reads/b.scerevisiae.1.fq	.test/ngs-test-data/reads/b.scerevisiae.2.fq			
-B3	1	.test/ngs-test-data/reads/b.scerevisiae.1.fq	.test/ngs-test-data/reads/b.scerevisiae.2.fq			
-B4	1	.test/ngs-test-data/reads/c.scerevisiae.1.fq	.test/ngs-test-data/reads/c.scerevisiae.2.fq			
+ss2	1	/fsx/analysis_results/ubuntu/input_data/ss2_RNASeq-tumor-A01231_3A888_3AHGH32DSXC_3A_R1.fastq.gz	/fsx/analysis_results/ubuntu/input_data/ss2_RNASeq-tumor-A01231_3A888_3AHGH32DSXC_3A_R2.fastq.gz			
