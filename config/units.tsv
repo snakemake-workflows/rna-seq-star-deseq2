@@ -1,2 +1,0 @@
-sample_name	unit_name	fq1	fq2	sra	adapters	strandedness
-a	1	 .test/ngs-test-data/reads/a.chr21.1.fq	 .test/ngs-test-data/reads/a.chr21.2.fq			
