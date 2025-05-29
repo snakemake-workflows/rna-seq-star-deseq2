@@ -59,7 +59,7 @@ export TMPDIR=/fsx/scratch/
 
 ```bash
 cp config/units.tsv.template config/units.tsv
-[[ "$(uname)" == "Darwin" ]] && sed -i "" "s|REGEX_PWD|$PWD|g" config/units.tsv || sed -i "s|REGEX_PWD|$PWD|g" config/units.tsv
+[[ "$(uname)" == "Darwin" ]] && sed -i "" "s|REGSUB_PWD|$PWD|g" config/units.tsv || sed -i "s|REGSUB_PWD|$PWD|g" config/units.tsv
 ```
 
 #### Build Conda Env Caches 
