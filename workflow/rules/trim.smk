@@ -2,7 +2,7 @@ rule get_sra:
     output:
         "sra/{accession}_1.fastq",
         "sra/{accession}_2.fastq",
-    threads: 32
+    threads: 31
     log:
         "logs/get-sra/{accession}.log",
     wrapper:
@@ -35,7 +35,7 @@ rule cutadapt_pe:
     params:
         extra=config["params"]["cutadapt-pe"],
         adapters=lambda w: str(units.loc[w.sample].loc[w.unit, "adapters"]),
-    threads: 64
+    threads: 63
     wrapper:
         "v3.5.3/bio/cutadapt/pe"
 
@@ -51,6 +51,6 @@ rule cutadapt_se:
     params:
         extra=config["params"]["cutadapt-se"],
         adapters=lambda w: str(units.loc[w.sample].loc[w.unit, "adapters"]),
-    threads: 64
+    threads: 63
     wrapper:
         "v3.5.3/bio/cutadapt/se"
