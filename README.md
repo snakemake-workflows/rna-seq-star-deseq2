@@ -30,13 +30,13 @@ cd rna-seq-star-deseq2
 
 ## Build The Snakemake (v8.*) Conda Env
 ```bash
-conda create -n snakemake -c conda-forge  snakemake==8.24 snakedeploy tabulate yaml
+conda create -n snakemake -c conda-forge  snakemake==9.5.1 snakedeploy tabulate yaml
 conda activate snakemake
-pip install snakemake-executor-plugin-pcluster-slurm==0.0.25
+pip install snakemake-executor-plugin-pcluster-slurm==0.0.31
 
 conda activate snakemake
 snakemake --version
-# 8.24  
+# 9.5.1 
 ```
 
 ### Run Test Data Workflow
