@@ -1,4 +1,4 @@
-# Snakemake workflow: rna-seq-star-deseq2 (using pcluster-slurm executor) `0.1.2`
+# Snakemake workflow: rna-seq-star-deseq2 (using pcluster-slurm executor) `0.1.3`
 
 This is my adoption of the [original forked repo's rna seq start deseq2](https://snakemake.github.io/snakemake-workflow-catalog/?usage=snakemake-workflows%2Frna-seq-star-deseq2) worflow, but to use AWS Parallel Cluster, via the [pcluser slurm snakemake executor](https://github.com/Daylily-Informatics/snakemake-executor-plugin-pcluster-slurm-ref).
 
