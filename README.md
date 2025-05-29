@@ -77,6 +77,7 @@ snakemake --use-conda --use-singularity   \
 --cache -p \
 --verbose -k \
 --max-threads 20000 \
+--restart-times 2 \
 --cores 20000 -j 14 -n   \
 --conda-create-envs-only
 
@@ -122,6 +123,7 @@ snakemake --use-conda --use-singularity   \
 --default-resources slurm_partition=i128,i192 runtime=1380 \
 --cache -p \
 --verbose -k \
+--restart-times 2 \
 --max-threads 20000 \
 --cores 20000 -j 14 
 
