@@ -36,7 +36,7 @@ pip install snakemake-executor-plugin-pcluster-slurm==0.0.25
 
 conda activate snakemake
 snakemake --version
-8.24  # was 8.20.6
+# 8.24  
 ```
 
 ### Run Test Data Workflow
