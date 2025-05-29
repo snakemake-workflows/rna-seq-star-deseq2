@@ -1,4 +1,4 @@
-# Snakemake workflow: rna-seq-star-deseq2 (using pcluster-slurm executor) `0.1.5`
+# Snakemake workflow: rna-seq-star-deseq2 (using pcluster-slurm executor) `0.1.6`
 
 This is my adoption of the [original forked repo's rna seq start deseq2](https://snakemake.github.io/snakemake-workflow-catalog/?usage=snakemake-workflows%2Frna-seq-star-deseq2) worflow, but to use AWS Parallel Cluster, via the [pcluser slurm snakemake executor](https://github.com/Daylily-Informatics/snakemake-executor-plugin-pcluster-slurm-ref).
 
@@ -67,7 +67,19 @@ _this can take ~1hr_
 
 ```bash
 # I set partitions relevant to my AWS parallel cluster, but if you specify nothing, you will get an error along the lines of <could not find appropriate nodes>.
-snakemake --use-conda --use-singularity   --singularity-prefix /fsx/resources/environments/containers/ubuntu/ --singularity-args "  -B /tmp:/tmp -B /fsx:/fsx  -B /home/$USER:/home/$USER -B $PWD/:$PWD" --conda-prefix /fsx/resources/environments/containers/ubuntu/ --executor pcluster-slurm --default-resources slurm_partition=i128,i192 --cache -p --verbose -k --max-threads 20000 --cores 20000 -j 14 -n   --conda-create-envs-only
+
+snakemake --use-conda --use-singularity   \
+--singularity-prefix /fsx/resources/environments/containers/ubuntu/ \
+--singularity-args "  -B /tmp:/tmp -B /fsx:/fsx  -B /home/$USER:/home/$USER -B $PWD/:$PWD" \
+--conda-prefix /fsx/resources/environments/containers/ubuntu/ \
+--executor pcluster-slurm \
+--default-resources slurm_partition=i128,i192 runtime=1380 \
+--cache -p \
+--verbose -k \
+--max-threads 20000 \
+--cores 20000 -j 14 -n   \
+--conda-create-envs-only
+
 ```
 
 - there seems to be a bug which requires you to run with  `--conda-create-envs-only` first, then once all envs are built, run the command.
@@ -101,7 +113,18 @@ i192         up   infinite     30  idle~ i192-dy-gb384-[1-10],i192-dy-gb768-[1-1
 ##### Run The Command
 
 ```bash
-snakemake --use-conda --use-singularity   --singularity-prefix /fsx/resources/environments/containers/ubuntu/ --singularity-args "  -B /tmp:/tmp -B /fsx:/fsx  -B /home/$USER:/home/$USER -B $PWD/:$PWD" --conda-prefix /fsx/resources/environments/containers/ubuntu/ --executor pcluster-slurm --default-resources slurm_partition=i128,i192 --cache -p --verbose -k --max-threads 20000 --cores 20000 -j 14 
+
+snakemake --use-conda --use-singularity   \
+--singularity-prefix /fsx/resources/environments/containers/ubuntu/ \
+--singularity-args "  -B /tmp:/tmp -B /fsx:/fsx  -B /home/$USER:/home/$USER -B $PWD/:$PWD" \
+--conda-prefix /fsx/resources/environments/containers/ubuntu/ \
+--executor pcluster-slurm \
+--default-resources slurm_partition=i128,i192 runtime=1380 \
+--cache -p \
+--verbose -k \
+--max-threads 20000 \
+--cores 20000 -j 14 
+
 ```
 
  - You can watch progress with `watch squeue`.
