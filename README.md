@@ -36,7 +36,7 @@ pip install snakemake-executor-plugin-pcluster-slurm==0.0.25
 
 conda activate snakemake
 snakemake --version
-8.24  # was 8.20.6
+# 8.24  
 ```
 
 ### Run Test Data Workflow
@@ -59,7 +59,7 @@ export TMPDIR=/fsx/scratch/
 
 ```bash
 cp config/units.tsv.template config/units.tsv
-[[ "$(uname)" == "Darwin" ]] && sed -i "" "s|REGEX_PWD|$PWD|g" config/units.tsv || sed -i "s|REGEX_PWD|$PWD|g" config/units.tsv
+[[ "$(uname)" == "Darwin" ]] && sed -i "" "s|REGSUB_PWD|$PWD|g" config/units.tsv || sed -i "s|REGSUB_PWD|$PWD|g" config/units.tsv
 ```
 
 #### Build Conda Env Caches 
