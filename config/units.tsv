@@ -1,2 +1,2 @@
 sample_name	unit_name	fq1	fq2	sra	adapters	strandedness
-lr1	1	/fsx/analysis_results/ubuntu/input_data/cat/cat_RNA-tumor-lr1.R1.fastq.gz	/fsx/analysis_results/ubuntu/input_data/cat/cat_RNA-tumor-lr1.R2.fastq.gz			
+a	1	 .test/ngs-test-data/reads/a.chr21.1.fq	 .test/ngs-test-data/reads/a.chr21.2.fq			
