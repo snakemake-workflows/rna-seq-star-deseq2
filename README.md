@@ -73,7 +73,7 @@ snakemake --use-conda --use-singularity   \
 --singularity-args "  -B /tmp:/tmp -B /fsx:/fsx  -B /home/$USER:/home/$USER -B $PWD/:$PWD" \
 --conda-prefix /fsx/resources/environments/containers/ubuntu/ \
 --executor pcluster-slurm \
---default-resources slurm_partition=i128,i192 runtime=1380 \
+--default-resources slurm_partition=i128,i192 runtime=86400 mem_mb=36900 tmpdir=/fsx/scratch \
 --cache -p \
 --verbose -k \
 --max-threads 20000 \
@@ -120,7 +120,7 @@ snakemake --use-conda --use-singularity   \
 --singularity-args "  -B /tmp:/tmp -B /fsx:/fsx  -B /home/$USER:/home/$USER -B $PWD/:$PWD" \
 --conda-prefix /fsx/resources/environments/containers/ubuntu/ \
 --executor pcluster-slurm \
---default-resources slurm_partition=i128,i192 runtime=1380 \
+--default-resources slurm_partition=i128,i192 runtime=86400 mem_mb=36900 tmpdir=/fsx/scratch \
 --cache -p \
 --verbose -k \
 --restart-times 2 \

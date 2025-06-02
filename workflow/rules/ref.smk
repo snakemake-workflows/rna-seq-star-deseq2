@@ -54,7 +54,7 @@ rule bwa_index:
     resources:
         mem_mb=369000,
     cache: True
-    threads: 128
+    threads: 192
     wrapper:
         "v3.5.3/bio/bwa/index"
 
