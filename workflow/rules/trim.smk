@@ -35,7 +35,7 @@ rule cutadapt_pe:
     params:
         extra=config["params"]["cutadapt-pe"],
         adapters=lambda w: str(units.loc[w.sample].loc[w.unit, "adapters"]),
-    threads: 63
+    threads: 64
     wrapper:
         "v3.5.3/bio/cutadapt/pe"
 
@@ -51,6 +51,6 @@ rule cutadapt_se:
     params:
         extra=config["params"]["cutadapt-se"],
         adapters=lambda w: str(units.loc[w.sample].loc[w.unit, "adapters"]),
-    threads: 63
+    threads: 64
     wrapper:
         "v3.5.3/bio/cutadapt/se"

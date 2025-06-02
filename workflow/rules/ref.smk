@@ -24,7 +24,7 @@ rule get_annotation:
         release=config["ref"]["release"],
         flavor="",
     cache: True
-    threads: 191
+    threads: 128
     log:
         "logs/get_annotation.log",
     wrapper:
@@ -39,7 +39,7 @@ rule genome_faidx:
     log:
         "logs/genome-faidx.log",
     cache: True
-    threads: 31
+    threads: 32
     wrapper:
         "v3.5.3/bio/samtools/faidx"
 
@@ -54,7 +54,7 @@ rule bwa_index:
     resources:
         mem_mb=369000,
     cache: True
-    threads: 191
+    threads: 128
     wrapper:
         "v3.5.3/bio/bwa/index"
 
@@ -70,6 +70,6 @@ rule star_index:
     log:
         "logs/star_index_genome.log",
     cache: True
-    threads: 191
+    threads: 128
     wrapper:
         "v3.5.3/bio/star/index"
