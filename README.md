@@ -17,7 +17,7 @@ This workflow performs a differential gene expression analysis with STAR and Des
 
 ## Conda
 - If you have installed daylily-ehpemeral-cluster, once you log into the headnode, conda should be activated.
-- If you roll your own, you'll need to install miniconda, and activate.
+- If you roll your own, you'll need to install miniconda, and activate. And you may do so as follows: `bash bin/install_miniconda`, which should work on most linux'y systems.
 
 # Usage
 
