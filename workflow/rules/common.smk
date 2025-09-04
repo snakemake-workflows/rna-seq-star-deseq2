@@ -55,9 +55,9 @@ def get_units_fastqs(wildcards):
         # SRA sample (always paired-end for now)
         accession = u["sra"]
         return expand(
-            "sra/{accession}_{group}.fastq",
+            "sra/{accession}_{read}.fastq",
             accession=accession,
-            group=["R1", "R2"],
+            read=["R1", "R2"],
         )
     if not is_paired_end(wildcards.sample):
         return [
@@ -91,8 +91,8 @@ def get_fq(wildcards):
                 zip(
                     ["fq1", "fq2"],
                     expand(
-                        "results/trimmed/{sample}/{sample}-{unit}_{group}.fastq.gz",
-                        group=["R1", "R2"],
+                        "results/trimmed/{sample}/{sample}-{unit}_{read}.fastq.gz",
+                        read=["R1", "R2"],
                         **wildcards,
                     ),
                 )
