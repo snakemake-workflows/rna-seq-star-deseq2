@@ -60,9 +60,11 @@ def get_units_fastqs(wildcards):
             group=["R1", "R2"],
         )
     if not is_paired_end(wildcards.sample):
-        return [ u["fq1"], ]
+        return [
+            u["fq1"],
+        ]
     else:
-        return [ u["fq1"], u["fq2"] ]
+        return [u["fq1"], u["fq2"]]
 
 
 def is_paired_end(sample):
@@ -97,7 +99,9 @@ def get_fq(wildcards):
             )
         # single end sample
         return {
-            "fq1": "results/trimmed/{sample}/{sample}_{unit}_single.fastq.gz".format(**wildcards)
+            "fq1": "results/trimmed/{sample}/{sample}_{unit}_single.fastq.gz".format(
+                **wildcards
+            )
         }
     else:
         # no trimming, use raw reads
