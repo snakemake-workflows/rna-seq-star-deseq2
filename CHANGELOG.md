@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.0.0](https://github.com/snakemake-workflows/rna-seq-star-deseq2/compare/v2.1.2...v3.0.0) (2025-09-04)
+
+
+### ⚠ BREAKING CHANGES
+
+* use fastp instead of cutadapt for adapter trimming ([#93](https://github.com/snakemake-workflows/rna-seq-star-deseq2/issues/93))
+* update all snakemake wrapper and conda environment tool versions
+
+### Features
+
+* use fastp instead of cutadapt for adapter trimming ([#93](https://github.com/snakemake-workflows/rna-seq-star-deseq2/issues/93)) ([3c86b1a](https://github.com/snakemake-workflows/rna-seq-star-deseq2/commit/3c86b1a3124bf30a084d489acd1d9f85e55f1060))
+
 ## [2.1.2](https://github.com/snakemake-workflows/rna-seq-star-deseq2/compare/v2.1.1...v2.1.2) (2024-06-05)
 
 
