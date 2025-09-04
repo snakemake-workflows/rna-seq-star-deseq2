@@ -5,7 +5,7 @@ rule get_sra:
     log:
         "logs/get-sra/{accession}.log",
     wrapper:
-        "v3.5.3/bio/sra-tools/fasterq-dump"
+        "v7.2.0/bio/sra-tools/fasterq-dump"
 
 
 rule fastp_se:
@@ -41,7 +41,7 @@ rule fastp_se:
         ),
     threads: 4
     wrapper:
-        "v7.1.0/bio/fastp"
+        "v7.2.0/bio/fastp"
 
 
 rule fastp_pe:
@@ -83,4 +83,4 @@ rule fastp_pe:
         ),
     threads: 8
     wrapper:
-        "v7.1.0/bio/fastp"
+        "v7.2.0/bio/fastp"
