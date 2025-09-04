@@ -21,7 +21,7 @@ properties:
   fastp_adapters:
     type: string
     description: adapter trimming settings to use (for fastp)
-  fastp_extras:
+  fastp_extra:
     type: string
     description: extra command line arguments for fastp
   strandedness:
