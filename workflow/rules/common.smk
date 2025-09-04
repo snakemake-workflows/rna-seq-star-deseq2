@@ -141,24 +141,5 @@ def get_bioc_species_name():
     return first_letter + subspecies
 
 
-def get_fastqs(wc):
-    if config["trimming"]["activate"]:
-        return expand(
-            "results/trimmed/{sample}/{unit}_{read}.fastq.gz",
-            unit=units.loc[wc.sample, "unit_name"],
-            sample=wc.sample,
-            read=wc.read,
-        )
-    unit = units.loc[wc.sample]
-    if all(pd.isna(unit["fq1"])):
-        # SRA sample (always paired-end for now)
-        accession = unit["sra"]
-        return expand(
-            "sra/{accession}_{read}.fastq", accession=accession, read=wc.read[-1]
-        )
-    fq = "fq{}".format(wc.read[-1])
-    return units.loc[wc.sample, fq].tolist()
-
-
 def get_contrast(wildcards):
     return config["diffexp"]["contrasts"][wildcards.contrast]
