@@ -2,6 +2,7 @@ rule align:
     input:
         unpack(get_fq),
         idx="resources/star_genome",
+        gtf="resources/genome.gtf",
     output:
         aln="results/star/{sample}-{unit}/Aligned.sortedByCoord.out.bam",
         reads_per_gene="results/star/{sample}-{unit}/ReadsPerGene.out.tab",
