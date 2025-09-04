@@ -62,8 +62,6 @@ properties:
       star: 
         type: string
     required:
-      - cutadapt-pe
-      - cutadapt-se
       - star
 
 required:
