@@ -149,43 +149,43 @@ rule rseqc_readgc:
 rule multiqc:
     input:
         expand(
-            "results/star/{unit.sample_name}_{unit.unit_name}/Aligned.sortedByCoord.out.bam",
+            "results/star/{unit.sample_name}-{unit.unit_name}/Aligned.sortedByCoord.out.bam",
             unit=units.itertuples(),
         ),
         expand(
-            "results/qc/rseqc/{unit.sample_name}_{unit.unit_name}.junctionanno.junction.bed",
+            "results/qc/rseqc/{unit.sample_name}-{unit.unit_name}.junctionanno.junction.bed",
             unit=units.itertuples(),
         ),
         expand(
-            "results/qc/rseqc/{unit.sample_name}_{unit.unit_name}.junctionsat.junctionSaturation_plot.pdf",
+            "results/qc/rseqc/{unit.sample_name}-{unit.unit_name}.junctionsat.junctionSaturation_plot.pdf",
             unit=units.itertuples(),
         ),
         expand(
-            "results/qc/rseqc/{unit.sample_name}_{unit.unit_name}.infer_experiment.txt",
+            "results/qc/rseqc/{unit.sample_name}-{unit.unit_name}.infer_experiment.txt",
             unit=units.itertuples(),
         ),
         expand(
-            "results/qc/rseqc/{unit.sample_name}_{unit.unit_name}.stats.txt",
+            "results/qc/rseqc/{unit.sample_name}-{unit.unit_name}.stats.txt",
             unit=units.itertuples(),
         ),
         expand(
-            "results/qc/rseqc/{unit.sample_name}_{unit.unit_name}.inner_distance_freq.inner_distance.txt",
+            "results/qc/rseqc/{unit.sample_name}-{unit.unit_name}.inner_distance_freq.inner_distance.txt",
             unit=units.itertuples(),
         ),
         expand(
-            "results/qc/rseqc/{unit.sample_name}_{unit.unit_name}.readdistribution.txt",
+            "results/qc/rseqc/{unit.sample_name}-{unit.unit_name}.readdistribution.txt",
             unit=units.itertuples(),
         ),
         expand(
-            "results/qc/rseqc/{unit.sample_name}_{unit.unit_name}.readdup.DupRate_plot.pdf",
+            "results/qc/rseqc/{unit.sample_name}-{unit.unit_name}.readdup.DupRate_plot.pdf",
             unit=units.itertuples(),
         ),
         expand(
-            "results/qc/rseqc/{unit.sample_name}_{unit.unit_name}.readgc.GC_plot.pdf",
+            "results/qc/rseqc/{unit.sample_name}-{unit.unit_name}.readgc.GC_plot.pdf",
             unit=units.itertuples(),
         ),
         expand(
-            "logs/rseqc/rseqc_junction_annotation/{unit.sample_name}_{unit.unit_name}.log",
+            "logs/rseqc/rseqc_junction_annotation/{unit.sample_name}-{unit.unit_name}.log",
             unit=units.itertuples(),
         ),
     output:
