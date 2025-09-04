@@ -1,4 +1,4 @@
-$schema: "http://json-schema.org/draft-06/schema#"
+$schema: "https://json-schema.org/draft/2020-12/schema"
 
 description: snakemake configuration file
 
@@ -59,15 +59,9 @@ properties:
   params:
     type: object
     properties:
-      cutadapt-pe:
-        type: string
-      cutadapt-se:
-        type: string
       star: 
         type: string
     required:
-      - cutadapt-pe
-      - cutadapt-se
       - star
 
 required:

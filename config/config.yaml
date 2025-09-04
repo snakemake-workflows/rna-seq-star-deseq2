@@ -15,10 +15,11 @@ ref:
   build: GRCh38
 
 trimming:
-  # If you activate trimming by setting this to `True`, you will have to
-  # specify the respective cutadapt adapter trimming flag for each unit
-  # in the `units.tsv` file's `adapters` column
-  activate: False
+  # If you activate trimming by setting this to `True`, this will trim adapters
+  # from your reads with fastp. This can auto-detect adapters in many cases,
+  # but please double-check the fastq HTML report to see if this worked. For
+  # more details, consult the config/README.md file.
+  activate: True
 
 pca:
   activate: True
@@ -65,6 +66,4 @@ diffexp:
 
 
 params:
-  cutadapt-pe: ""
-  cutadapt-se: ""
   star: ""

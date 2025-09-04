@@ -8,9 +8,9 @@ rule get_genome:
         datatype="dna",
         build=config["ref"]["build"],
         release=config["ref"]["release"],
-    cache: True
+    cache: "omit-software"
     wrapper:
-        "v3.5.3/bio/reference/ensembl-sequence"
+        "v7.2.0/bio/reference/ensembl-sequence"
 
 
 rule get_annotation:
@@ -18,15 +18,14 @@ rule get_annotation:
         "resources/genome.gtf",
     params:
         species=config["ref"]["species"],
-        fmt="gtf",
         build=config["ref"]["build"],
         release=config["ref"]["release"],
         flavor="",
-    cache: True
+    cache: "omit-software"
     log:
         "logs/get_annotation.log",
     wrapper:
-        "v3.5.3/bio/reference/ensembl-annotation"
+        "v7.2.0/bio/reference/ensembl-annotation"
 
 
 rule genome_faidx:
@@ -38,7 +37,7 @@ rule genome_faidx:
         "logs/genome-faidx.log",
     cache: True
     wrapper:
-        "v3.5.3/bio/samtools/faidx"
+        "v7.2.0/bio/samtools/faidx"
 
 
 rule bwa_index:
@@ -52,20 +51,18 @@ rule bwa_index:
         mem_mb=369000,
     cache: True
     wrapper:
-        "v3.5.3/bio/bwa/index"
+        "v7.2.0/bio/bwa/index"
 
 
 rule star_index:
     input:
         fasta="resources/genome.fasta",
-        annotation="resources/genome.gtf",
+        gtf="resources/genome.gtf",
     output:
         directory("resources/star_genome"),
     threads: 4
-    params:
-        extra=lambda wc, input: f"--sjdbGTFfile {input.annotation} --sjdbOverhang 100",
     log:
         "logs/star_index_genome.log",
     cache: True
     wrapper:
-        "v3.5.3/bio/star/index"
+        "v7.2.0/bio/star/index"

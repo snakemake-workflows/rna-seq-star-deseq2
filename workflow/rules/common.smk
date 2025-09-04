@@ -49,40 +49,22 @@ wildcard_constraints:
     unit="|".join(units["unit_name"]),
 
 
-def get_cutadapt_input(wildcards):
-    unit = units.loc[wildcards.sample].loc[wildcards.unit]
-
-    if pd.isna(unit["fq1"]):
+def get_units_fastqs(wildcards):
+    u = units.loc[(wildcards.sample, wildcards.unit)]
+    if pd.isna(u["fq1"]):
         # SRA sample (always paired-end for now)
-        accession = unit["sra"]
-        return expand("sra/{accession}_{read}.fastq", accession=accession, read=[1, 2])
-
-    if unit["fq1"].endswith("gz"):
-        ending = ".gz"
-    else:
-        ending = ""
-
-    if pd.isna(unit["fq2"]):
-        # single end local sample
-        return "pipe/cutadapt/{S}/{U}.fq1.fastq{E}".format(
-            S=unit.sample_name, U=unit.unit_name, E=ending
-        )
-    else:
-        # paired end local sample
+        accession = u["sra"]
         return expand(
-            "pipe/cutadapt/{S}/{U}.{{read}}.fastq{E}".format(
-                S=unit.sample_name, U=unit.unit_name, E=ending
-            ),
-            read=["fq1", "fq2"],
+            "sra/{accession}_{read}.fastq",
+            accession=accession,
+            read=["R1", "R2"],
         )
-
-
-def get_cutadapt_pipe_input(wildcards):
-    files = list(
-        sorted(glob.glob(units.loc[wildcards.sample].loc[wildcards.unit, wildcards.fq]))
-    )
-    assert len(files) > 0
-    return files
+    if not is_paired_end(wildcards.sample):
+        return [
+            u["fq1"],
+        ]
+    else:
+        return [u["fq1"], u["fq2"]]
 
 
 def is_paired_end(sample):
@@ -109,36 +91,27 @@ def get_fq(wildcards):
                 zip(
                     ["fq1", "fq2"],
                     expand(
-                        "results/trimmed/{sample}_{unit}_{group}.fastq.gz",
-                        group=["R1", "R2"],
+                        "results/trimmed/{sample}/{sample}-{unit}_{read}.fastq.gz",
+                        read=["R1", "R2"],
                         **wildcards,
                     ),
                 )
             )
         # single end sample
         return {
-            "fq1": "results/trimmed/{sample}_{unit}_single.fastq.gz".format(**wildcards)
+            "fq1": "results/trimmed/{sample}/{sample}-{unit}_single.fastq.gz".format(
+                **wildcards
+            )
         }
     else:
         # no trimming, use raw reads
-        u = units.loc[(wildcards.sample, wildcards.unit)]
-        if pd.isna(u["fq1"]):
-            # SRA sample (always paired-end for now)
-            accession = u["sra"]
-            return dict(
-                zip(
-                    ["fq1", "fq2"],
-                    expand(
-                        "sra/{accession}_{group}.fastq",
-                        accession=accession,
-                        group=["R1", "R2"],
-                    ),
-                )
-            )
-        if not is_paired_end(wildcards.sample):
-            return {"fq1": f"{u.fq1}"}
+        fqs = get_units_fastqs(wildcards)
+        if len(fqs) == 1:
+            return {"fq1": f"{fqs[0]}"}
+        elif len(fqs) == 2:
+            return {"fq1": f"{fqs[0]}", "fq2": f"{fqs[1]}"}
         else:
-            return {"fq1": f"{u.fq1}", "fq2": f"{u.fq2}"}
+            raise ValueError(f"Expected one or two fastq file paths, but got: {fqs}")
 
 
 def get_strandedness(units):
@@ -166,25 +139,6 @@ def get_bioc_species_name():
     first_letter = config["ref"]["species"][0]
     subspecies = config["ref"]["species"].split("_")[1]
     return first_letter + subspecies
-
-
-def get_fastqs(wc):
-    if config["trimming"]["activate"]:
-        return expand(
-            "results/trimmed/{sample}/{unit}_{read}.fastq.gz",
-            unit=units.loc[wc.sample, "unit_name"],
-            sample=wc.sample,
-            read=wc.read,
-        )
-    unit = units.loc[wc.sample]
-    if all(pd.isna(unit["fq1"])):
-        # SRA sample (always paired-end for now)
-        accession = unit["sra"]
-        return expand(
-            "sra/{accession}_{read}.fastq", accession=accession, read=wc.read[-1]
-        )
-    fq = "fq{}".format(wc.read[-1])
-    return units.loc[wc.sample, fq].tolist()
 
 
 def get_contrast(wildcards):

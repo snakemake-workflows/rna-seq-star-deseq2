@@ -1,24 +1,17 @@
-# path or URL to sample sheet (TSV format, columns: sample, condition, ...)
+# For a fully commented config.yaml file, see the main `config/config.yaml`
+# example file.
+
 samples: config_basic/samples.tsv
-# path or URL to sequencing unit sheet (TSV format, columns: sample, unit, fq1, fq2)
-# Units are technical replicates (e.g. lanes, or resequencing of the same biological
-# sample).
 units: config_basic/units.tsv
 
 
 ref:
-  # Ensembl species name
   species: saccharomyces_cerevisiae
-  # Ensembl release
   release: 100
-  # Genome build
   build: R64-1-1
 
 
 trimming:
-  # If you activate trimming by setting this to `True`, you will have to
-  # specify the respective cutadapt adapter trimming flag for each unit
-  # in the `units.tsv` file's `adapters` column
   activate: True
 
 mergeReads:
@@ -26,39 +19,19 @@ mergeReads:
 
 pca:
   activate: True
-  # Per default, a separate PCA plot is generated for each of the
-  # `variables_of_interest` and the `batch_effects`, coloring according to
-  # that variables groups.
-  # If you want PCA plots for further columns in the samples.tsv sheet, you
-  # can request them under labels as a list, for example:
-  # - relatively_uninteresting_variable_X
-  # - possible_batch_effect_Y
   labels:
     - condition
 
 diffexp:
-  # variables where you are interested in whether they have
-  # an effect on expression levels
   variables_of_interest:
     condition:
-      # any fold change will be relative to this factor level
       base_level: untreated
   batch_effects: ""
-  # contrasts for the deseq2 results method to determine fold changes
   contrasts:
     treated-vs-untreated:
-      # must be one of the variables_of_interest
       variable_of_interest: condition
       level_of_interest: treated
-  # The default model includes all interactions among variables_of_interest
-  # and batch_effects added on. For the example above this implicitly is:
-  # model: ~condition
-  # For the default model to be used, simply specify an empty `model: ""`
-  # With more variables_of_interest or batch_effects, you could introduce different
-  # assumptions into your model, by specicifying a different model here.
   model: ~condition
 
 params:
-  cutadapt-pe: ""
-  cutadapt-se: ""
   star: ""

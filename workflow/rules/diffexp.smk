@@ -1,7 +1,7 @@
 rule count_matrix:
     input:
         expand(
-            "results/star/{unit.sample_name}_{unit.unit_name}/ReadsPerGene.out.tab",
+            "results/star/{unit.sample_name}-{unit.unit_name}/ReadsPerGene.out.tab",
             unit=units.itertuples(),
         ),
     output:

@@ -1,0 +1,1 @@
+fastp report of read trimming for sample-unit combination: ``{{ snakemake.wildcards.sample }}`` - ``{{ snakemake.wildcards.unit }}``.
