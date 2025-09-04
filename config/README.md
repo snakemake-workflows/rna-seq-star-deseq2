@@ -41,14 +41,62 @@ This can be done via the columns `fq1`, `fq2` and `sra`, with either of:
   The accession numbers usually start with SRR or ERR and you can find accession numbers for studies of interest with the [SRA Run Selector](https://trace.ncbi.nlm.nih.gov/Traces/study/).
 If both local files and an SRA accession are specified for the same unit, the local files will be used.
 
-### adapter trimming
-
-If you set `trimming: activate:` in the `config/config.yaml` to `True`, you will have to provide at least one `cutadapt` adapter argument for each unit in the `adapters` column of the `units.tsv` file.
-You will need to find out the adapters used in the sequencing protocol that generated a unit: from your sequencing provider, or for published data from the study's metadata (or its authors).
-Then, enter the adapter sequences into the `adapters` column of that unit, preceded by the [correct `cutadapt` adapter argument](https://cutadapt.readthedocs.io/en/stable/guide.html#adapter-types).
-
 ### strandedness of library preparation protocol
 
 To get the correct `geneCounts` from `STAR` output, you can provide information on the strandedness of the library preparation protocol used for a unit.
 `STAR` can produce counts for unstranded (`none` - this is the default), forward oriented (`yes`) and reverse oriented (`reverse`) protocols.  
 Enter the respective value into a `strandedness` column in the `units.tsv` file.
+
+### adapter trimming and read filtering
+
+Finally, you can provide settings for the adapter trimming with `fastp` (see the [`fastp` documentation](https://github.com/OpenGene/fastp)) via the `units.tsv` columns `fastp_adapters` and `fastp_extra`.
+However, if you leave those two columns empty (no whitespace!), `fastp` will auto-detect adapters and the workflow will set sensible defaults for trimming of RNA-seq data.
+If you use this automatic inference, make sure to double-check the `Detected read[12] adapter:` entries in the resulting `fastp` HTML report.
+This is part of the final `snakemake` report of the workflow, or can be found in the sample-specific folders under `results/trimmed/`, once a sample has been processed this far.
+If the auto-detection didn't work at all (empty `Detected read[12] adapter:` entries), or the `Occurrences` in the `Adapters` section are lower than you would expect, please ensure that you find out which adapters were used and configure the adapter trimming manually:
+
+In the column `fastp_adapters`, you can specify [known adapter sequences to be trimmed off by `fastp`](https://github.com/OpenGene/fastp?tab=readme-ov-file#adapters), including the command-line argument for the trimming.
+For example, specify the following string in this column: `--adapter_sequence=AGATCGGAAGAGCACACGTCTGAACTCCAGTCA --adapter_sequence_r2=AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT`
+If you don't know the adapters used, leave this empty (an empty string, containing no whitespace), and `fastp` will auto-detect the adapters that need to be trimmed.
+If you want to make the auto-detection explicit for paired-end samples, you can also specify `--detect_adapter_for_pe`.
+
+In the column `fastp_extra`, you can specify [further `fastp` command-line settings](https://github.com/OpenGene/fastp?tab=readme-ov-file#all-options).
+If you leave this empty (an empty string, containing no whitespace), the workflow will set its default:
+* [`--trim_poly_x --poly_x_min_len 7`](https://github.com/OpenGene/fastp?tab=readme-ov-file#polyx-tail-trimming): This poly-X trimming removes polyA tails if they are 7 nucleotides or longer.
+  It is run after adapter trimming.
+* [`--trim_poly_g --poly_g_min_len 7`](https://github.com/OpenGene/fastp?tab=readme-ov-file#polyx-tail-trimming): This poly-G trimming removes erroneous G basecalls at the tails of reads, if they are 7 nucleotides or longer.
+  These Gs are artifacts in Illumina data from [machines with a one channel or two channel color chemistry](https://github.com/OpenGene/fastp/pull/508#issuecomment-3028078859).
+  We currently set this by default, because [the auto-detection for the respective machines is lacking the latest machine types](https://github.com/OpenGene/fastp/pull/508).
+  When the above-linked pull request is updated and merged, we can remove this and rely on the auto-detection.
+If you want to specify additional command line options, we recommend always including those parameters in your units.tsv, as well.
+Here's the full concatenation for copy-pasting:
+
+```bash
+--trim_poly_x --poly_x_min_len 7 --trim_poly_g --poly_g_min_len 7
+```
+
+#### Lexogen 3' QuantSeq adapter trimming
+
+For this data, adapter trimming should automatically work as expected with the use of `fastp`.
+The above-listed defaults are equivalent to an adaptation of the [Lexogen read preprocessing recommendations for 3' FWD QuantSeq data with `cutadapt`](https://faqs.lexogen.com/faq/what-sequences-should-be-trimmed).
+The only difference is that we don't do any length filtering with these defaults.
+If you want to exactly mirror the Lexogen recommendations, please use this for the `fastp_extra` column in your `units.tsv`:
+
+```bash
+--length_required 20 --trim_poly_x --poly_x_min_len 7 --trim_poly_g --poly_g_min_len 7
+```
+
+The `fastp` equivalents, including minimal deviations from the recommendations, are motivated as follows:
+* `-m`: In cutadapt, this is the short version of `--minimum-length`. The `fastp` equivalent is `--length_required`.
+* `-O`: Here, `fastp` doesn't have an equivalent option, so we currently have to live with the suboptimal default of `4`. This is greater than the `min_overlap=3` used here; but smaller than the value of `7`, a threshold that we have found avoids removing randomly matching sequences when combined with the typical Illumina `max_error_rate=0.005`.
+* `-a "polyA=A{20}"`: This can be replaced by with `fastp`'s dedicated option for `--trim_poly_x` tail removal ([which is run after adapter trimming](https://github.com/OpenGene/fastp?tab=readme-ov-file#global-trimming)).
+* `-a "QUALITY=G{20}"`: This can be replaced by `fastp`'s dedicated option for the removal of artifactual trailing `G`s in Illumina data from [machines with a one channel or two channel color chemistry](https://github.com/OpenGene/fastp/pull/508#issuecomment-3028078859): `--trim_poly_g`.
+  This is automatically activated for earlier Illumina machine models with this chemistry, but we recommend to activate it manually in the `fastp_extra` column of your `config/units.tsv` file for now, as [there are newer models that are not auto-detected, yet](https://github.com/OpenGene/fastp/pull/508).
+  Also, we recommend to set `--poly_g_min_len 7`, to avoid trimming spurious matches of G-only stretches at the end of reads.
+* `-n`: With the dedicated `fastp` options [getting applied in the right order](https://github.com/OpenGene/fastp?tab=readme-ov-file#global-trimming), this option is not needed any more.
+* `-a "r1adapter=A{18}AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC;min_overlap=3;max_error_rate=0.100000"`: We remove A{18}, as this is handled by `--trim_poly_x`.
+  `fastp` uses the slightly higher `min_overlap` equivalent of `4`, which is currently hard-coded (and not exposed as a command-line argument).
+  Because of this, we cannot set the `max_error_rate` to the Illumina error rate of about `0.005`.
+* `-g "r1adapter=AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC;min_overlap=20"`: This is not needed any more, as `fastp` searches the read sequence for adapter sequences from the start of the read (see [the `fastp` adapter search code](https://github.com/OpenGene/fastp/blob/723a4293a42f1ca05b93c37db6a157b4235c4dcc/src/adaptertrimmer.cpp#L92)).
+* `--discard-trimmed`: We omit this, as adapter sequence removal early in the read will leave short remaining read sequences that are subsequently filtered by `--length_required`.
+

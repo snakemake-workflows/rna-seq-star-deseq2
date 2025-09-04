@@ -1,5 +1,5 @@
-sample_name	unit_name	fq1	fq2	sra	adapters	strandedness
-A1	1	ngs-test-data/reads/a.scerevisiae.1.fq	ngs-test-data/reads/a.scerevisiae.2.fq		-a AGATCGGAAGAGCACACGTCTGAACTCCAGTCA	yes
-B1	1	ngs-test-data/reads/c.scerevisiae.1.fq	ngs-test-data/reads/c.scerevisiae.2.fq		-a AGATCGGAAGAGCACACGTCTGAACTCCAGTCA	none
-A2	1	ngs-test-data/reads/c.scerevisiae.1.fq	ngs-test-data/reads/c.scerevisiae.2.fq		-a AGATCGGAAGAGCACACGTCTGAACTCCAGTCA	none
-B2	1	ngs-test-data/reads/b.scerevisiae.1.fq	ngs-test-data/reads/b.scerevisiae.2.fq		-a AGATCGGAAGAGCACACGTCTGAACTCCAGTCA	reverse
+sample_name	unit_name	fq1	fq2	sra	fastp_adapters	fastp_extra	strandedness
+A1	1	ngs-test-data/reads/a.scerevisiae.1.fq	ngs-test-data/reads/a.scerevisiae.2.fq		--adapter_sequence=AGATCGGAAGAGCACACGTCTGAACTCCAGTCA		yes
+B1	1	ngs-test-data/reads/c.scerevisiae.1.fq	ngs-test-data/reads/c.scerevisiae.2.fq		--adapter_sequence=AGATCGGAAGAGCACACGTCTGAACTCCAGTCA		none
+A2	1	ngs-test-data/reads/c.scerevisiae.1.fq	ngs-test-data/reads/c.scerevisiae.2.fq		--adapter_sequence=AGATCGGAAGAGCACACGTCTGAACTCCAGTCA		none
+B2	1	ngs-test-data/reads/b.scerevisiae.1.fq	ngs-test-data/reads/b.scerevisiae.2.fq		--adapter_sequence=AGATCGGAAGAGCACACGTCTGAACTCCAGTCA		reverse
