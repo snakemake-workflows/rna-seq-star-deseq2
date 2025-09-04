@@ -61,8 +61,6 @@ rule star_index:
     output:
         directory("resources/star_genome"),
     threads: 4
-    params:
-        extra="--sjdbOverhang 100",
     log:
         "logs/star_index_genome.log",
     cache: True
