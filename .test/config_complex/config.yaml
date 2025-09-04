@@ -41,6 +41,4 @@ diffexp:
   model: ""
 
 params:
-  cutadapt-pe: ""
-  cutadapt-se: ""
   star: ""
