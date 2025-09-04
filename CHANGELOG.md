@@ -6,6 +6,7 @@
 ### ⚠ BREAKING CHANGES
 
 * use fastp instead of cutadapt for adapter trimming ([#93](https://github.com/snakemake-workflows/rna-seq-star-deseq2/issues/93))
+* update all snakemake wrapper and conda environment tool versions
 
 ### Features
 
