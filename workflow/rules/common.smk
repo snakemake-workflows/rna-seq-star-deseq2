@@ -91,7 +91,7 @@ def get_fq(wildcards):
                 zip(
                     ["fq1", "fq2"],
                     expand(
-                        "results/trimmed/{sample}/{sample}_{unit}_{group}.fastq.gz",
+                        "results/trimmed/{sample}/{sample}-{unit}_{group}.fastq.gz",
                         group=["R1", "R2"],
                         **wildcards,
                     ),
@@ -99,7 +99,7 @@ def get_fq(wildcards):
             )
         # single end sample
         return {
-            "fq1": "results/trimmed/{sample}/{sample}_{unit}_single.fastq.gz".format(
+            "fq1": "results/trimmed/{sample}/{sample}-{unit}_single.fastq.gz".format(
                 **wildcards
             )
         }
