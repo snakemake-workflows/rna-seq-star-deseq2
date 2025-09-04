@@ -29,13 +29,13 @@ rule fastp_se:
     params:
         adapters=lookup(
             within=units,
-            query="sample == '{sample}' & unit == '{unit}'",
+            query="sample_name == '{sample}' & unit_name == '{unit}'",
             cols="fastp_adapters",
             default="",
         ),
         extra=lookup(
             within=units,
-            query="sample == '{sample}' & unit == '{unit}'",
+            query="sample_name == '{sample}' & unit_name == '{unit}'",
             cols="fastp_extra",
             default="--trim_poly_x --poly_x_min_len 7 --trim_poly_g --poly_g_min_len 7",
         ),
@@ -71,13 +71,13 @@ rule fastp_pe:
     params:
         adapters=lookup(
             within=units,
-            query="sample == '{sample}' & unit == '{unit}'",
+            query="sample_name == '{sample}' & unit_name == '{unit}'",
             cols="fastp_adapters",
             default="--detect_adapter_for_pe",
         ),
         extra=lookup(
             within=units,
-            query="sample == '{sample}' & unit == '{unit}'",
+            query="sample_name == '{sample}' & unit_name == '{unit}'",
             cols="fastp_extra",
             default="--trim_poly_x --poly_x_min_len 7 --trim_poly_g --poly_g_min_len 7",
         ),
