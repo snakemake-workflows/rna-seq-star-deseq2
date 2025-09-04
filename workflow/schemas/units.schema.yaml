@@ -17,9 +17,12 @@ properties:
   sra:
     type: string
     description: SRA id for automatic download of unit
-  adapters:
+  fastp_adapters:
     type: string
-    description: adapter trimming settings to use (for cutadapt)
+    description: adapter trimming settings to use (for fastp)
+  fastp_extras:
+    type: string
+    description: extra command line arguments for fastp
   strandedness:
     type: string
     description: one of the values 'none', 'yes' or 'reverse' according to protocol strandedness
