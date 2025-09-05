@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.1](https://github.com/snakemake-workflows/rna-seq-star-deseq2/compare/v3.0.0...v3.0.1) (2025-09-05)
+
+
+### Bug Fixes
+
+* consistently provide extra params for star rules ([#95](https://github.com/snakemake-workflows/rna-seq-star-deseq2/issues/95)) ([b975537](https://github.com/snakemake-workflows/rna-seq-star-deseq2/commit/b975537fe32e696691ec3d72e785fb7524b7d252))
+
 ## [3.0.0](https://github.com/snakemake-workflows/rna-seq-star-deseq2/compare/v2.1.2...v3.0.0) (2025-09-04)
 
 
