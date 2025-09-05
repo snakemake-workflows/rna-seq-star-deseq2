@@ -60,7 +60,15 @@ properties:
     type: object
     properties:
       star: 
-        type: string
+        type: object
+        properties:
+          index:
+            type: string
+          align:
+            type: string
+        required:
+          - index
+          - align
     required:
       - star
 

@@ -41,4 +41,7 @@ diffexp:
   model: ""
 
 params:
-  star: ""
+  star:
+    index: ""
+    align: ""
+
