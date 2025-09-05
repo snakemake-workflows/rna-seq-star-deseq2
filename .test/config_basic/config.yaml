@@ -34,4 +34,6 @@ diffexp:
   model: ~condition
 
 params:
-  star: ""
+  star:
+    index: ""
+    align: ""

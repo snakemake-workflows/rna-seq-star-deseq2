@@ -60,9 +60,11 @@ rule star_index:
         gtf="resources/genome.gtf",
     output:
         directory("resources/star_genome"),
-    threads: 4
     log:
         "logs/star_index_genome.log",
     cache: True
+    params:
+        extra=lookup(within=config, dpath="params/star/index", default=""),
+    threads: 4
     wrapper:
         "v7.2.0/bio/star/index"

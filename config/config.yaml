@@ -65,5 +65,16 @@ diffexp:
   model: ""
 
 
+# passing extra parameters to respective rules in the workflow
 params:
-  star: ""
+  star:
+    # For extra parameters you can pass to the star indexing wrapper, see the
+    # wrapper documentation and the star documentation:
+    # - https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/bio/star/index.html
+    # - https://github.com/alexdobin/STAR?tab=readme-ov-file#manual
+    index: ""
+    # For extra parameters you can pass to the star alignment wrapper, see the
+    # wrapper documentation and the star documentation:
+    # - https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/bio/star/align.html
+    # - https://github.com/alexdobin/STAR?tab=readme-ov-file#manual
+    align: ""
