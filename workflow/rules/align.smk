@@ -9,9 +9,14 @@ rule star_align:
     log:
         "logs/star/{sample}-{unit}.log",
     params:
-        extra=lambda wc, input: " --outSAMtype BAM SortedByCoordinate --quantMode GeneCounts "
-        f" --sjdbGTFfile {input.gtf} "
-        f' {lookup(within= config, dpath= "params/star/align", default= "")} ',
+        extra=lambda wc, input: " ".join(
+            [
+                "--outSAMtype BAM SortedByCoordinate",
+                "--quantMode GeneCounts",
+                f'--sjdbGTFfile "{input.gtf}"',
+                lookup(within=config, dpath="params/star/align", default=""),
+            ]
+        ),
     threads: 24
     wrapper:
         "v7.2.0/bio/star/align"
