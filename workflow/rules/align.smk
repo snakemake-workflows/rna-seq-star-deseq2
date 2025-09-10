@@ -6,6 +6,9 @@ rule star_align:
     output:
         aln="results/star/{sample}-{unit}/Aligned.sortedByCoord.out.bam",
         reads_per_gene="results/star/{sample}-{unit}/ReadsPerGene.out.tab",
+        log="results/star/{sample}-{unit}/Log.out",
+        sj="results/star/{sample}-{unit}/SJ.out.tab",
+        log_final="results/star/{sample}-{unit}/Log.final.out",
     log:
         "logs/star/{sample}-{unit}.log",
     params:
