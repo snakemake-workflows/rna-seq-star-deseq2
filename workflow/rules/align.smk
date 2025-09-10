@@ -5,7 +5,11 @@ rule star_align:
         gtf="resources/genome.gtf",
     output:
         aln="results/star/{sample}-{unit}/Aligned.sortedByCoord.out.bam",
+        chim_junc="results/star/{sample}-{unit}/Chimeric.out.junction",
         reads_per_gene="results/star/{sample}-{unit}/ReadsPerGene.out.tab",
+        log="results/star/{sample}-{unit}/Log.out",
+        sj="results/star/{sample}-{unit}/SJ.out.tab",
+        log_final="results/star/{sample}-{unit}/Log.final.out",
     log:
         "logs/star/{sample}-{unit}.log",
     params:
