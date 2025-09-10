@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.0](https://github.com/snakemake-workflows/rna-seq-star-deseq2/compare/v3.0.1...v3.1.0) (2025-09-10)
+
+
+### Features
+
+* add new (logging) output to star_align ([#97](https://github.com/snakemake-workflows/rna-seq-star-deseq2/issues/97)) ([d365a2c](https://github.com/snakemake-workflows/rna-seq-star-deseq2/commit/d365a2c1859f69d014054fbf0f32b7e8b4726df6))
+
 ## [3.0.1](https://github.com/snakemake-workflows/rna-seq-star-deseq2/compare/v3.0.0...v3.0.1) (2025-09-05)
 
 
