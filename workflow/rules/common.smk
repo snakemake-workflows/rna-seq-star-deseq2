@@ -17,7 +17,7 @@ def get_final_output():
         "results/diffexp/{contrast}.diffexp.symbol.tsv",
         contrast=config["diffexp"]["contrasts"],
     )
-    final_output.append("results/deseq2/normcounts.symbol.tsv")
+    #final_output.append("results/deseq2/normcounts.symbol.tsv")
     final_output.append("results/counts/all.symbol.tsv")
     final_output.append("results/qc/multiqc_report.html")
 
