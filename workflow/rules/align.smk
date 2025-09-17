@@ -10,7 +10,7 @@ rule align:
         "logs/star/{sample}_{unit}.log",
     benchmark:
         "logs/star/{sample}_{unit}.bench.tsv",
-    threads: 48
+    threads: 127
     params:
         idx=lambda wc, input: input.index,
         extra=lambda wc, input: f'--outSAMtype BAM SortedByCoordinate --quantMode GeneCounts --sjdbGTFfile {input.gtf} {config["params"]["star"]} ',

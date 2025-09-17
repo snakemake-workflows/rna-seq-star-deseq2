@@ -32,8 +32,9 @@ rule rseqc_junction_annotation:
     conda:
         "../envs/rseqc.yaml"
     shell:
-        "junction_annotation.py {params.extra} -i {input.bam} -r {input.bed} -o {params.prefix} "
-        "> {log[0]} 2>&1"
+        """
+        junction_annotation.py {params.extra} -i {input.bam} -r {input.bed} -o {params.prefix} > {log[0]} 2>&1;
+        """
 
 
 rule rseqc_junction_saturation:
@@ -52,8 +53,8 @@ rule rseqc_junction_saturation:
     conda:
         "../envs/rseqc.yaml"
     shell:
-        "junction_saturation.py {params.extra} -i {input.bam} -r {input.bed} -o {params.prefix} "
-        "> {log} 2>&1"
+        """junction_saturation.py {params.extra} -i {input.bam} -r {input.bed} -o {params.prefix} > {log} 2>&1;
+	"""
 
 
 rule rseqc_stat:
@@ -68,7 +69,9 @@ rule rseqc_stat:
     conda:
         "../envs/rseqc.yaml"
     shell:
-        "bam_stat.py -i {input} > {output} 2> {log}"
+        """
+        bam_stat.py -i {input} > {output} 2> {log};
+        """
 
 
 rule rseqc_infer:
@@ -84,7 +87,9 @@ rule rseqc_infer:
     conda:
         "../envs/rseqc.yaml"
     shell:
-        "infer_experiment.py -r {input.bed} -i {input.bam} > {output} 2> {log}"
+        """
+        infer_experiment.py -r {input.bed} -i {input.bam} > {output} 2> {log};
+        """
 
 
 rule rseqc_innerdis:
@@ -102,7 +107,9 @@ rule rseqc_innerdis:
     conda:
         "../envs/rseqc.yaml"
     shell:
-        "inner_distance.py -r {input.bed} -i {input.bam} -o {params.prefix} > {log} 2>&1"
+        """
+        inner_distance.py -r {input.bed} -i {input.bam} -o {params.prefix} > {log} 2>&1;
+        """
 
 
 rule rseqc_readdis:
@@ -118,7 +125,9 @@ rule rseqc_readdis:
     conda:
         "../envs/rseqc.yaml"
     shell:
-        "read_distribution.py -r {input.bed} -i {input.bam} > {output} 2> {log}"
+        """
+        read_distribution.py -r {input.bed} -i {input.bam} > {output} 2> {log};
+        """
 
 
 rule rseqc_readdup:
@@ -135,8 +144,9 @@ rule rseqc_readdup:
     conda:
         "../envs/rseqc.yaml"
     shell:
-        "read_duplication.py -i {input} -o {params.prefix} > {log} 2>&1"
-
+        """
+        read_duplication.py -i {input} -o {params.prefix} > {log} 2>&1;
+        """
 
 rule rseqc_readgc:
     input:
@@ -152,7 +162,9 @@ rule rseqc_readgc:
     conda:
         "../envs/rseqc.yaml"
     shell:
-        "read_GC.py -i {input} -o {params.prefix} > {log} 2>&1"
+        """
+        read_GC.py -i {input} -o {params.prefix} > {log} 2>&1;
+        """
 
 
 rule multiqc:
