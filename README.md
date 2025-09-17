@@ -50,7 +50,7 @@ conda activate snakemake
 
 # Set your cache dir for saving resources useful across other jobs, snakemake uses this when the `--cache` flag is set.
 
-mkdir /fsx/resources/environments/containers/ubuntu/rnaseq_cache/
+mkdir -p /fsx/resources/environments/containers/ubuntu/rnaseq_cache/
 export SNAKEMAKE_OUTPUT_CACHE=/fsx/resources/environments/containers/ubuntu/rnaseq_cache/
 export TMPDIR=/fsx/scratch/
 ```
