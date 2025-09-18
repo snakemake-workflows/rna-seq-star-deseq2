@@ -270,5 +270,12 @@ rule multiqc:
         "results/qc/multiqc_report.html",
     log:
         "logs/multiqc.log",
-    wrapper:
-        "v3.5.3/bio/multiqc"
+    container:
+        "docker://daylilyinformatics/daylily_multiqc:0.2"
+    shell:
+        """
+        multiqc -f \
+         --template default \
+        --filename {output[0]} \
+        -i 'deseq2 RNASEQ QC' ./results >> {log} 2>&1;
+        """
