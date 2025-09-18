@@ -13,7 +13,27 @@ FASTQC_ZIP_OUTPUTS = [
     for entry in FASTQC_WILDCARDS
 ]
 
+def get_fastqc_fastq(wildcards):
+    fastqs = get_fq(wildcards)
+    read_map = {"R1": "fq1", "R2": "fq2"}
+    try:
+        key = read_map[wildcards.read]
+    except KeyError:
+        raise ValueError(
+            "Invalid read value '{read}' for sample {sample} unit {unit}".format(
+                read=wildcards.read, sample=wildcards.sample, unit=wildcards.unit
+            )
+        )
 
+    fastq = fastqs.get(key)
+    if fastq is None:
+        raise ValueError(
+            "Read {read} not available for sample {sample} unit {unit}".format(
+                read=wildcards.read, sample=wildcards.sample, unit=wildcards.unit
+            )
+        )
+
+    return fastq
 
 def get_multiqc_inputs(wildcards):
     inputs = list(FASTQC_ZIP_OUTPUTS)
