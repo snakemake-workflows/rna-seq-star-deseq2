@@ -28,15 +28,17 @@ git clone git@github.com:Daylily-Informatics/rna-seq-star-deseq2.git
 cd rna-seq-star-deseq2
 ```
 
-## Build The Snakemake (v8.*) Conda Env
+## Build The Snakemake (v9.11.4.1) Conda Env
+Install the Daylily-Informatics fork of Snakemake that bundles AWS ParallelCluster integration alongside the executor plugin dependencies.
 ```bash
-conda create -n snakemake -c conda-forge  snakemake==9.5.1 snakedeploy tabulate yaml
+conda create -n snakemake -c conda-forge python=3.11 pip snakedeploy tabulate yaml
 conda activate snakemake
+pip install "git+https://github.com/Daylily-Informatics/snakemake-aws@v9.11.4.1"
 pip install snakemake-executor-plugin-pcluster-slurm==0.0.31
 
 conda activate snakemake
 snakemake --version
-# 9.5.1 
+# 9.11.4.1
 ```
 
 ### Run Test Data Workflow
