@@ -5,6 +5,8 @@ rule get_sra:
     threads: 31
     log:
         "logs/get-sra/{accession}.log",
+    benchmark:
+        "logs/benchmarks/get_sra/{accession}.bench.tsv",
     wrapper:
         "v3.5.3/bio/sra-tools/fasterq-dump"
 
@@ -16,6 +18,8 @@ rule cutadapt_pipe:
         pipe("pipe/cutadapt/{sample}/{unit}.{fq}.{ext}"),
     log:
         "logs/pipe-fastqs/catadapt/{sample}_{unit}.{fq}.{ext}.log",
+    benchmark:
+        "logs/benchmarks/cutadapt_pipe/{sample}_{unit}.{fq}.{ext}.bench.tsv",
     wildcard_constraints:
         ext=r"fastq|fastq\.gz",
     threads: 1  ## this does something special when running using pipe() output directives
@@ -32,6 +36,8 @@ rule cutadapt_pe:
         qc="results/trimmed/{sample}_{unit}.paired.qc.txt",
     log:
         "logs/cutadapt/{sample}_{unit}.log",
+    benchmark:
+        "logs/benchmarks/cutadapt_pe/{sample}_{unit}.bench.tsv",
     params:
         extra=config["params"]["cutadapt-pe"],
         adapters=lambda w: str(units.loc[w.sample].loc[w.unit, "adapters"]),
@@ -48,6 +54,8 @@ rule cutadapt_se:
         qc="results/trimmed/{sample}_{unit}_single.qc.txt",
     log:
         "logs/cutadapt/{sample}_{unit}.log",
+    benchmark:
+        "logs/benchmarks/cutadapt_se/{sample}_{unit}.bench.tsv",
     params:
         extra=config["params"]["cutadapt-se"],
         adapters=lambda w: str(units.loc[w.sample].loc[w.unit, "adapters"]),

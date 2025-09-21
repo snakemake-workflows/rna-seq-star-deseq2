@@ -3,6 +3,8 @@ rule get_genome:
         "resources/genome.fasta",
     log:
         "logs/get-genome.log",
+    benchmark:
+        "logs/benchmarks/get_genome.bench.tsv",
     params:
         species=config["ref"]["species"],
         datatype="dna",
@@ -27,6 +29,8 @@ rule get_annotation:
     threads: 127
     log:
         "logs/get_annotation.log",
+    benchmark:
+        "logs/benchmarks/get_annotation.bench.tsv",
     wrapper:
         "v3.5.3/bio/reference/ensembl-annotation"
 
@@ -38,6 +42,8 @@ rule genome_faidx:
         "resources/genome.fasta.fai",
     log:
         "logs/genome-faidx.log",
+    benchmark:
+        "logs/benchmarks/genome_faidx.bench.tsv",
     cache: True
     threads: 32
     wrapper:
@@ -51,6 +57,8 @@ rule bwa_index:
         multiext("resources/genome.fasta", ".amb", ".ann", ".bwt", ".pac", ".sa"),
     log:
         "logs/bwa_index.log",
+    benchmark:
+        "logs/benchmarks/bwa_index.bench.tsv",
     resources:
         mem_mb=369000,
     cache: True
@@ -69,6 +77,8 @@ rule star_index:
         extra=lambda wc, input: f"--sjdbGTFfile {input.annotation} --sjdbOverhang 100",
     log:
         "logs/star_index_genome.log",
+    benchmark:
+        "logs/benchmarks/star_index.bench.tsv",
     cache: True
     threads: 127
     wrapper:
