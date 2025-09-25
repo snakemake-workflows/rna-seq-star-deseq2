@@ -31,10 +31,12 @@ cd rna-seq-star-deseq2
 ## Build The Snakemake (v9.11.4.1) Conda Env
 Install the Daylily-Informatics fork of Snakemake that bundles AWS ParallelCluster integration alongside the executor plugin dependencies.
 ```bash
-conda create -n srrda -c conda-forge python=3.11 pip snakedeploy tabulate yaml
+conda create -n srrda -c conda-forge python=3.11 pip tabulate yaml
 conda activate srrda
 pip install git+https://github.com/Daylily-Informatics/snakemake-aws@v9.11.4.1
+pip install snakedeploy
 pip install snakemake-executor-plugin-pcluster-slurm==0.0.31
+
 
 conda activate srrda
 snakemake --version
