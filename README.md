@@ -33,7 +33,7 @@ Install the Daylily-Informatics fork of Snakemake that bundles AWS ParallelClust
 ```bash
 conda create -n srrda -c conda-forge python=3.11 pip tabulate yaml
 conda activate srrda
-pip install git+https://github.com/Daylily-Informatics/snakemake-aws@v9.11.4.1
+pip install git+https://github.com/Daylily-Informatics/snakemake-aws@v9.11.4.2
 pip install snakedeploy
 pip install snakemake-executor-plugin-pcluster-slurm==0.0.31
 

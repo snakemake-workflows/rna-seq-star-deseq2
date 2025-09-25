@@ -35,3 +35,13 @@ include: "rules/diffexp.smk"
 rule all:
     input:
         get_final_output(),
+
+rule all2:
+    output:
+        "./a.log"
+    benchmark:
+        "./a.bench.log"
+    shell:
+        "sleep 15;"
+	"touch {output};"
+	"sleep 2;"
