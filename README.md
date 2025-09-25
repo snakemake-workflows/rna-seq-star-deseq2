@@ -79,7 +79,7 @@ snakemake --use-conda --use-singularity   \
 --executor pcluster-slurm \
 --default-resources slurm_partition=i192,i128 runtime=86400 mem_mb=36900 tmpdir=/fsx/scratch \
 --cache -p \
---verbose -k \
+ -k \
 --max-threads 20000 \
 --restart-times 2 \
 --cores 20000 -j 14 -n   \
@@ -126,10 +126,11 @@ snakemake --use-conda --use-singularity   \
 --executor pcluster-slurm \
 --default-resources slurm_partition=i192,i128 runtime=86400 mem_mb=36900 tmpdir=/fsx/scratch \
 --cache -p \
---verbose -k \
+-k \
 --restart-times 2 \
 --max-threads 20000 \
---cores 20000 -j 14 
+--cores 20000 -j 14 \
+--include-aws-benchmark-metrics
 
 ```
 
