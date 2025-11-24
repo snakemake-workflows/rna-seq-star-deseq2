@@ -7,7 +7,7 @@ units: config_sra/units.tsv
 
 ref:
   species: gallus_gallus
-  release: "115"
+  release: 115
   build: GRCg7b
 
 
