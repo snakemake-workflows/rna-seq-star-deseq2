@@ -1,0 +1,39 @@
+# For a fully commented config.yaml file, see the main `config/config.yaml`
+# example file.
+
+samples: config_sra/samples.tsv
+units: config_sra/units.tsv
+
+
+ref:
+  species: gallus_gallus
+  release: "115"
+  build: GRCg7b
+
+
+trimming:
+  activate: True
+
+mergeReads:
+  activate: False
+
+pca:
+  activate: True
+  labels:
+    - treatment
+
+diffexp:
+  variables_of_interest:
+    condition:
+      base_level: PBS_0H
+  batch_effects: ""
+  contrasts:
+    treated-vs-untreated:
+      variable_of_interest: treatment
+      level_of_interest: H5N1_2.2_12H
+  model: ~treatment
+
+params:
+  star:
+    index: ""
+    align: ""

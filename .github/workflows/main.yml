@@ -68,3 +68,15 @@ jobs:
         directory: .test
         snakefile: workflow/Snakefile
         args: "--configfile .test/config_complex/config.yaml --report report.zip"
+    - name: Test workflow (sra file download, no batch_effects)
+      uses: snakemake/snakemake-github-action@v1.22.0
+      with:
+        directory: .test
+        snakefile: workflow/Snakefile
+        args: "--configfile .test/config_sra/config.yaml --use-conda --show-failed-logs --cores 2 --conda-cleanup-pkgs cache"
+    - name: Test report (sra file download, no batch_effects)
+      uses: snakemake/snakemake-github-action@v1.22.0
+      with:
+        directory: .test
+        snakefile: workflow/Snakefile
+        args: "--configfile .test/config_sra/config.yaml --report report.zip"
