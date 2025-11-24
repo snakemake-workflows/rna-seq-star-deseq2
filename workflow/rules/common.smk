@@ -57,7 +57,7 @@ def get_units_fastqs(wildcards):
         return expand(
             "sra/{accession}_{read}.fastq",
             accession=accession,
-            read=["R1", "R2"],
+            read=["1", "2"],
         )
     if not is_paired_end(wildcards.sample):
         return [
