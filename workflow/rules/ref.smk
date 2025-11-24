@@ -67,4 +67,4 @@ rule star_index:
         extra=lookup(within=config, dpath="params/star/index", default=""),
     threads: 4
     wrapper:
-        "v7.2.0/bio/star/index"
+        "v3.3.7/bio/star/index"

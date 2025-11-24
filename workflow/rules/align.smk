@@ -22,4 +22,4 @@ rule star_align:
         ),
     threads: 24
     wrapper:
-        "v7.2.0/bio/star/align"
+        "v3.3.7/bio/star/align"
