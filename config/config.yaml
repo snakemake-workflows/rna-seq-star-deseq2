@@ -35,7 +35,7 @@ ref:
   # cdna folder on the FTP server, and look for the correct build in the
   # file names there. For example "GRCh38" in:
   # https://ftp.ensembl.org/pub/release-115/fasta/homo_sapiens/cdna/
-  build: GRCh38
+  build: bGalGal1.mat.broiler.GRCg7b
 
 trimming:
   # If you activate trimming by setting this to `True`, this will trim adapters
