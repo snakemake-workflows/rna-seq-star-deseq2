@@ -5,7 +5,6 @@ samples: config/samples.tsv
 # sample).
 units: config/units.tsv
 
-
 ref:
   # ensembl species name:
   # This species needs to be available for download via the Ensembl FTP site.
@@ -87,7 +86,6 @@ diffexp:
   # specify a different model to use, for example skipping the interaction:
   # model: ~jointly_handled + treatment_1 + treatment_2
   model: ""
-
 
 # passing extra parameters to respective rules in the workflow
 params:
