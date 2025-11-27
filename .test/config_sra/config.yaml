@@ -2,13 +2,16 @@
 # example file.
 
 samples: config_sra/samples.tsv
+# This data comes from:
+# * https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1269045
+# * https://doi.org/10.7554/eLife.107157.3
 units: config_sra/units.tsv
 
 
 ref:
-  species: gallus_gallus
+  species: saccharomyces_cerevisiae
   release: 115
-  build: bGalGal1.mat.broiler.GRCg7b
+  build: R64-1-1
 
 
 trimming:
@@ -24,14 +27,14 @@ pca:
 
 diffexp:
   variables_of_interest:
-    condition:
-      base_level: PBS_0H
+    mutational_status:
+      base_level: wildtype
   batch_effects: ""
   contrasts:
-    treated-vs-untreated:
-      variable_of_interest: treatment
-      level_of_interest: H5N1_2.2_12H
-  model: ~treatment
+    apj1d_vs_wildtype:
+      variable_of_interest: mutational_status
+      level_of_interest: apj1d
+  model: ~mutational_status
 
 params:
   star:

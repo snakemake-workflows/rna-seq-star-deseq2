@@ -1,3 +1,5 @@
-sample_name	treatment
-H5N1_2.2_12H_brain_1	H5N1_2.2_12H
-PBS_0H_brain_1	PBS_0H
+sample_name	mutational_status
+by4741_wt_1	wildtype
+by4741_wt_2	wildtype
+by4741_apj1d_1	apj1d
+by4741_apj1d_2	apj1d
