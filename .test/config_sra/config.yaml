@@ -3,8 +3,8 @@
 
 samples: config_sra/samples.tsv
 # This data comes from:
-# * https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1269045
-# * https://doi.org/10.7554/eLife.107157.3
+# * https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1359129
+# * https://www.ncbi.nlm.nih.gov/Traces/study/?acc=PRJNA1359129&o=acc_s%3Aa
 units: config_sra/units.tsv
 
 
@@ -27,14 +27,14 @@ pca:
 
 diffexp:
   variables_of_interest:
-    mutational_status:
-      base_level: wildtype
+    medium:
+      base_level: glycerol
   batch_effects: ""
   contrasts:
-    apj1d_vs_wildtype:
-      variable_of_interest: mutational_status
-      level_of_interest: apj1d
-  model: ~mutational_status
+    trehalose_vs_glycerol:
+      variable_of_interest: medium
+      level_of_interest: trehalose
+  model: ~medium
 
 params:
   star:
