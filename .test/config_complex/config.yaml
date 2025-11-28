@@ -7,7 +7,7 @@ units: config_complex/units.tsv
 
 ref:
   species: saccharomyces_cerevisiae
-  release: 100
+  release: 115
   build: R64-1-1
 
 
