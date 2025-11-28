@@ -40,10 +40,30 @@ jobs:
       - linting
       - formatting
     steps:
+      - name: update apt
+        run: sudo apt-get update
+
+      - name: Free Disk Space (Ubuntu)
+        uses: jlumbroso/free-disk-space@v1.3.0
+        with:
+          # this might remove tools that are actually needed,
+          # if set to "true" but frees about 6 GB
+          tool-cache: false
+          
+          # all of these default to true, but feel free to set to
+          # "false" if necessary for your workflow
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: true
+          docker-images: false
+          swap-storage: true
+
       - name: Checkout repository with submodules
         uses: actions/checkout@v6
         with:
           submodules: recursive
+
       - name: Test workflow (basic model, no batch_effects)
         uses: snakemake/snakemake-github-action@v2
         with:
