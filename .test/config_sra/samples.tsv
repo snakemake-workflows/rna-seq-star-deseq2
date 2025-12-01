@@ -1,5 +1,5 @@
-sample_name	medium
-trehalose_1	trehalose
-trehalose_2	trehalose
-glycerol_1	glycerol
-glycerol_2	glycerol
+sample_name	genotype
+control_g_1	control
+control_g_2	control
+stb5_g_1	stb5
+stb5_g_2	stb5

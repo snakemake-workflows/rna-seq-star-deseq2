@@ -1,5 +1,9 @@
 sample_name	unit_name	fq1	fq2	sra	fastp_adapters	fastp_extra	strandedness
-trehalose_1	lane1			SRR35987766			
-trehalose_2	lane1			SRR35987767			
-glycerol_1	lane1			SRR35987768			
-glycerol_2	lane1			SRR35987769			
+control_g_1	lane1			ERR2985811			
+control_g_1	lane2			ERR2985812			
+control_g_2	lane1			ERR2985815			
+control_g_2	lane2			ERR2985816			
+stb5_g_1	lane1			ERR2985827			
+stb5_g_1	lane2			ERR2985828			
+stb5_g_2	lane1			ERR2985831			
+stb5_g_2	lane2			ERR2985832			
