@@ -17,7 +17,7 @@ jobs:
           submodules: recursive
           fetch-depth: 0
       - name: Formatting
-        uses: github/super-linter@v5
+        uses: github/super-linter@v8
         env:
           VALIDATE_ALL_CODEBASE: false
           DEFAULT_BRANCH: master
