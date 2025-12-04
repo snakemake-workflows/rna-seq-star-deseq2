@@ -69,36 +69,36 @@ jobs:
         with:
           directory: .test
           snakefile: workflow/Snakefile
-          args: "--configfile .test/config_basic/config.yaml --use-conda --show-failed-logs --cores 2 --conda-cleanup-pkgs cache"
+          args: "--configfile .test/config_basic/config.yaml --software-deployment-method conda --show-failed-logs --cores 8 --conda-cleanup-pkgs cache"
       - name: Test report (basic model, no batch_effects)
         uses: snakemake/snakemake-github-action@v2
         with:
           directory: .test
           snakefile: workflow/Snakefile
-          args: "--configfile .test/config_basic/config.yaml --report report.zip"
+          args: "--configfile .test/config_basic/config.yaml --software-deployment-method conda --report report.zip"
       - name: Test workflow (multiple variables_of_interest, include batch_effects)
         uses: snakemake/snakemake-github-action@v2
         with:
           directory: .test
           snakefile: workflow/Snakefile
           stagein: "rm -r .test/results/"
-          args: "--configfile .test/config_complex/config.yaml --use-conda --show-failed-logs --cores 2 --conda-cleanup-pkgs cache"
+          args: "--configfile .test/config_complex/config.yaml --software-deployment-method conda --show-failed-logs --cores 8 --conda-cleanup-pkgs cache"
       - name: Test report (multiple variables_of_interest, include batch_effects)
         uses: snakemake/snakemake-github-action@v2
         with:
           directory: .test
           snakefile: workflow/Snakefile
-          args: "--configfile .test/config_complex/config.yaml --report report.zip"
+          args: "--configfile .test/config_complex/config.yaml ---software-deployment-method conda -report report.zip"
       - name: Test workflow (sra file download, no batch_effects)
         uses: snakemake/snakemake-github-action@v2
         with:
           directory: .test
           snakefile: workflow/Snakefile
           stagein: "rm -r .test/results/; export TMPDIR=${{ runner.temp }}"
-          args: "--configfile .test/config_sra/config.yaml --use-conda --show-failed-logs --cores 2 --conda-cleanup-pkgs cache"
+          args: "--configfile .test/config_sra/config.yaml --software-deployment-method conda --show-failed-logs --cores 8 --conda-cleanup-pkgs cache"
       - name: Test report (sra file download, no batch_effects)
         uses: snakemake/snakemake-github-action@v2
         with:
           directory: .test
           snakefile: workflow/Snakefile
-          args: "--configfile .test/config_sra/config.yaml --report report.zip"
+          args: "--configfile .test/config_sra/config.yaml --software-deployment-method conda --report report.zip"
