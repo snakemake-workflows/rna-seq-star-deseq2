@@ -34,16 +34,42 @@ jobs:
           snakefile: workflow/Snakefile
           args: "--configfile .test/config_complex/config.yaml --lint"
 
-  run-workflow:
+  testing:
     runs-on: ubuntu-latest
     needs:
       - linting
       - formatting
+    strategy:
+      fail-fast: true
+      matrix:
+        case:
+          - name: basic model, no batch_effects
+            args: >-
+              --configfile .test/config_basic/config.yaml
+            report: true
+            free_disk_space: false
+
+          - name: multiple variables_of_interest, include batch_effects
+            uses: snakemake/snakemake-github-action@v2
+            args: >-
+              --configfile .test/config_complex/config.yaml
+            report: true
+            free_disk_space: false
+          - name: sra file download, no batch_effects
+            uses: snakemake/snakemake-github-action@v2
+            args: >-
+              --configfile .test/config_sra/config.yaml
+            report: true
+            free_disk_space: true
+
+    name: test ${{ matrix.case.name }}
+
     steps:
       - name: update apt
         run: sudo apt-get update
 
       - name: Free Disk Space (Ubuntu)
+        if: ${{ matrix.case.free_disk_space }}
         uses: jlumbroso/free-disk-space@v1.3.0
         with:
           # this might remove tools that are actually needed,
@@ -64,41 +90,28 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Test workflow (basic model, no batch_effects)
+      - name: run workflow
         uses: snakemake/snakemake-github-action@v2
         with:
           directory: .test
           snakefile: workflow/Snakefile
-          args: "--configfile .test/config_basic/config.yaml --software-deployment-method conda --show-failed-logs --cores 8 --conda-cleanup-pkgs cache"
-      - name: Test report (basic model, no batch_effects)
+          args: >-
+            --conda-cleanup-pkgs cache
+            --software-deployment-method conda
+            --show-failed-logs
+            --cores 8
+            ${{ matrix.case.args }}
+          show-disk-usage-on-error: true
+
+      - name: generate report
+        if: ${{ matrix.case.report }}
         uses: snakemake/snakemake-github-action@v2
         with:
           directory: .test
           snakefile: workflow/Snakefile
-          args: "--configfile .test/config_basic/config.yaml --software-deployment-method conda --report report.zip"
-      - name: Test workflow (multiple variables_of_interest, include batch_effects)
-        uses: snakemake/snakemake-github-action@v2
-        with:
-          directory: .test
-          snakefile: workflow/Snakefile
-          stagein: "rm -r .test/results/"
-          args: "--configfile .test/config_complex/config.yaml --software-deployment-method conda --show-failed-logs --cores 8 --conda-cleanup-pkgs cache"
-      - name: Test report (multiple variables_of_interest, include batch_effects)
-        uses: snakemake/snakemake-github-action@v2
-        with:
-          directory: .test
-          snakefile: workflow/Snakefile
-          args: "--configfile .test/config_complex/config.yaml --software-deployment-method conda --report report.zip"
-      - name: Test workflow (sra file download, no batch_effects)
-        uses: snakemake/snakemake-github-action@v2
-        with:
-          directory: .test
-          snakefile: workflow/Snakefile
-          stagein: "rm -r .test/results/; export TMPDIR=${{ runner.temp }}"
-          args: "--configfile .test/config_sra/config.yaml --software-deployment-method conda --show-failed-logs --cores 8 --conda-cleanup-pkgs cache"
-      - name: Test report (sra file download, no batch_effects)
-        uses: snakemake/snakemake-github-action@v2
-        with:
-          directory: .test
-          snakefile: workflow/Snakefile
-          args: "--configfile .test/config_sra/config.yaml --software-deployment-method conda --report report.zip"
+          args: >-
+            --software-deployment-method conda
+            --cores 1
+            --report report.zip
+            ${{ matrix.case.args }}
+          show-disk-usage-on-error: true
