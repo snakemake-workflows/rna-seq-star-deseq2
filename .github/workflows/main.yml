@@ -50,13 +50,11 @@ jobs:
             free_disk_space: false
 
           - name: multiple variables_of_interest, include batch_effects
-            uses: snakemake/snakemake-github-action@v2
             args: >-
               --configfile .test/config_complex/config.yaml
             report: true
             free_disk_space: false
           - name: sra file download, no batch_effects
-            uses: snakemake/snakemake-github-action@v2
             args: >-
               --configfile .test/config_sra/config.yaml
             report: true
