@@ -7,12 +7,10 @@ samples: config_sra/samples.tsv
 # * https://www.ncbi.nlm.nih.gov/Traces/study/?acc=PRJEB30262&o=acc_s%3Aa
 units: config_sra/units.tsv
 
-
 ref:
   species: saccharomyces_cerevisiae
   release: 115
   build: R64-1-1
-
 
 trimming:
   activate: True

@@ -4,12 +4,10 @@
 samples: config_complex/samples.tsv
 units: config_complex/units.tsv
 
-
 ref:
   species: saccharomyces_cerevisiae
   release: 115
   build: R64-1-1
-
 
 trimming:
   activate: False
@@ -44,4 +42,3 @@ params:
   star:
     index: ""
     align: ""
-
