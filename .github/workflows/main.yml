@@ -49,7 +49,7 @@ jobs:
           # this might remove tools that are actually needed,
           # if set to "true" but frees about 6 GB
           tool-cache: false
-          
+
           # all of these default to true, but feel free to set to
           # "false" if necessary for your workflow
           android: true
@@ -81,7 +81,7 @@ jobs:
         with:
           directory: .test
           snakefile: workflow/Snakefile
-          stagein: 'rm -r .test/results/'
+          stagein: "rm -r .test/results/"
           args: "--configfile .test/config_complex/config.yaml --use-conda --show-failed-logs --cores 2 --conda-cleanup-pkgs cache"
       - name: Test report (multiple variables_of_interest, include batch_effects)
         uses: snakemake/snakemake-github-action@v2
