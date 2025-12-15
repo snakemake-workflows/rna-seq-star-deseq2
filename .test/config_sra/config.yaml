@@ -21,7 +21,7 @@ mergeReads:
 pca:
   activate: True
   labels:
-    - treatment
+    - genotype
 
 diffexp:
   variables_of_interest:
