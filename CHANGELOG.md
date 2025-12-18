@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.1](https://github.com/snakemake-workflows/rna-seq-star-deseq2/compare/v3.1.0...v3.1.1) (2025-12-18)
+
+
+### Bug Fixes
+
+* get sra download to work and test it ([#102](https://github.com/snakemake-workflows/rna-seq-star-deseq2/issues/102)) ([a9854f6](https://github.com/snakemake-workflows/rna-seq-star-deseq2/commit/a9854f62574e5879323bd200e6e4b4272a975ce9))
+
 ## [3.1.0](https://github.com/snakemake-workflows/rna-seq-star-deseq2/compare/v3.0.1...v3.1.0) (2025-09-10)
 
 
