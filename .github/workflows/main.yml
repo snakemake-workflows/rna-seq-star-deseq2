@@ -11,60 +11,106 @@ jobs:
   formatting:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout with submodules
-      uses: actions/checkout@v3
-      with:
-        submodules: recursive
-        fetch-depth: 0
-    - name: Formatting
-      uses: github/super-linter@v5
-      env:
-        VALIDATE_ALL_CODEBASE: false
-        DEFAULT_BRANCH: master
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        VALIDATE_SNAKEMAKE_SNAKEFMT: true
+      - name: Checkout with submodules
+        uses: actions/checkout@v6
+        with:
+          submodules: recursive
+          fetch-depth: 0
+      - name: Formatting
+        uses: super-linter/super-linter@v8
+        env:
+          VALIDATE_ALL_CODEBASE: false
+          DEFAULT_BRANCH: master
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_SNAKEMAKE_SNAKEFMT: true
   linting:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Linting
-      uses: snakemake/snakemake-github-action@v1.22.0
-      with:
-        directory: .test
-        snakefile: workflow/Snakefile
-        args: "--configfile .test/config_complex/config.yaml --lint"
+      - uses: actions/checkout@v6
+      - name: Linting
+        uses: snakemake/snakemake-github-action@v2
+        with:
+          directory: .test
+          snakefile: workflow/Snakefile
+          args: "--configfile .test/config_complex/config.yaml --lint"
 
-  run-workflow:
+  testing:
     runs-on: ubuntu-latest
     needs:
       - linting
       - formatting
+    strategy:
+      fail-fast: true
+      matrix:
+        case:
+          - name: basic model, no batch_effects
+            args: >-
+              --configfile .test/config_basic/config.yaml
+            report: true
+            free_disk_space: false
+
+          - name: multiple variables_of_interest, include batch_effects
+            args: >-
+              --configfile .test/config_complex/config.yaml
+            report: true
+            free_disk_space: false
+          - name: sra file download, no batch_effects
+            args: >-
+              --configfile .test/config_sra/config.yaml
+            report: true
+            free_disk_space: true
+
+    name: test ${{ matrix.case.name }}
+
     steps:
-    - name: Checkout repository with submodules
-      uses: actions/checkout@v3
-      with:
-        submodules: recursive
-    - name: Test workflow (basic model, no batch_effects)
-      uses: snakemake/snakemake-github-action@v1.22.0
-      with:
-        directory: .test
-        snakefile: workflow/Snakefile
-        args: "--configfile .test/config_basic/config.yaml --use-conda --show-failed-logs --cores 2 --conda-cleanup-pkgs cache"
-    - name: Test report (basic model, no batch_effects)
-      uses: snakemake/snakemake-github-action@v1.22.0
-      with:
-        directory: .test
-        snakefile: workflow/Snakefile
-        args: "--configfile .test/config_basic/config.yaml --report report.zip"
-    - name: Test workflow (multiple variables_of_interest, include batch_effects)
-      uses: snakemake/snakemake-github-action@v1.22.0
-      with:
-        directory: .test
-        snakefile: workflow/Snakefile
-        args: "--configfile .test/config_complex/config.yaml --use-conda --show-failed-logs --cores 2 --conda-cleanup-pkgs cache"
-    - name: Test report (multiple variables_of_interest, include batch_effects)
-      uses: snakemake/snakemake-github-action@v1.22.0
-      with:
-        directory: .test
-        snakefile: workflow/Snakefile
-        args: "--configfile .test/config_complex/config.yaml --report report.zip"
+      - name: update apt
+        if: ${{ matrix.case.free_disk_space }}
+        run: sudo apt-get update
+
+      - name: Free Disk Space (Ubuntu)
+        if: ${{ matrix.case.free_disk_space }}
+        uses: jlumbroso/free-disk-space@v1.3.0
+        with:
+          # this might remove tools that are actually needed,
+          # if set to "true" but frees about 6 GB
+          tool-cache: false
+
+          # all of these default to true, but feel free to set to
+          # "false" if necessary for your workflow
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: true
+          docker-images: false
+          swap-storage: true
+
+      - name: Checkout repository with submodules
+        uses: actions/checkout@v6
+        with:
+          submodules: recursive
+
+      - name: run workflow
+        uses: snakemake/snakemake-github-action@v2
+        with:
+          directory: .test
+          snakefile: workflow/Snakefile
+          args: >-
+            --conda-cleanup-pkgs cache
+            --software-deployment-method conda
+            --show-failed-logs
+            --cores 8
+            ${{ matrix.case.args }}
+          show-disk-usage-on-error: true
+
+      - name: generate report
+        if: ${{ matrix.case.report }}
+        uses: snakemake/snakemake-github-action@v2
+        with:
+          directory: .test
+          snakefile: workflow/Snakefile
+          args: >-
+            --software-deployment-method conda
+            --cores 1
+            --report report.zip
+            ${{ matrix.case.args }}
+          show-disk-usage-on-error: true

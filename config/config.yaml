@@ -5,13 +5,36 @@ samples: config/samples.tsv
 # sample).
 units: config/units.tsv
 
-
 ref:
-  # Ensembl species name
+  # ensembl species name:
+  # This species needs to be available for download via the Ensembl FTP site.
+  # For a quick check, see the Ensembl species list:
+  # https://www.ensembl.org/info/about/species.html
+  # For full valid species names, consult the respective table for the release
+  # you specify, for example for ‘115’ this is at:
+  # https://ftp.ensembl.org/pub/release-115/species_EnsemblVertebrates.txt
+  # And to browse available downloads in more detail, see the FTP server:
+  # https://ftp.ensembl.org/pub/
   species: homo_sapiens
-  # Ensembl release (make sure to take one where snpeff data is available, check 'snpEff databases' output)
-  release: 100
-  # Genome build
+  # ensembl release version:
+  # Update this to the latest working version, when you first set up a new
+  # analysis on a dataset. You can usually find the latest release in the
+  # Ensembl blog, by looking at the latest posts of the release category:
+  # https://www.ensembl.info/category/01-release/
+  # Later, it only makes sense to update (or downgrade) the release versions
+  # if either (a) the version you are using consistently fails to download
+  # (some Ensembl release versions are just broken) or (b) you know that a
+  # newer version will include changes that will fix some error or adds
+  # transcripts that will be relevant to your analysis.
+  release: 115
+  # genome build:
+  # Usually, this should just be the main build listed in:
+  # https://ftp.ensembl.org/pub/release-115/species_EnsemblVertebrates.txt
+  # For example, for homo_sapiens, you strip the assembly column entry
+  # "GRCh38.p12" down to "GRCh38". If in doubt, navigate to the respective
+  # cdna folder on the FTP server, and look for the correct build in the
+  # file names there. For example "GRCh38" in:
+  # https://ftp.ensembl.org/pub/release-115/fasta/homo_sapiens/cdna/
   build: GRCh38
 
 trimming:
@@ -63,7 +86,6 @@ diffexp:
   # specify a different model to use, for example skipping the interaction:
   # model: ~jointly_handled + treatment_1 + treatment_2
   model: ""
-
 
 # passing extra parameters to respective rules in the workflow
 params:

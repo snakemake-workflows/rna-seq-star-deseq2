@@ -1,0 +1,40 @@
+# For a fully commented config.yaml file, see the main `config/config.yaml`
+# example file.
+
+samples: config_sra/samples.tsv
+# This data comes from:
+# * https://www.ncbi.nlm.nih.gov/bioproject/PRJEB30262
+# * https://www.ncbi.nlm.nih.gov/Traces/study/?acc=PRJEB30262&o=acc_s%3Aa
+units: config_sra/units.tsv
+
+ref:
+  species: saccharomyces_cerevisiae
+  release: 115
+  build: R64-1-1
+
+trimming:
+  activate: True
+
+mergeReads:
+  activate: False
+
+pca:
+  activate: True
+  labels:
+    - genotype
+
+diffexp:
+  variables_of_interest:
+    genotype:
+      base_level: control
+  batch_effects: ""
+  contrasts:
+    stb5_vs_control:
+      variable_of_interest: genotype
+      level_of_interest: stb5
+  model: ~genotype
+
+params:
+  star:
+    index: ""
+    align: ""
