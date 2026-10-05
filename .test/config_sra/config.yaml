@@ -9,7 +9,7 @@ units: config_sra/units.tsv
 
 ref:
   species: saccharomyces_cerevisiae
-  release: 115
+  release: 114
   build: R64-1-1
 
 trimming:
