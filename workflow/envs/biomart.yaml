@@ -4,5 +4,3 @@ channels:
   - nodefaults
 dependencies:
   - bioconductor-biomart =2.62.0
-  - r-tidyverse =2.0.0
-  - r-dbplyr =2.5.0
