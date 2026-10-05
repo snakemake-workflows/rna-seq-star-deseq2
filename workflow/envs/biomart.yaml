@@ -3,4 +3,4 @@ channels:
   - bioconda
   - nodefaults
 dependencies:
-  - bioconductor-biomart =2.62.0
+  - bioconductor-biomart =2.66
