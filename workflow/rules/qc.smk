@@ -21,14 +21,14 @@ rule rseqc_junction_annotation:
         bed="results/qc/rseqc/annotation.bed",
     output:
         "results/qc/rseqc/{sample}-{unit}.junctionanno.junction.bed",
-    priority: 1
     log:
         "logs/rseqc/rseqc_junction_annotation/{sample}-{unit}.log",
+    priority: 1
+    conda:
+        "../envs/rseqc.yaml"
     params:
         extra=r"-q 255",  # STAR uses 255 as a score for unique mappers
         prefix=lambda w, output: output[0].replace(".junction.bed", ""),
-    conda:
-        "../envs/rseqc.yaml"
     shell:
         "junction_annotation.py {params.extra} -i {input.bam} -r {input.bed} -o {params.prefix} "
         "> {log[0]} 2>&1"
@@ -40,14 +40,14 @@ rule rseqc_junction_saturation:
         bed="results/qc/rseqc/annotation.bed",
     output:
         "results/qc/rseqc/{sample}-{unit}.junctionsat.junctionSaturation_plot.pdf",
-    priority: 1
     log:
         "logs/rseqc/rseqc_junction_saturation/{sample}-{unit}.log",
+    priority: 1
+    conda:
+        "../envs/rseqc.yaml"
     params:
         extra=r"-q 255",
         prefix=lambda w, output: output[0].replace(".junctionSaturation_plot.pdf", ""),
-    conda:
-        "../envs/rseqc.yaml"
     shell:
         "junction_saturation.py {params.extra} -i {input.bam} -r {input.bed} -o {params.prefix} "
         "> {log} 2>&1"
@@ -58,9 +58,9 @@ rule rseqc_stat:
         "results/star/{sample}-{unit}/Aligned.sortedByCoord.out.bam",
     output:
         "results/qc/rseqc/{sample}-{unit}.stats.txt",
-    priority: 1
     log:
         "logs/rseqc/rseqc_stat/{sample}-{unit}.log",
+    priority: 1
     conda:
         "../envs/rseqc.yaml"
     shell:
@@ -73,9 +73,9 @@ rule rseqc_infer:
         bed="results/qc/rseqc/annotation.bed",
     output:
         "results/qc/rseqc/{sample}-{unit}.infer_experiment.txt",
-    priority: 1
     log:
         "logs/rseqc/rseqc_infer/{sample}-{unit}.log",
+    priority: 1
     conda:
         "../envs/rseqc.yaml"
     shell:
@@ -88,13 +88,13 @@ rule rseqc_innerdis:
         bed="results/qc/rseqc/annotation.bed",
     output:
         "results/qc/rseqc/{sample}-{unit}.inner_distance_freq.inner_distance.txt",
-    priority: 1
     log:
         "logs/rseqc/rseqc_innerdis/{sample}-{unit}.log",
-    params:
-        prefix=lambda w, output: output[0].replace(".inner_distance.txt", ""),
+    priority: 1
     conda:
         "../envs/rseqc.yaml"
+    params:
+        prefix=lambda w, output: output[0].replace(".inner_distance.txt", ""),
     shell:
         "inner_distance.py -r {input.bed} -i {input.bam} -o {params.prefix} > {log} 2>&1"
 
@@ -105,9 +105,9 @@ rule rseqc_readdis:
         bed="results/qc/rseqc/annotation.bed",
     output:
         "results/qc/rseqc/{sample}-{unit}.readdistribution.txt",
-    priority: 1
     log:
         "logs/rseqc/rseqc_readdis/{sample}-{unit}.log",
+    priority: 1
     conda:
         "../envs/rseqc.yaml"
     shell:
@@ -119,13 +119,13 @@ rule rseqc_readdup:
         "results/star/{sample}-{unit}/Aligned.sortedByCoord.out.bam",
     output:
         "results/qc/rseqc/{sample}-{unit}.readdup.DupRate_plot.pdf",
-    priority: 1
     log:
         "logs/rseqc/rseqc_readdup/{sample}-{unit}.log",
-    params:
-        prefix=lambda w, output: output[0].replace(".DupRate_plot.pdf", ""),
+    priority: 1
     conda:
         "../envs/rseqc.yaml"
+    params:
+        prefix=lambda w, output: output[0].replace(".DupRate_plot.pdf", ""),
     shell:
         "read_duplication.py -i {input} -o {params.prefix} > {log} 2>&1"
 
@@ -135,13 +135,13 @@ rule rseqc_readgc:
         "results/star/{sample}-{unit}/Aligned.sortedByCoord.out.bam",
     output:
         "results/qc/rseqc/{sample}-{unit}.readgc.GC_plot.pdf",
-    priority: 1
     log:
         "logs/rseqc/rseqc_readgc/{sample}-{unit}.log",
-    params:
-        prefix=lambda w, output: output[0].replace(".GC_plot.pdf", ""),
+    priority: 1
     conda:
         "../envs/rseqc.yaml"
+    params:
+        prefix=lambda w, output: output[0].replace(".GC_plot.pdf", ""),
     shell:
         "read_GC.py -i {input} -o {params.prefix} > {log} 2>&1"
 

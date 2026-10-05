@@ -36,9 +36,9 @@ properties:
     type: object
     properties:
       activate:
-       type: boolean
+        type: boolean
       labels:
-        type: 
+        type:
           - array
           - string
         items:
@@ -59,7 +59,7 @@ properties:
   params:
     type: object
     properties:
-      star: 
+      star:
         type: object
         properties:
           index:
