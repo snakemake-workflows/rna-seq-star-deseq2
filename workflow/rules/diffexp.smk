@@ -24,6 +24,7 @@ rule gene_2_symbol:
         symbol="{prefix}.symbol.tsv",
     params:
         species=get_bioc_species_name(),
+        version=lookup(within=config, dpath="ref/release"),
     log:
         "logs/gene2symbol/{prefix}.log",
     conda:
