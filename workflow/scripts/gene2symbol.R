@@ -3,9 +3,6 @@ sink(log)
 sink(log, type="message")
 
 library(biomaRt)
-library(tidyverse)
-# useful error messages upon aborting
-library("cli")
 
 mart <- biomaRt::useEnsembl(
   biomart = "ENSEMBL_MART_ENSEMBL",
