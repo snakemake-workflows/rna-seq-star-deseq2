@@ -11,6 +11,7 @@ rule star_align:
         log_final="results/star/{sample}-{unit}/Log.final.out",
     log:
         "logs/star/{sample}-{unit}.log",
+    threads: 24
     params:
         extra=lambda wc, input: " ".join(
             [
@@ -20,6 +21,5 @@ rule star_align:
                 lookup(within=config, dpath="params/star/align", default=""),
             ]
         ),
-    threads: 24
     wrapper:
         "v7.2.0/bio/star/align"

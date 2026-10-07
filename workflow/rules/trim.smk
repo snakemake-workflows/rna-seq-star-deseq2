@@ -28,6 +28,7 @@ rule fastp_se:
         json="results/trimmed/{sample}/{sample}-{unit}.json",
     log:
         "logs/trimmed/{sample}/{sample}-{unit}.log",
+    threads: 4
     params:
         adapters=lookup(
             within=units,
@@ -41,7 +42,6 @@ rule fastp_se:
             cols="fastp_extra",
             default="--trim_poly_x --poly_x_min_len 7 --trim_poly_g --poly_g_min_len 7",
         ),
-    threads: 4
     wrapper:
         "v7.2.0/bio/fastp"
 
@@ -70,6 +70,7 @@ rule fastp_pe:
         json="results/trimmed/{sample}/{sample}-{unit}.json",
     log:
         "logs/trimmed/{sample}/{sample}-{unit}.log",
+    threads: 8
     params:
         adapters=lookup(
             within=units,
@@ -83,6 +84,5 @@ rule fastp_pe:
             cols="fastp_extra",
             default="--trim_poly_x --poly_x_min_len 7 --trim_poly_g --poly_g_min_len 7",
         ),
-    threads: 8
     wrapper:
         "v7.2.0/bio/fastp"
