@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.2](https://github.com/snakemake-workflows/rna-seq-star-deseq2/compare/v3.1.1...v3.1.2) (2026-10-07)
+
+
+### Bug Fixes
+
+* do not do manual mirror selection, but use biomaRt's better auto… ([#105](https://github.com/snakemake-workflows/rna-seq-star-deseq2/issues/105)) ([8982881](https://github.com/snakemake-workflows/rna-seq-star-deseq2/commit/8982881806cc8fe6d38727da828c8d294a373194))
+
 ## [3.1.1](https://github.com/snakemake-workflows/rna-seq-star-deseq2/compare/v3.1.0...v3.1.1) (2025-12-18)
 
 
