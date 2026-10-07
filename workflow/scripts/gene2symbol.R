@@ -6,7 +6,7 @@ library(biomaRt)
 
 mart <- biomaRt::useEnsembl(
   biomart = "ENSEMBL_MART_ENSEMBL",
-  dataset = str_c(snakemake@params[["species"]], "_gene_ensembl"),
+  dataset = paste0(snakemake@params[["species"]], "_gene_ensembl"),
   version = snakemake@params[["version"]]
 )
 
