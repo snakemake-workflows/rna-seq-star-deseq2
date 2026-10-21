@@ -85,7 +85,9 @@ dev.off()
 write.table(
   data.frame(
     "gene" = rownames(res),
-    res
+    res,
+    # signed pi value, see https://doi.org/10.1093/bioinformatics/btr671
+    "signed_pi_value" = -log10(res$pvalue) * res$log2FoldChange
   ),
   file = snakemake@output[["table"]],
   row.names = FALSE,
