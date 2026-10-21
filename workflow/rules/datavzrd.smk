@@ -3,7 +3,7 @@ rule datavzrd_diffexp:
         config=workflow.source_path(
             "../resources/datavzrd/diffexp-template.datavzrd.yaml"
         ),
-        table="results/diffexp/{contrast}.diffexp.tsv",
+        table="results/diffexp/{contrast}.diffexp.symbol.tsv",
     output:
         report(
             directory("results/datavzrd-report/{contrast}.diffexp"),

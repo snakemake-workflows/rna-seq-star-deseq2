@@ -18,16 +18,19 @@ views:
       Differential expression results calculated with DESeq2, sorted by adjusted p-value.
       Log2 fold changes are shrunken with ashr.
     spell:
-      url: v1.7.0/tools/deseq2
+      url: v1.9.0/tools/deseq2
+      with:
+        symbol_column: symbol
   volcano-plot:
     dataset: diffexp
     desc: |
       Shrunken log2 fold change against adjusted p-value.
       Click on a gene to show its row in the results table.
     spell:
-      url: v1.7.0/visualization/volcano-plot
+      url: v1.9.0/visualization/volcano-plot
       with:
         id_column: gene
+        label_column: symbol
         fold_change_column: log2FoldChange
         p_value_column: padj
         link: gene details
