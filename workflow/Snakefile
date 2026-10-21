@@ -28,6 +28,7 @@ include: "rules/trim.smk"
 include: "rules/qc.smk"
 include: "rules/align.smk"
 include: "rules/diffexp.smk"
+include: "rules/datavzrd.smk"
 
 
 ##### target rules #####

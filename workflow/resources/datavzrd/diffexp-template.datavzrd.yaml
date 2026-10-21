@@ -1,0 +1,37 @@
+__use_yte__: true
+
+name: ?f"Differential expression of {wildcards.contrast}"
+
+datasets:
+  diffexp:
+    path: ?input.table
+    separator: "\t"
+    links:
+      gene details:
+        column: gene
+        table-row: diffexp/gene
+
+views:
+  diffexp:
+    dataset: diffexp
+    desc: |
+      Differential expression results calculated with DESeq2, sorted by adjusted p-value.
+      Log2 fold changes are shrunken with ashr.
+    spell:
+      url: v1.10.0/tools/deseq2
+      with:
+        symbol_column: symbol
+  volcano-plot:
+    dataset: diffexp
+    desc: |
+      Shrunken log2 fold change against adjusted p-value.
+      Click on a gene to show its row in the results table.
+    spell:
+      url: v1.10.0/visualization/volcano-plot
+      with:
+        id_column: gene
+        label_column: symbol
+        rank_column: signed_pi_value
+        fold_change_column: log2FoldChange
+        p_value_column: padj
+        link: gene details
