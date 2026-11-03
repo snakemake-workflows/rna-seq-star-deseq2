@@ -20,7 +20,5 @@ g2g <- biomaRt::getBM(
             mart = mart,
             )
 
-annotated <- merge(df, g2g, by.x="gene", by.y="ensembl_gene_id")
-annotated$gene <- ifelse(annotated$external_gene_name == '', annotated$gene, annotated$external_gene_name)
-annotated$external_gene_name <- NULL
-write.table(annotated, snakemake@output[["symbol"]], sep='\t', row.names=F)
+df$symbol <- g2g$external_gene_name[match(df$gene, g2g$ensembl_gene_id)]
+write.table(df, snakemake@output[["symbol"]], sep='\t', row.names=F)
