@@ -72,8 +72,10 @@ res <- lfcShrink(
   type = "ashr"
 )
 
-# sort by p-value
-res <- res[order(res$padj), ]
+# signed pi value, see https://doi.org/10.1093/bioinformatics/btr671
+res$signed_pi_value <- -log10(res$pvalue) * res$log2FoldChange
+# sort by absolute signed pi value, combining effect size and significance
+res <- res[order(abs(res$signed_pi_value), decreasing = TRUE), ]
 # TODO explore IHW usage
 
 
@@ -85,9 +87,7 @@ dev.off()
 write.table(
   data.frame(
     "gene" = rownames(res),
-    res,
-    # signed pi value, see https://doi.org/10.1093/bioinformatics/btr671
-    "signed_pi_value" = -log10(res$pvalue) * res$log2FoldChange
+    res
   ),
   file = snakemake@output[["table"]],
   row.names = FALSE,
