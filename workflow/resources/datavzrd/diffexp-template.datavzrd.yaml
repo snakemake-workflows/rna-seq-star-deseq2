@@ -15,7 +15,7 @@ views:
   diffexp:
     dataset: diffexp
     desc: |
-      Differential expression results calculated with DESeq2, sorted by adjusted p-value.
+      Differential expression results calculated with DESeq2, sorted by absolute signed pi value (combination of biological effect size and statistical significance).
       Log2 fold changes are shrunken with ashr.
     spell:
       url: v1.10.0/tools/deseq2
